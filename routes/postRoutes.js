@@ -19,7 +19,7 @@ router.get('/',getPosts)
 router.get('/:id',getPosts)
 
 //?POST
-router.post("/", upload.single("image"), createPost);
+router.post("/", createPost);
 
 //?DELETE
 router.delete('/:id',deletePost)

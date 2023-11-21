@@ -44,10 +44,6 @@ const createPost = async (req, res) => {
       experienceLevel
     } = req.body;
 
-    upload(req, res, async (err) => {
-      if (err) {
-        return res.status(400).json({ error: err.message });
-      }
 
       try {
         const post = await Post.create({
@@ -62,10 +58,6 @@ const createPost = async (req, res) => {
           postCategoryID,
           userId,
           experienceLevel,
-          image: {
-            data: req.file.buffer,
-            contentType: req.file.mimetype,
-          },
         });
         console.log(req.file);
         console.log(post);
@@ -74,7 +66,6 @@ const createPost = async (req, res) => {
         console.log(error);
         res.status(400).json({ error: error.message });
       }
-    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });
