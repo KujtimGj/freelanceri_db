@@ -32,7 +32,7 @@ const signUpUser = async(req,res)=>{
     try {
         const user = await User.signup(firstName,lastName,email,password)
         const token = createToken(user._id)
-        res.status(200).json({email,firstName,lastName,email})
+        res.status(200).json({email,firstName,lastName,token})
         var ress = res.status({status:true,success:"Registered successfully"})
         console.log(ress)
     } catch (error) {
