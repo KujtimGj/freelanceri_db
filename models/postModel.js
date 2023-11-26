@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
   {
+    userId:{
+      type:mongoose.Schema.Types.ObjectId,
+      required:true
+    },
     title: {
       type: String,
       required: true,
@@ -37,10 +41,6 @@ const postSchema = new Schema(
       required: true,
     },
     postCategoryID: {
-      type: String,
-      required: true,
-    },
-    userId: {
       type: String,
       required: true,
     },

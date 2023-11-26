@@ -31,6 +31,7 @@ const createPost = async (req, res) => {
   try {
     // Extracting other fields from the request body
     const {
+      userId,
       title,
       description,
       duration,
@@ -40,13 +41,13 @@ const createPost = async (req, res) => {
       requirements,
       postCategory,
       postCategoryID,
-      userId,
-      experienceLevel
+      experienceLevel,
     } = req.body;
 
 
       try {
         const post = await Post.create({
+          userId,
           title,
           description,
           duration,
@@ -56,7 +57,6 @@ const createPost = async (req, res) => {
           requirements,
           postCategory,
           postCategoryID,
-          userId,
           experienceLevel,
         });
         console.log(req.file);
