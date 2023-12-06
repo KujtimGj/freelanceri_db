@@ -16,7 +16,7 @@ router.get('/',getPosts)
 
 
 //?GET a single post
-router.get('/:id',getPosts)
+router.get('/:id',getPost)
 
 //?POST
 router.post("/", createPost);

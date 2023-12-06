@@ -6,7 +6,8 @@ const postSchema = new Schema(
   {
     userId:{
       type:mongoose.Schema.Types.ObjectId,
-      required:true
+      required:true,
+      ref:'User'
     },
     title: {
       type: String,

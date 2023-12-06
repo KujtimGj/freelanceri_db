@@ -1,30 +1,42 @@
 const Post =require('../models/postModel');
+const User =require("../models/userModel");
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage }).single("image");
-
+const mongoose = require('mongoose');
 
 //GET ALL
 const getPosts = async(req,res)=>{
+    const populatedPosts = await Post.find().populate("userId").exec();
+    console.log(populatedPosts);
+    res.json(populatedPosts);
     const posts= await Post.find().sort({createdAt:-1})
     res.status(200).send(posts)
 }
 
 //GET SINGLE
-const getPost = async(req,res)=>{
-    const {id}=req.params
+const getPost = async (req, res) => {
+    const { id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error:'No such workout'})
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such post' });
     }
 
-    const post = await Post.findById(id)
-    if(!post){
-        return res.status(404).json({error:'No such workout'})
-    }
+    try {
+        const populatedPost = await Post.findById(id).populate('userId').exec();
 
-    res.status(200).json(post )
-}
+        if (!populatedPost) {
+            return res.status(404).json({ error: 'No such post' });
+        }
+
+        res.status(200).json(populatedPost);
+    } catch (error) {
+        // Handle any errors that occurred during the execution of the function
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 
 //POST
 const createPost = async (req, res) => {
@@ -46,6 +58,14 @@ const createPost = async (req, res) => {
 
 
       try {
+
+         const userId = await User.findById(userId);
+
+         if (!userId) {
+           return res.status(404).json({ error: "User not found" });
+         }
+
+
         const post = await Post.create({
           userId,
           title,
