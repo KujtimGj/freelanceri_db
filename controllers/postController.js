@@ -54,29 +54,24 @@ const createPost = async (req, res) => {
       experienceLevel,
     } = req.body;
 
+    const post = await Post.create({
+      userId,
+      title,
+      description,
+      duration,
+      neededWorkers,
+      budget,
+      city,
+      requirements,
+      postCategory,
+      postCategoryID,
+      experienceLevel,
+    });
 
-      try {
-        const post = await Post.create({
-          userId,
-          title,
-          description,
-          duration,
-          neededWorkers,
-          budget,
-          city,
-          requirements,
-          postCategory,
-          postCategoryID,
-          experienceLevel,
-        });
-        console.log(post);
-        res.status(200).json(post);
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({ error: error.message });
-      }
+    console.log(post);
+    res.status(200).json(post);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).json({ error: error.message });
   }
 };

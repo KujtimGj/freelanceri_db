@@ -7,7 +7,7 @@ const postSchema = new Schema(
     userId:{
       type:mongoose.Schema.Types.ObjectId,
       required:true,
-      ref:'User'
+      ref:'Business'
     },
     title: {
       type: String,
@@ -54,6 +54,7 @@ const postSchema = new Schema(
       data: Buffer, // Buffer to store image data
       contentType: String, // Mime type of the image
     },
+    
   },
   { timestamps: true }
 );
