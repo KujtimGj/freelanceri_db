@@ -39,6 +39,7 @@ const signupBusiness=async(req,res)=>{
         res.status(200).json({business,token})
     }
      catch (error) {
+        console.log(error);
         res.status(400).json({error:error.message})
     }
 

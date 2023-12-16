@@ -40,7 +40,6 @@ const getPost = async (req, res) => {
 //POST
 const createPost = async (req, res) => {
   try {
-    // Extracting other fields from the request body
     const {
       userId,
       title,
@@ -57,14 +56,6 @@ const createPost = async (req, res) => {
 
 
       try {
-
-         const userId = await User.findById(userId);
-
-         if (!userId) {
-           return res.status(404).json({ error: "User not found" });
-         }
-
-
         const post = await Post.create({
           userId,
           title,
@@ -78,7 +69,6 @@ const createPost = async (req, res) => {
           postCategoryID,
           experienceLevel,
         });
-        console.log(req.file);
         console.log(post);
         res.status(200).json(post);
       } catch (error) {
