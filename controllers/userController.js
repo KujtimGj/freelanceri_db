@@ -1,6 +1,5 @@
-const Business = require('../models/businessModel')
-const Freelancer = require('../models/freelancerModel')
-const User = require('../models/userModel')
+const Business = require("../models/users/businessModel");
+const Freelancer = require('../models/users/freelancerModel')
 const jwt = require('jsonwebtoken')
 
 

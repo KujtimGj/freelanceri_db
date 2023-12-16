@@ -1,5 +1,4 @@
 const Post =require('../models/postModel');
-const User =require("../models/userModel");
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage }).single("image");

@@ -31,8 +31,10 @@ const businessSchema = new Schema({
   companyType:{
     type:String,
     required:true
+  },
+  role:{
+    type:Number,
   }
-
 });
 
 businessSchema.statics.signupBusiness = async function (

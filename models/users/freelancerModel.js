@@ -4,40 +4,43 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema
 
 const freelancerSchema = new Schema({
-    firstName:{
-        type:String,
-        required:true
-    },
-    lastName:{
-        type:String,
-        required:true
-    },
-    password:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
-        required:true
-    },
-    city:{
-        type:String,
-        required:true
-    },
-    profession:{
-        type:String,
-        required:true
-    },
-    skills:{
-        type:Array,
-    },
-    education:{
-        type:Array,
-    },
-    experiences:{
-        type:Array
-    }
-})
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  profession: {
+    type: String,
+    required: true,
+  },
+  skills: {
+    type: Array,
+  },
+  education: {
+    type: Array,
+  },
+  experiences: {
+    type: Array,
+  },
+  role: {
+    type: Number,
+  },
+});
 
 freelancerSchema.statics.signupFreelancer = async function (
   firstName,
