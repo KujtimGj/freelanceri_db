@@ -26,5 +26,5 @@ router.delete('/:id',deletePost)
 
 //?UPDATE
 router.patch('/:id',updatePost)
-
+ffgtr
 module.exports=router

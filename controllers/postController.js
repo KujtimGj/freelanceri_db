@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const getPosts = async(req,res)=>{
     const populatedPosts = await Post.find().populate("userId").exec();
     console.log(populatedPosts);
-    res.json(populatedPosts);
+    res.json(populatedPosts); 
     const posts= await Post.find().sort({createdAt:-1})
     res.status(200).send(posts)
 }

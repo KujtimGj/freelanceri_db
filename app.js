@@ -7,7 +7,7 @@ const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
 const multer = require('multer');
 const cors = require('cors');
-
+const applyRoute =require('./routes/applyRoute')
 
 app.use(cors())
 
@@ -25,3 +25,4 @@ mongoose.connect(process.env.MONGO_URI)
 //routes
 app.use('/posts',postRoutes)
 app.use('/user',userRoutes)
+app.use('/apply',applyRoute)
