@@ -9,7 +9,6 @@ const {
 } = require('../controllers/postController')
 
 
-const upload = require('../controllers/multer')
 
 //?GET ALL
 router.get('/',getPosts)
@@ -26,5 +25,4 @@ router.delete('/:id',deletePost)
 
 //?UPDATE
 router.patch('/:id',updatePost)
-ffgtr
 module.exports=router

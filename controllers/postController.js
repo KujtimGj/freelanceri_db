@@ -1,7 +1,4 @@
 const Post =require('../models/postModel');
-const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage }).single("image");
 const mongoose = require('mongoose');
 
 //GET ALL

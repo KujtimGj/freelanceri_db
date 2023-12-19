@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 app.use(express.json())
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
-const multer = require('multer');
 const cors = require('cors');
 const applyRoute =require('./routes/applyRoute')
 
