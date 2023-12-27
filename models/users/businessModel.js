@@ -100,5 +100,5 @@ businessSchema.statics.loginBusiness = async function(email, password){
     return business;
 }
 
-
-module.exports = mongoose.model("Business", businessSchema);
+const Business = mongoose.model("Business", businessSchema);
+module.exports = Business;

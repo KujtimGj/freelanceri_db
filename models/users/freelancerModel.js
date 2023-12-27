@@ -102,5 +102,5 @@ freelancerSchema.statics.loginFreelancer = async function (email, password) {
   return freelancer;
 };
 
-
-module.exports=mongoose.model('Freelancer',freelancerSchema)  
+const Freelancer = mongoose.model("Freelancer", freelancerSchema); 
+module.exports=Freelancer

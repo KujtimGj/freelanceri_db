@@ -1,13 +1,13 @@
-const express = require('express');
 require('dotenv').config()
-const app = express()
 const mongoose = require('mongoose');
-app.use(express.json())
+const express = require('express');
+const cors = require('cors');
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
-const cors = require('cors');
 const applyRoute =require('./routes/applyRoute')
 
+const app = express()
+app.use(express.json())
 app.use(cors())
 
 mongoose.connect(process.env.MONGO_URI)
@@ -21,7 +21,6 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(error)
 })
 
-//routes
 app.use('/posts',postRoutes)
 app.use('/user',userRoutes)
 app.use('/apply',applyRoute)
