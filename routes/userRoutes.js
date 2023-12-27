@@ -25,8 +25,8 @@ router.get("/business", getBusinesses);
 router.get("/business/:id", getSingleBusiness);
 router.post('/business/login',loginBusiness)
 router.post('/business/signup',signupBusiness)
-router.put("/business/:id");
-router.delete("/business/:id");
+router.put("/business/:id",updateBusiness);
+router.delete("/business/:id",deleteBusiness);
 
 //FREELANCER
 router.get("/",getFreelancers);
