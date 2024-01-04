@@ -104,12 +104,21 @@ const updatePost = async(req,res)=>{
     res.status(200).json(post)
 }
 
-
+const sortCategory = async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const sortCategory = await Post.find({postCategoryID:id});
+        res.status(200).json(sortCategory);
+    } catch (error) {
+        res.status(400).json({error:error.message})
+    }
+}
 
 module.exports={
     createPost,
     getPosts,
     getPost,
     deletePost,
-    updatePost
+    updatePost,
+    sortCategory
 }

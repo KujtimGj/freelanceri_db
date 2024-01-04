@@ -5,7 +5,8 @@ const {
     getPosts,
     createPost,
     deletePost,
-    updatePost
+    updatePost,
+    sortCategory
 } = require('../controllers/postController')
 
 
@@ -13,6 +14,7 @@ const {
 //?GET ALL
 router.get('/',getPosts)
 
+router.get("/category/:id",sortCategory);
 
 //?GET a single post
 router.get('/:id',getPost)
