@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router()
 const {
-    getPost,
-    getPosts,
-    createPost,
-    deletePost,
-    updatePost,
-    sortCategory
-} = require('../controllers/postController')
+  getPost,
+  getPosts,
+  createPost,
+  deletePost,
+  updatePost,
+  sortCategory,
+  findMyPosts,
+} = require("../controllers/postController");
 
 
 
@@ -15,6 +16,8 @@ const {
 router.get('/',getPosts)
 
 router.get("/category/:id",sortCategory);
+
+router.get("/myposts/:id", findMyPosts);
 
 //?GET a single post
 router.get('/:id',getPost)

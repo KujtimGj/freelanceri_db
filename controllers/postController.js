@@ -114,11 +114,30 @@ const sortCategory = async(req,res)=>{
     }
 }
 
+const findMyPosts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("User ID:", id);
+
+    const myPosts = await Post.find({ userId: id });
+
+    console.log("Query:", JSON.stringify(myPosts));
+
+    res.status(200).json(myPosts);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+
 module.exports={
     createPost,
     getPosts,
     getPost,
     deletePost,
     updatePost,
-    sortCategory
+    sortCategory,
+    findMyPosts 
 }

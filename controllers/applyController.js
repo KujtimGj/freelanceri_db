@@ -36,4 +36,5 @@ const getApplication =async(req,res)=>{
     }
 }
 
+
 module.exports={applyForPost,getApplication};
