@@ -9,12 +9,12 @@ const {
   findMyPosts,
 } = require("../controllers/postController");
 
-const {sortCategory}=require('../controllers/sortingController')
 
 
 
 //?GET ALL
 router.get('/',getPosts)
+
 
 router.get("/myposts/:id", findMyPosts);
 
