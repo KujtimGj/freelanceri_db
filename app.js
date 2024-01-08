@@ -5,6 +5,8 @@ const cors = require('cors');
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
 const applyRoute =require('./routes/applyRoute')
+const cityRoute = require("./routes/cityRoute")
+const sortRoute = require("./routes/sortingRoute");
 
 const app = express()
 app.use(express.json())
@@ -24,3 +26,5 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/posts',postRoutes)
 app.use('/user',userRoutes)
 app.use('/apply',applyRoute)
+app.use("/city",cityRoute)
+app.use("/sort",sortRoute);
