@@ -8,6 +8,7 @@ const applyRoute =require('./routes/applyRoute')
 const cityRoute = require("./routes/cityRoute")
 const sortRoute = require("./routes/sortingRoute");
 const categoryJobRoute = require("./routes/categoryJobRoute")
+const trial = require("./routes/trialRoute")
 
 const app = express()
 app.use(express.json())
@@ -30,3 +31,4 @@ app.use('/apply',applyRoute)
 app.use("/city",cityRoute)
 app.use("/category-job", categoryJobRoute);
 app.use("/sort",sortRoute)
+app.use("/trial",trial)
