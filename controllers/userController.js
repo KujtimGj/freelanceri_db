@@ -27,6 +27,7 @@ const signupBusiness = async (req, res) => {
     city,
     companyName,
     companyType,
+    role
   } = req.body;
 
   try {
@@ -37,7 +38,8 @@ const signupBusiness = async (req, res) => {
       password,
       city,
       companyName,
-      companyType
+      companyType,
+      role
     );
     const token = createToken(business._id);
     res.status(200).json({ business, token });

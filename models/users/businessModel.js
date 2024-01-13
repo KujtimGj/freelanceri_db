@@ -44,10 +44,11 @@ businessSchema.statics.signupBusiness = async function (
   password,
   city,
   companyName,
-  companyType
+  companyType,
+  role
 ) {
   //validation
-  if (!firstName || !lastName || !email || !password||!city||!companyName||!companyType) {
+  if (!firstName || !lastName || !email || !password||!city||!companyName||!companyType||!role) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -75,6 +76,7 @@ businessSchema.statics.signupBusiness = async function (
     city,
     companyName,
     companyType,
+    role
   });
 
   return business;
