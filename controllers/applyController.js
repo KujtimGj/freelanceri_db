@@ -36,5 +36,15 @@ const getApplication =async(req,res)=>{
     }
 }
 
+const getMyApplications = async(req,res)=>{
+    try {
+        const myApplication = await Application.find({
+          freelancerId: req.params.freelancerId,
+        });
+        res.status(200).json(myApplication)
+    } catch (error) {
+        res.status(400).json({error:error.message})
+    }
+}
 
-module.exports={applyForPost,getApplication};
+module.exports={applyForPost,getApplication,getMyApplications};

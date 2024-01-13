@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router()
+const upload = require('../middlewares/fileUpload')
 const {
   getPost,
   getPosts,
@@ -22,7 +23,7 @@ router.get("/myposts/:id", findMyPosts);
 router.get('/:id',getPost)
 
 //?POST
-router.post("/", createPost);
+router.post("/",upload.single('cv'), createPost);
 
 //?DELETE
 router.delete('/:id',deletePost)

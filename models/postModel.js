@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
   {
-    userId:{
-      type:mongoose.Schema.Types.ObjectId,
-      required:true,
-      ref:'Business'
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Business",
     },
     title: {
       type: String,
@@ -31,7 +31,7 @@ const postSchema = new Schema(
     },
     city: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:'City',
+      ref: "City",
       required: true,
     },
     requirements: {
@@ -50,12 +50,10 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    // Add an image field
-    image: {
-      data: Buffer, // Buffer to store image data
-      contentType: String, // Mime type of the image
+    cv: {
+      type: String,
+      default: null,
     },
-    
   },
   { timestamps: true }
 );

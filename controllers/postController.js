@@ -51,6 +51,13 @@ const createPost = async (req, res) => {
       experienceLevel,
     } = req.body;
 
+    let cv = null;
+
+    // Check if a file is attached to the request
+    if (req.file) {
+      cv = req.file.path;
+    }
+
     const post = await Post.create({
       userId,
       title,
@@ -63,8 +70,8 @@ const createPost = async (req, res) => {
       postCategory,
       postCategoryID,
       experienceLevel,
+      cv,
     });
-
     console.log(post);
     res.status(200).json(post);
   } catch (error) {
