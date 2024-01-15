@@ -7,5 +7,5 @@ const professions = new Schema({
   categoryID: { type: Number, required: true, unique: true },
 });
 
-const Profession = mongoose.model("professions", professions);
+const Profession = mongoose.model("Profession", professions);
 module.exports=Profession

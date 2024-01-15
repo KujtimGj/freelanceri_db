@@ -3,35 +3,44 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 //GET ALL
 const getPosts = async(req,res)=>{
-    const populatedPosts = await Post.find().sort({createdAt:-1}).populate("userId").exec();
-    console.log(populatedPosts);
-    res.json(populatedPosts); 
-    // const posts= await Post.find().sort({createdAt:-1})
-    // res.status(200).send(posts)
+    try {
+      const populatedPosts = await Post.find()
+        .sort({ createdAt: -1 })
+        .populate("userId")
+        .populate("profession")
+        .populate("city")
+        .exec();
+      res.status(200).json(populatedPosts);
+    } catch (error) {
+      res.status(400).json({error:error.message})
+    } 
 }
 
 //GET SINGLE
 const getPost = async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such post' });
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such post" });
+  }
+
+  try {
+    const populatedPost = await Post.findById(id)
+      .populate("userId")
+      .populate("city")
+      .populate("profession")
+      .exec();
+
+    if (!populatedPost) {
+      return res.status(404).json({ error: "No such post" });
     }
 
-    try {
-        const populatedPost = await Post.findById(id).populate('userId').exec();
-
-        if (!populatedPost) {
-            return res.status(404).json({ error: 'No such post' });
-        }
-
-        res.status(200).json(populatedPost);
-    } catch (error) {
-        // Handle any errors that occurred during the execution of the function
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    res.status(200).json(populatedPost);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 
 
 //POST
@@ -46,8 +55,7 @@ const createPost = async (req, res) => {
       budget,
       city,
       requirements,
-      postCategory,
-      postCategoryID,
+      profession,
       experienceLevel,
       coverLetter,
       expiresAt
@@ -70,8 +78,7 @@ const createPost = async (req, res) => {
       budget,
       city,
       requirements,
-      postCategory,
-      postCategoryID,
+      profession,
       experienceLevel,
       cv,
       coverLetter,
@@ -133,13 +140,35 @@ const findMyPosts = async (req, res) => {
   }
 };
 
+const getSimilarPosts = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const originalPost = await Post.findById(postId);
+
+    if (!originalPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const similarPosts = await Post.find({
+      "profession.categoryID": originalPost.profession.categoryID,
+      _id: { $ne: postId }, // Exclude the original post
+    }).populate('userId').populate('city').populate('profession').limit(5);
+
+    res.status(200).json(similarPosts);
+  } catch (error) {
+    console.error("Error retrieving similar posts:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 
-module.exports={
-    createPost,
-    getPosts,
-    getPost,
-    deletePost,
-    updatePost,
-    findMyPosts 
-}
+module.exports = {
+  createPost,
+  getPosts,
+  getPost,
+  deletePost,
+  updatePost,
+  findMyPosts,
+  getSimilarPosts,
+};

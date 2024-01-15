@@ -38,12 +38,9 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    postCategory: {
-      type: String,
-      required: true,
-    },
-    postCategoryID: {
-      type: String,
+    profession: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Profession",
       required: true,
     },
     experienceLevel: {
@@ -54,14 +51,14 @@ const postSchema = new Schema(
       type: String,
       default: null,
     },
-    coverLetter:{
-      type:String,
-      required:true
+    coverLetter: {
+      type: String,
+      required: true,
     },
-    expiresAt:{
-      type:String,
-      required:true
-    }
+    expiresAt: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

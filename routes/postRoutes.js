@@ -8,6 +8,7 @@ const {
   deletePost,
   updatePost,
   findMyPosts,
+  getSimilarPosts,
 } = require("../controllers/postController");
 
 
@@ -21,6 +22,9 @@ router.get("/myposts/:id", findMyPosts);
 
 //?GET a single post
 router.get('/:id',getPost)
+
+//? GET SIMILAR post
+router.get("/similarPost/:postId",getSimilarPosts);
 
 //?POST
 router.post("/",upload.single('cv'), createPost);
