@@ -54,6 +54,14 @@ const postSchema = new Schema(
       type: String,
       default: null,
     },
+    coverLetter:{
+      type:String,
+      required:true
+    },
+    expiresAt:{
+      type:String,
+      required:true
+    }
   },
   { timestamps: true }
 );

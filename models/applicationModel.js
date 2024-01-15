@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const applicationSchema = new Schema(
+const applications = new Schema(
   {
     postId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,6 +14,11 @@ const applicationSchema = new Schema(
       required:true,
       ref:'Freelancer'
     },
+    businessId:{
+      type:mongoose.Schema.Types.ObjectId,
+      required:true,
+      ref:'Business'
+    },
     freelancerPrice:{
         type:Number,
         required:true
@@ -21,11 +26,15 @@ const applicationSchema = new Schema(
     coverLetter:{
         type:String,
         required:true
+    },
+    cv:{
+      type:String,
+      required:true
     }
   },
   { timestamps: true }
 );
 
-const Aplikimi = mongoose.model('applicationSchema',applicationSchema)
+const Aplikimi = mongoose.model("applications", applications);
 
 module.exports =Aplikimi;

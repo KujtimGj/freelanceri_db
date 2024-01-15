@@ -1,6 +1,7 @@
 const Trial=require('../models/trialModel');
 const nodemailer = require('nodemailer');
-
+const fs = require('fs');
+const path = require('path');
 
 const getAllTrials=async(req,res)=>{
     try {
@@ -42,11 +43,31 @@ const createTrial = async(req,res)=>{
               },
             });
 
+
+            const htmlFilePath = path.join(
+              __dirname,
+              "..",
+              "utils",
+              "email.html"
+            );
+            const htmlContent = fs.readFileSync(htmlFilePath, "utf-8");
+            const formattedHtml =htmlContent.replace('${firstName}',firstName).replace("${lastName}",lastName);
+
+            const imagePath = path.join(__dirname,'..','utils',"logo_txt.png");
+            const imageBuffer = fs.readFileSync(imagePath);
+            const base64EncodedImage = imageBuffer.toString("base64");
+
+            // Replace the image placeholder in the HTML
+            const finalHtml = formattedHtml.replace(
+              "${base64EncodedImage}",
+              base64EncodedImage
+            );
+
             const mailOptions = {
               from: "Freelanceri",
               to: email,
-              subject: 'Halo',
-              text: 'You registered for trial',
+              subject: 'Mirë se vini ne Freelanceri',
+              html: formattedHtml,
             };
 
             await transporter.sendMail(mailOptions);

@@ -1,6 +1,6 @@
 const Post =require('../models/postModel');
 const mongoose = require('mongoose');
-
+const moment = require('moment');
 //GET ALL
 const getPosts = async(req,res)=>{
     const populatedPosts = await Post.find().sort({createdAt:-1}).populate("userId").exec();
@@ -49,6 +49,8 @@ const createPost = async (req, res) => {
       postCategory,
       postCategoryID,
       experienceLevel,
+      coverLetter,
+      expiresAt
     } = req.body;
 
     let cv = null;
@@ -57,6 +59,7 @@ const createPost = async (req, res) => {
     if (req.file) {
       cv = req.file.path;
     }
+    const expireAtDate = moment(expiresAt,'DD/MM/YYYY').toDate();
 
     const post = await Post.create({
       userId,
@@ -71,6 +74,8 @@ const createPost = async (req, res) => {
       postCategoryID,
       experienceLevel,
       cv,
+      coverLetter,
+      expiresAt: expireAtDate,
     });
     console.log(post);
     res.status(200).json(post);

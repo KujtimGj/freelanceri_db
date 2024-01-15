@@ -4,7 +4,7 @@ const {
   getAllCategoryJobs,
   getSingleCategoryJob,
   createCategoryJob,
-} = require("../controllers/category_job_controller");
+} = require("../controllers/professionController");
 
 router.get("/",getAllCategoryJobs)
 router.get("/:categoryID", getSingleCategoryJob);
