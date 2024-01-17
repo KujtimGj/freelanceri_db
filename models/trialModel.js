@@ -3,29 +3,82 @@ const mongoose = require('mongoose');
 
 const Schema =mongoose.Schema
 
+
+const educationSchema = new mongoose.Schema({
+  institution: String,
+  title: String,
+});
+
+const experienceSchema = new mongoose.Schema({
+  title: String,
+  company: String,
+});
+
+
 const trial = new Schema({
-    firstName:{
-        type:String,
-        required:true
+  fullName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  userType: {
+    type: String,
+    enum:  ["Freelancer", "Employer" ],
+    required: true,
+  },
+  freelancerDetails: {
+    profession: {
+      type: String,
+      required: function () {
+        return this.userType === "Freelancer";
+      },
     },
-    lastName:{
-        type:String,
-        required:true
+    city: {
+      type: String,
+      required: function () {
+        return this.userType === "Freelancer";
+      },
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    phone: {
+      type: Number,
+      required: function () {
+        return this.userType === "Freelancer";
+      },
     },
-    profession:{
+    linkedIn:{
         type:String,
-        required:true
+        required:function(){
+            return this.userType==="Freelancer"
+        }
     },
-    userType:{
+    experience: [experienceSchema],
+    education:[educationSchema]
+
+  },
+  employerDetails:{
+    type:{
         type:String,
-        required:true
+        enum:['Individual',"Company"]
+    }, 
+    companyName: {
+      type: String,
+      required: function () {
+        return this.userType === 'Employer' && this.employerDetails.type === 'Company';
+      }},
+    phone:{
+        type:Number,
+    },
+    city:{
+        type:String,
     }
-})
+    
+  }
+});
+
 
 const Trial = mongoose.model("trial",trial)
 module.exports=Trial;
