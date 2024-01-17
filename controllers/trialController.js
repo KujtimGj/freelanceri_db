@@ -1,7 +1,8 @@
 const Trial=require('../models/trialModel');
-const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
+const sendCompletionEmail = require('../utils/sendEmail')
+
 
 const getAllTrials=async(req,res)=>{
     try {
@@ -34,6 +35,8 @@ const createTrial = async (req, res) => {
       freelancerDetails,
       employerDetails,
     });
+
+    await sendCompletionEmail(email);
     
     res.status(200).json(user);
   } catch (error) {
