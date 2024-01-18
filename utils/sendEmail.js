@@ -5,13 +5,16 @@ var transporter = nodemailer.createTransport({
   auth: {
     user: "platforma.freelanceri@gmail.com",
     pass: "aueb kate jlxl jwaw",
+    name: "Freelanceri",
   },
 });
 
 
 const sendCompletionEmail = async (recipientEmail) => {
+  let fromE = "Freelanceri <platforma.freelanceri@gmail.com>";
   var mailOptions = {
-    from: "platforma.freelanceri@gmail.com",
+    name:"Freelanceri",
+    from: fromE,
     to: recipientEmail,
     subject: "Mirë se vini në Freelanceri",
 
