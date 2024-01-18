@@ -39,3 +39,4 @@ app.use("/city", cityRoute);
 app.use("/profession", professionRoute);
 app.use("/sort", sortRoute);
 app.use("/trial", trial);
+app.use('/images', express.static('images'));
