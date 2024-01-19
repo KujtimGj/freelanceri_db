@@ -5,26 +5,26 @@ const sendCompletionEmail = require('../utils/sendEmail')
 
 
 
-const createTrial = async (req, res) => {
-  try {
-    const { fullName, email, userType, freelancerDetails, employerDetails } =
-      req.body;
+// const createTrial = async (req, res) => {
+//   try {
+//     const { fullName, email, userType, freelancerDetails, employerDetails } =
+//       req.body;
 
-    const user = await Trial.create({
-      fullName,
-      email,
-      userType,
-      freelancerDetails,
-      employerDetails,
-    });
+//     const user = await Trial.create({
+//       fullName,
+//       email,
+//       userType,
+//       freelancerDetails,
+//       employerDetails,
+//     });
 
-    await sendCompletionEmail(email);
+//     await sendCompletionEmail(email);
 
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+//     res.status(200).json(user);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 
 const getAllTrials=async(req,res)=>{
