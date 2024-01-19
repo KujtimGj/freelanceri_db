@@ -15,8 +15,8 @@ const sortRoute = require("./routes/sortingRoute");
 const freelancerAuth = require("./routes/auth/f_authRoute");
 const professionRoute = require("./routes/professionRoute");
 const trial = require("./routes/trialRoute");
+const authMiddleware = require("./middlewares/authMiddleware");
 
-const rateLimit = require("express-rate-limit")
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -35,21 +35,14 @@ mongoose
     console.log(error);
   });
 
-  const trialLimiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 1,
-    message: "Too many requests for trial route. Please try again later.",
-    skip: (req) => {
-      return req.ip;
-    },
-  });
 
-app.use("/posts", postRoutes);
-app.use("/business", businessAuth);
-app.use("/freelancer", freelancerAuth);
-app.use("/application", applyRoute);
-app.use("/city", cityRoute);
-app.use("/profession", professionRoute);
-app.use("/sort", sortRoute);
-app.use("/trial",trialLimiter, trial);
+
+app.use("/posts", authMiddleware,postRoutes);
+app.use("/business", authMiddleware, businessAuth);
+app.use("/freelancer", authMiddleware, freelancerAuth);
+app.use("/application", authMiddleware, applyRoute);
+app.use("/city", authMiddleware, cityRoute);
+app.use("/profession", authMiddleware, professionRoute);
+app.use("/sort", authMiddleware, sortRoute);
+app.use("/trial", trial);
 // app.use('/images', express.static('images'));
