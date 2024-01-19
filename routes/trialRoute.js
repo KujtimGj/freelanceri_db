@@ -6,7 +6,7 @@ const {getAllTrials,getSingleTrial,createTrial,updateTrial,deleteTrial}=require(
 
 router.get("/",getAllTrials);
 router.get("/:id",getSingleTrial);
-router.post("/",createTrial);
+// router.post("/",createTrial);
 router.put("/:id",updateTrial);
 router.delete("/:id",deleteTrial);
 

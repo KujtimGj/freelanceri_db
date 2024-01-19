@@ -67,4 +67,4 @@ const deleteTrial = async(req,res)=>{
     }
 }
 
-module.exports={getAllTrials,getSingleTrial,createTrial,updateTrial,deleteTrial}
+module.exports={getAllTrials,getSingleTrial,updateTrial,deleteTrial}
