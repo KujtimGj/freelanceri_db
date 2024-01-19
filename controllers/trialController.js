@@ -28,9 +28,18 @@ const createTrial = async (req, res) => {
         },
       }
     );
+    console.log(recaptchaToken);
 
     if (!recaptchaResponse.data.success) {
       return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
+
+    const existingUser = await Trial.findOne({ email });
+    if (existingUser) {
+        console.log("User with this email already exists");
+      return res
+        .status(409)
+        .json({ error: "User with this email already exists" });
     }
 
     const user = await Trial.create({
