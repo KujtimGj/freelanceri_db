@@ -30,6 +30,9 @@ const trial = new Schema({
     enum:  ["Freelancer", "Employer" ],
     required: true,
   },
+  companyName:{
+    type:String
+  }
   // freelancerDetails: {
   //   profession: {
   //     type: String,

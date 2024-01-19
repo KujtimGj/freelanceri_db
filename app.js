@@ -45,4 +45,3 @@ app.use("/city", authMiddleware, cityRoute);
 app.use("/profession", authMiddleware, professionRoute);
 app.use("/sort", authMiddleware, sortRoute);
 app.use("/trial", trial);
-// app.use('/images', express.static('images'));

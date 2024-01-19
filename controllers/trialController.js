@@ -13,6 +13,7 @@ const createTrial = async (req, res) => {
       fullName,
       email,
       userType,
+      companyName,
       freelancerDetails,
       employerDetails,
       recaptchaToken,
@@ -46,6 +47,7 @@ const createTrial = async (req, res) => {
       fullName,
       email,
       userType,
+      companyName,
       freelancerDetails,
       employerDetails,
     });
