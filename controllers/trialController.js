@@ -2,13 +2,36 @@ const Trial=require('../models/trialModel');
 const fs = require('fs');
 const path = require('path');
 const sendCompletionEmail = require('../utils/sendEmail')
-
+require('dotenv').config();
+const {reCaptchaSecret} = process.env;
+const axios = require("axios");
 
 
 const createTrial = async (req, res) => {
   try {
-    const { fullName, email, userType, freelancerDetails, employerDetails } =
-      req.body;
+    const {
+      fullName,
+      email,
+      userType,
+      freelancerDetails,
+      employerDetails,
+      recaptchaToken,
+    } = req.body;
+
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret,
+          response: recaptchaToken,
+        },
+      }
+    );
+
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
 
     const user = await Trial.create({
       fullName,
@@ -22,10 +45,10 @@ const createTrial = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error in createTrial:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 const getAllTrials=async(req,res)=>{
     try {
