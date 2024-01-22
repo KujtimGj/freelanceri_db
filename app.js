@@ -37,11 +37,11 @@ mongoose
 
 
 
-app.use("/posts", authMiddleware,postRoutes);
+app.use("/posts", authMiddleware, postRoutes);
 app.use("/business", authMiddleware, businessAuth);
 app.use("/freelancer", authMiddleware, freelancerAuth);
 app.use("/application", authMiddleware, applyRoute);
 app.use("/city", authMiddleware, cityRoute);
-app.use("/profession", authMiddleware, professionRoute);
+app.use("/profession", professionRoute);
 app.use("/sort", authMiddleware, sortRoute);
 app.use("/trial", trial);

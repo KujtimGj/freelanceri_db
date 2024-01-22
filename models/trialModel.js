@@ -27,12 +27,31 @@ const trial = new Schema({
   },
   userType: {
     type: String,
-    enum:  ["Freelancer", "Employer" ],
+    enum:  ["Freelancer", "Employer"],
     required: true,
   },
   companyName:{
     type:String
+  },
+  phone:{
+    type:Number,
+    required:function(){
+      return this.userType == "Employer";
+    }
+  },
+  jobTitle:{
+    type:String,
+    required:function(){
+      return this.userType == "Freelancer";
+    }
+  },
+  sektori:{
+    type:String,
+    required:function(){
+      return this.userType == "Employer"
+    }
   }
+
   // freelancerDetails: {
   //   profession: {
   //     type: String,
