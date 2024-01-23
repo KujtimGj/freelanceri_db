@@ -22,21 +22,21 @@ const createTrial = async (req, res) => {
       recaptchaToken,
     } = req.body;
 
-    // const recaptchaResponse = await axios.post(
-    //   "https://www.google.com/recaptcha/api/siteverify",
-    //   null,
-    //   {
-    //     params: {
-    //       secret: reCaptchaSecret,
-    //       response: recaptchaToken,
-    //     },
-    //   }
-    // );
-    // console.log(recaptchaToken);
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret,
+          response: recaptchaToken,
+        },
+      }
+    );
+    console.log(recaptchaToken);
 
-    // if (!recaptchaResponse.data.success) {
-    //   return res.status(403).json({ error: "reCAPTCHA verification failed" });
-    // }
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
 
     const existingUser = await Trial.findOne({ email });
     if (existingUser) {
