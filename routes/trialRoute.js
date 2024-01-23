@@ -9,6 +9,6 @@ router.get("/",authMiddleware,getAllTrials);
 router.get("/:id",authMiddleware,getSingleTrial);
 router.post("/",createTrial);
 router.put("/:id", authMiddleware,updateTrial);
-router.delete("/:id", authMiddleware, deleteTrial);
+// router.delete("/:id", authMiddleware, deleteTrial);
 
 module.exports=router
