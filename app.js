@@ -38,8 +38,8 @@ mongoose
 
 
 app.use("/posts", authMiddleware, postRoutes);
-app.use("/business", authMiddleware, businessAuth);
-app.use("/freelancer", authMiddleware, freelancerAuth);
+app.use("/business", businessAuth);
+app.use("/freelancer", freelancerAuth);
 app.use("/application", authMiddleware, applyRoute);
 app.use("/city", authMiddleware, cityRoute);
 app.use("/profession", professionRoute);

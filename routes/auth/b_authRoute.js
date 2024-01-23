@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const authMiddleware = require('../../middlewares/authMiddleware')
 
 
 //controller functions
@@ -14,12 +15,12 @@ const {
 
 
 //BUSINESS
-router.get("/", getBusinesses);
-router.get("/:id", getSingleBusiness);
+router.get("/", authMiddleware, getBusinesses);
+router.get("/:id", authMiddleware,getSingleBusiness);
 router.post('/login',loginBusiness)
 router.post('/signup',signupBusiness)
-router.put("/:id",updateBusiness);
-router.delete("/:id",deleteBusiness);
+router.put("/:id", authMiddleware, updateBusiness);
+router.delete("/:id", authMiddleware, deleteBusiness);
 
 
 

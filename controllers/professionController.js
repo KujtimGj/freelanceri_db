@@ -2,7 +2,9 @@ const Profession = require('../models/professionModel');
 
 const getAllCategoryJobs = async(req,res)=>{
     try {
-        const category = await Profession.find();
+        const category = await Profession.find()
+          .sort({ categoryID: 1 })
+          .exec();
         res.status(200).json(category)
     } catch (error) {
         res.status(400).json({error:error.message})
