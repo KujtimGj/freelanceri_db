@@ -1,11 +1,51 @@
 const Business = require("../models/users/businessModel");
 const Freelancer = require("../models/users/freelancerModel");
 const jwt = require("jsonwebtoken");
+const passport = require('passport');
+
+
+
 
 //create webtoken
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
 };
+
+
+
+
+
+// Google authentication for Business
+const loginBusinessWithGoogle = passport.authenticate('google', {
+  scope: ['profile', 'email'],
+});
+
+
+const loginBusinessWithGoogleCallback = (req, res) => {
+  try {
+    const token = createToken(req.user._id);
+    res.status(200).json({ token, business: req.user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+// Google authentication for Freelancer
+const loginFreelancerWithGoogle = passport.authenticate('google', {
+  scope: ['profile', 'email'],
+});
+
+const loginFreelancerWithGoogleCallback = (req, res) => {
+  try {
+    const token = createToken(req.user._id);
+    res.status(200).json({ token, freelancer: req.user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
 
 //BUSINESS
 const loginBusiness = async (req, res) => {
@@ -165,10 +205,12 @@ module.exports = {
   getSingleBusiness,
   updateBusiness,
   deleteBusiness,
+  loginBusinessWithGoogleCallback,
   loginFreelancer,
   signupFreelancer,
   getFreelancers,
   getSingleFreelancer,
   updateFreelancer,
-  deleteFreelancer
+  deleteFreelancer,
+  loginFreelancerWithGoogleCallback,
 };

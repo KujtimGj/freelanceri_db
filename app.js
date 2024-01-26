@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 const app = express();
-app.use(express.json());
-app.use(cors());
-
-
+const passport = require("passport");
+const passportConfig = require("./utils/passportConfig");
+const authMiddleware = require("./middlewares/authMiddleware");
 const postRoutes = require("./routes/postRoutes");
 const businessAuth = require("./routes/auth/b_authRoute");
 const applyRoute = require("./routes/applyRoute");
@@ -15,11 +14,53 @@ const sortRoute = require("./routes/sortingRoute");
 const freelancerAuth = require("./routes/auth/f_authRoute");
 const professionRoute = require("./routes/professionRoute");
 const trial = require("./routes/trialRoute");
-const authMiddleware = require("./middlewares/authMiddleware");
 
+// Middleware
+app.use(express.json());
+app.use(cors());
 
+// Passport serialization and deserialization
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
+// Profile route
+app.get(
+  "/profile",
+  // Middleware to ensure user is authenticated
+  ensureAuthenticated,
+  function (req, res) {
+    res.render("profile", { user: req.user });
+  }
+);
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  console.log("Unauthorized user from google");
+}
+
+// Routes
+app.use("/posts", authMiddleware, postRoutes);
+app.use("/business", businessAuth);
+app.use("/freelancer", freelancerAuth);
+app.use("/application", authMiddleware, applyRoute);
+app.use("/city", authMiddleware, cityRoute);
+app.use("/profession", professionRoute);
+app.use("/sort", authMiddleware, sortRoute);
+app.use("/trial", trial);
+
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     app.listen(process.env.PORT, () => {
       console.log(process.env.PORT);
@@ -34,14 +75,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
-
-
-app.use("/posts", authMiddleware, postRoutes);
-app.use("/business", businessAuth);
-app.use("/freelancer", freelancerAuth);
-app.use("/application", authMiddleware, applyRoute);
-app.use("/city", authMiddleware, cityRoute);
-app.use("/profession", professionRoute);
-app.use("/sort", authMiddleware, sortRoute);
-app.use("/trial", trial);

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const authMiddleware = require('../../middlewares/authMiddleware')
-
+const passport = require('passport');
 
 //controller functions
 const {
@@ -10,7 +10,8 @@ const {
   getBusinesses,
   getSingleBusiness,
   updateBusiness,
-  deleteBusiness
+  deleteBusiness,
+  loginBusinessWithGoogleCallback
 } = require("../../controllers/userController");
 
 
@@ -22,6 +23,14 @@ router.post('/signup',signupBusiness)
 router.put("/:id", authMiddleware, updateBusiness);
 router.delete("/:id", authMiddleware, deleteBusiness);
 
+router.get(
+  "/auth/google/business",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+router.get(
+  "/auth/google/business/callback",
+  loginBusinessWithGoogleCallback
+);
 
 
 module.exports=router
