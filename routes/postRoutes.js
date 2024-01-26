@@ -3,21 +3,31 @@ const router = express.Router()
 const upload = require('../middlewares/fileUpload')
 const {
   getPost,
-  getPosts,
+  getAllPosts,
   createPost,
   deletePost,
   updatePost,
   findMyPosts,
   getSimilarPosts,
+  getApprovedPosts,
+  getPendingPosts,
 } = require("../controllers/postController");
 
 
 
 
 //?GET ALL
-router.get('/',getPosts)
+router.get('/all',getAllPosts)
+
+//? GET APPROVED POSTS
+router.get("/approved",getApprovedPosts)
 
 
+//? GET PENDING POSTS
+router.get("/pending",getPendingPosts)
+
+
+//? GET MY POSTS
 router.get("/myposts/:id", findMyPosts);
 
 //?GET a single post

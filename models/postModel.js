@@ -47,13 +47,10 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    cv: {
-      type: String,
-      default: null,
-    },
-    coverLetter: {
-      type: String,
-      required: true,
+    state:{
+      type:String,
+      enum:['Rejected','Pending',"Approved"],
+      default:"Pending"
     },
     expiresAt: {
       type: String,

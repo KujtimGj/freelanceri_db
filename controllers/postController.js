@@ -2,7 +2,7 @@ const Post =require('../models/postModel');
 const mongoose = require('mongoose');
 const moment = require('moment');
 //GET ALL
-const getPosts = async(req,res)=>{
+const getAllPosts = async(req,res)=>{
     try {
       const populatedPosts = await Post.find()
         .sort({ createdAt: -1 })
@@ -41,7 +41,24 @@ const getPost = async (req, res) => {
   }
 };
 
+//? GET APPROVED POSTS
+const getApprovedPosts = async(req,res)=>{
+  try {
+    const post = await Post.find({ state: "Approved" });
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
 
+const getPendingPosts = async(req,res)=>{
+  try {
+    const post = await Post.find({state:"Pending"});
+    res.status(200).json(post)
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
 
 //POST
 const createPost = async (req, res) => {
@@ -57,7 +74,6 @@ const createPost = async (req, res) => {
       requirements,
       profession,
       experienceLevel,
-      coverLetter,
       expiresAt
     } = req.body;
 
@@ -80,8 +96,6 @@ const createPost = async (req, res) => {
       requirements,
       profession,
       experienceLevel,
-      cv,
-      coverLetter,
       expiresAt: expireAtDate,
     });
     console.log(post);
@@ -165,7 +179,9 @@ const getSimilarPosts = async (req, res) => {
 
 module.exports = {
   createPost,
-  getPosts,
+  getAllPosts,
+  getApprovedPosts,
+  getPendingPosts,
   getPost,
   deletePost,
   updatePost,
