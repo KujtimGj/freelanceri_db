@@ -4,15 +4,27 @@ const mongoose = require('mongoose');
 const Schema =mongoose.Schema
 
 
-// const educationSchema = new mongoose.Schema({
-//   institution: String,
-//   title: String,
-// });
+const educationSchema = new mongoose.Schema({
+  institution: String,
+  title: String,
+});
 
-// const experienceSchema = new mongoose.Schema({
-//   title: String,
-//   company: String,
-// });
+const experienceSchema = new mongoose.Schema({
+  title: String,
+  company: String,
+});
+
+const socialSchema = new mongoose.Schema({
+  linkedIn:{
+    type:String
+  },
+  instagram:{
+    type:String
+  },
+  facebook:{
+    type:String
+  }
+})
 
 
 const trial = new Schema({
@@ -27,78 +39,49 @@ const trial = new Schema({
   },
   userType: {
     type: String,
-    enum:  ["Freelancer", "Employer"],
+    enum: ["Freelancer", "Employer"],
     required: true,
   },
-  companyName:{
-    type:String
-  },
-  phone:{
-    type:Number,
-    required:function(){
-      return this.userType == "Employer";
-    }
-  },
-  jobTitle:{
-    type:String,
-    required:function(){
+  jobTitle: {
+    type: String,
+    required: function () {
       return this.userType == "Freelancer";
-    }
+    },
   },
-  sektori:{
-    type:String,
-    required:function(){
-      return this.userType == "Employer"
-    }
-  }
-
-  // freelancerDetails: {
-  //   profession: {
-  //     type: String,
-  //     required: function () {
-  //       return this.userType === "Freelancer";
-  //     },
-  //   },
-  //   city: {
-  //     type: String,
-  //     required: function () {
-  //       return this.userType === "Freelancer";
-  //     },
-  //   },
-  //   phone: {
-  //     type: Number,
-  //     required: function () {
-  //       return this.userType === "Freelancer";
-  //     },
-  //   },
-  //   linkedIn:{
-  //       type:String,
-  //       required:function(){
-  //           return this.userType==="Freelancer"
-  //       }
-  //   },
-  //   experience: [experienceSchema],
-  //   education:[educationSchema]
-
-  // },
-  // employerDetails:{
-  //   type:{
-  //       type:String,
-  //       enum:['Individual',"Company"]
-  //   }, 
-  //   companyName: {
-  //     type: String,
-  //     required: function () {
-  //       return this.userType === 'Employer' && this.employerDetails.type === 'Company';
-  //     }},
-  //   phone:{
-  //       type:Number,
-  //   },
-  //   city:{
-  //       type:String,
-  //   }
-    
-  // }
+  education: [educationSchema],
+  experience: [experienceSchema],
+  companyName: {
+    type: String,
+  },
+  phone: {
+    type: Number,
+    required: function () {
+      return this.userType == "Employer";
+    },
+  },
+  sektori: {
+    type: String,
+    required: function () {
+      return this.userType == "Employer";
+    },
+  },
+  website: {
+    type: String,
+    required: function () {
+      return this.userType == "Employer";
+    },
+  },
+  socials: {
+    linkedIn: {
+      type: String,
+    },
+    instagram: {
+      type: String,
+    },
+    facebook: {
+      type: String,
+    },
+  },
 });
 
 

@@ -17,26 +17,27 @@ const createTrial = async (req, res) => {
       phone,
       jobTitle,
       sektori,
-      freelancerDetails,
-      employerDetails,
-      recaptchaToken,
+      education,
+      experience,
+      website,
+      socials
     } = req.body;
 
-    const recaptchaResponse = await axios.post(
-      "https://www.google.com/recaptcha/api/siteverify",
-      null,
-      {
-        params: {
-          secret: reCaptchaSecret,
-          response: recaptchaToken,
-        },
-      }
-    );
-    console.log(recaptchaToken);
+    // const recaptchaResponse = await axios.post(
+    //   "https://www.google.com/recaptcha/api/siteverify",
+    //   null,
+    //   {
+    //     params: {
+    //       secret: reCaptchaSecret,
+    //       response: recaptchaToken,
+    //     },
+    //   }
+    // );
+    // console.log(recaptchaToken);
 
-    if (!recaptchaResponse.data.success) {
-      return res.status(403).json({ error: "reCAPTCHA verification failed" });
-    }
+    // if (!recaptchaResponse.data.success) {
+    //   return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    // }
 
     const existingUser = await Trial.findOne({ email });
     if (existingUser) {
@@ -54,8 +55,10 @@ const createTrial = async (req, res) => {
       phone,
       jobTitle,
       sektori,
-      freelancerDetails,
-      employerDetails,
+      education,
+      experience,
+      website,
+      socials
     });
 
     await sendCompletionEmail(email);
