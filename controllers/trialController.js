@@ -20,7 +20,8 @@ const createTrial = async (req, res) => {
       education,
       experience,
       website,
-      socials
+      socials,
+      recaptchaToken
     } = req.body;
 
     const recaptchaResponse = await axios.post(
