@@ -42,12 +42,12 @@ const trial = new Schema({
     enum: ["Freelancer", "Employer"],
     required: true,
   },
-  jobTitle: {
+  jobTitle: [{
     type: String,
     required: function () {
       return this.userType == "Freelancer";
     },
-  },
+  }],
   education: [educationSchema],
   experience: [experienceSchema],
   companyName: {
