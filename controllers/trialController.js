@@ -60,7 +60,7 @@ const createTrial = async (req, res) => {
       experience,
       website,
       socials: {
-        linkedIn: socials.linkedIn,
+        linkedin: socials.linkedin,
         instagram: socials.instagram,
         facebook: socials.facebook,
       },

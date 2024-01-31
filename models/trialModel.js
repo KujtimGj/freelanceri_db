@@ -72,7 +72,7 @@ const trial = new Schema({
     },
   },
   socials: {
-    linkedIn: {
+    linkedin: {
       type: String,
     },
     instagram: {
