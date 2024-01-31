@@ -59,7 +59,11 @@ const createTrial = async (req, res) => {
       education,
       experience,
       website,
-      socials
+      socials: {
+        linkedIn: socials.linkedIn,
+        instagram: socials.instagram,
+        facebook: socials.facebook,
+      },
     });
 
     await sendCompletionEmail(email);
