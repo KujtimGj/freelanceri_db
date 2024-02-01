@@ -17,7 +17,14 @@ const trial = require("./routes/trialRoute");
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+
+const corsOptions = {
+  origin: "https://www.freelanceri-ks.com",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
+
+app.use(cors(corsOptions));
 
 // Passport serialization and deserialization
 passport.serializeUser(function (user, done) {
