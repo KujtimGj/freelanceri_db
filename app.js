@@ -18,12 +18,8 @@ const trial = require("./routes/trialRoute");
 // Middleware
 app.use(express.json());
 
-const corsOptions = {
-  origin: "http://162.0.217.90", // replace with your specific IP address
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 // Passport serialization and deserialization
 passport.serializeUser(function (user, done) {
