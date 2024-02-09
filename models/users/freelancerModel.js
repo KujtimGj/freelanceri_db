@@ -37,9 +37,6 @@ const freelancerSchema = new Schema({
   experiences: {
     type: Array,
   },
-  role: {
-    type: Number,
-  },
 });
 
 freelancerSchema.statics.signupFreelancer = async function (
