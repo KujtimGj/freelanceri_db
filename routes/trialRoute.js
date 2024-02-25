@@ -5,8 +5,8 @@ const {getAllTrials,getSingleTrial,updateTrial,deleteTrial,createTrial}=require(
 const authMiddleware = require("../middlewares/authMiddleware");
 
 
-router.get("/",authMiddleware,getAllTrials);
-router.get("/:id",authMiddleware,getSingleTrial);
+router.get("/",getAllTrials);
+router.get("/:id",getSingleTrial);
 router.post("/",createTrial);
 router.put("/:id", authMiddleware,updateTrial);
 // router.delete("/:id", authMiddleware, deleteTrial);

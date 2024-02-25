@@ -14,7 +14,7 @@ const sortRoute = require("./routes/sortingRoute");
 const freelancerAuth = require("./routes/auth/f_authRoute");
 const professionRoute = require("./routes/professionRoute");
 const trial = require("./routes/trialRoute");
-
+const contactRoute = require("./routes/contactRoute")
 // Middleware
 app.use(express.json());
 
@@ -56,6 +56,7 @@ app.use("/city", authMiddleware, cityRoute);
 app.use("/profession", professionRoute);
 app.use("/sort", authMiddleware, sortRoute);
 app.use("/trial", trial);
+app.use("/contact",contactRoute)
 
 // Connect to MongoDB
 mongoose
