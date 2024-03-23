@@ -52,13 +52,12 @@ app.use("/posts", authMiddleware, postRoutes);
 app.use("/business", businessAuth);
 app.use("/freelancer", freelancerAuth);
 app.use("/application", authMiddleware, applyRoute);
-app.use("/city", authMiddleware, cityRoute);
+app.use("/city", cityRoute);
 app.use("/profession", professionRoute);
 app.use("/sort", authMiddleware, sortRoute);
 app.use("/trial", trial);
 app.use("/contact",contactRoute)
 
-// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,

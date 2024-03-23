@@ -47,19 +47,22 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    state:{
-      type:String,
-      enum:['Rejected','Pending',"Approved"],
-      default:"Pending"
+    state: {
+      type: String,
+      enum: ["Rejected", "Pending", "Approved"],
+      default: "Pending",
     },
     expiresAt: {
       type: String,
       required: true,
     },
+    selectedWorkers: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Freelancer" },
+    ],
   },
   { timestamps: true }
 );
 
-const Posts = mongoose.model('Posts',postSchema)
+const Posts = mongoose.model("Posts", postSchema);
 
 module.exports = Posts;

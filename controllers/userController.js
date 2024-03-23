@@ -1,25 +1,17 @@
 const Business = require("../models/users/businessModel");
 const Freelancer = require("../models/users/freelancerModel");
 const jwt = require("jsonwebtoken");
-const passport = require('passport');
-
-
-
+const passport = require("passport");
 
 //create webtoken
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
 };
 
-
-
-
-
 // Google authentication for Business
-const loginBusinessWithGoogle = passport.authenticate('google', {
-  scope: ['profile', 'email'],
+const loginBusinessWithGoogle = passport.authenticate("google", {
+  scope: ["profile", "email"],
 });
-
 
 const loginBusinessWithGoogleCallback = (req, res) => {
   try {
@@ -30,10 +22,9 @@ const loginBusinessWithGoogleCallback = (req, res) => {
   }
 };
 
-
 // Google authentication for Freelancer
-const loginFreelancerWithGoogle = passport.authenticate('google', {
-  scope: ['profile', 'email'],
+const loginFreelancerWithGoogle = passport.authenticate("google", {
+  scope: ["profile", "email"],
 });
 
 const loginFreelancerWithGoogleCallback = (req, res) => {
@@ -44,8 +35,6 @@ const loginFreelancerWithGoogleCallback = (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
-
 
 //BUSINESS
 const loginBusiness = async (req, res) => {
@@ -67,7 +56,9 @@ const signupBusiness = async (req, res) => {
     city,
     companyName,
     companyType,
-    role
+    role,
+    phone,
+    website,
   } = req.body;
 
   try {
@@ -79,7 +70,9 @@ const signupBusiness = async (req, res) => {
       city,
       companyName,
       companyType,
-      role
+      role,
+      phone,
+      website
     );
     const token = createToken(business._id);
     res.status(200).json({ business, token });
@@ -123,10 +116,9 @@ const deleteBusiness = async (req, res) => {
     const business = await Business.findByIdAndDelete(id);
     res.status(200).json(business);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
 };
-
 
 //Freelancer
 const loginFreelancer = async (req, res) => {
@@ -141,7 +133,18 @@ const loginFreelancer = async (req, res) => {
   }
 };
 const signupFreelancer = async (req, res) => {
-  const { firstName, lastName, email, password, city, profession } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    city,
+    profession,
+    socials,
+    skills,
+    experiences,
+    education,
+  } = req.body;
 
   try {
     const freelancer = await Freelancer.signupFreelancer(
@@ -150,7 +153,11 @@ const signupFreelancer = async (req, res) => {
       email,
       password,
       city,
-      profession
+      profession,
+      socials,
+      skills,
+      experiences,
+      education
     );
     const token = createToken(freelancer._id);
     res.status(200).json({ freelancer, token });
@@ -196,7 +203,6 @@ const deleteFreelancer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 module.exports = {
   loginBusiness,

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const validator = require('validator');
+const validator = require("validator");
 const bcrypt = require("bcrypt");
 
 const businessSchema = new Schema({
@@ -16,6 +16,7 @@ const businessSchema = new Schema({
     type: String,
     required: true,
   },
+
   email: {
     type: String,
     required: true,
@@ -26,15 +27,22 @@ const businessSchema = new Schema({
   },
   companyName: {
     type: String,
-    required:true,
+    required: true,
   },
-  companyType:{
-    type:String,
-    required:true
+  companyType: {
+    type: String,
+    required: true,
   },
-  role:{
-    type:Number,
-  }
+  role: {
+    type: Number,
+  },
+  phone: {
+    type: Number,
+    required: true,
+  },
+  website: {
+    type: String,
+  },
 });
 
 businessSchema.statics.signupBusiness = async function (
@@ -45,10 +53,22 @@ businessSchema.statics.signupBusiness = async function (
   city,
   companyName,
   companyType,
-  role
+  role,
+  phone,
+  website
 ) {
   //validation
-  if (!firstName || !lastName || !email || !password||!city||!companyName||!companyType||!role) {
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !password ||
+    !city ||
+    !companyName ||
+    !companyType ||
+    !role ||
+    !phone
+  ) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -76,31 +96,32 @@ businessSchema.statics.signupBusiness = async function (
     city,
     companyName,
     companyType,
-    role
+    role,
+    phone,
+    website,
   });
 
   return business;
 };
 
-
 // static user login method
-businessSchema.statics.loginBusiness = async function(email, password){
-    if(!email || !password){
-        throw Error('All fields must be filled')
-    }
-    const business = await this.findOne({email})
+businessSchema.statics.loginBusiness = async function (email, password) {
+  if (!email || !password) {
+    throw Error("All fields must be filled");
+  }
+  const business = await this.findOne({ email });
 
-    if (!business) {
-      throw Error("Incorrect email");
-    }
+  if (!business) {
+    throw Error("Incorrect email");
+  }
 
-    const match = await bcrypt.compare(password,business.password)
-    if(!match){
-        throw Error('Incorrect password')
-    }
+  const match = await bcrypt.compare(password, business.password);
+  if (!match) {
+    throw Error("Incorrect password");
+  }
 
-    return business;
-}
+  return business;
+};
 
 const Business = mongoose.model("Business", businessSchema);
 module.exports = Business;

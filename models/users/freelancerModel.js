@@ -1,7 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
+
+const experienceSchema = new mongoose.Schema({
+  title: String,
+  company: String,
+});
+
+const educationSchema = new mongoose.Schema({
+  institution: String,
+  title: String,
+});
+
+const socialSchema = new mongoose.Schema({
+  linkedIn: {
+    type: String,
+  },
+  instagram: {
+    type: String,
+  },
+  facebook: {
+    type: String,
+  },
+});
 
 const freelancerSchema = new Schema({
   firstName: {
@@ -24,19 +46,18 @@ const freelancerSchema = new Schema({
     type: String,
     required: true,
   },
-  profession: {
-    type: String,
-    required: true,
-  },
+  profession: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   skills: {
     type: Array,
   },
-  education: {
-    type: Array,
-  },
-  experiences: {
-    type: Array,
-  },
+  socials: [socialSchema],
+  education: [educationSchema],
+  experiences: [experienceSchema],
 });
 
 freelancerSchema.statics.signupFreelancer = async function (
@@ -45,10 +66,14 @@ freelancerSchema.statics.signupFreelancer = async function (
   email,
   password,
   city,
-  profession
+  profession,
+  socials,
+  skills,
+  education,
+  experiences
 ) {
   //validation
-  if (!firstName || !lastName || !email || !password ||!city||!profession) {
+  if (!firstName || !lastName || !email || !password || !city || !profession) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -75,6 +100,10 @@ freelancerSchema.statics.signupFreelancer = async function (
     password: hash,
     city,
     profession,
+    socials,
+    skills,
+    education,
+    experiences
   });
 
   return freelancer;
@@ -99,5 +128,5 @@ freelancerSchema.statics.loginFreelancer = async function (email, password) {
   return freelancer;
 };
 
-const Freelancer = mongoose.model("Freelancer", freelancerSchema); 
-module.exports=Freelancer
+const Freelancer = mongoose.model("Freelancer", freelancerSchema);
+module.exports = Freelancer;
