@@ -48,13 +48,13 @@ function ensureAuthenticated(req, res, next) {
 }
 
 // Routes
-app.use("/posts", authMiddleware, postRoutes);
+app.use("/posts", postRoutes);
 app.use("/business", businessAuth);
 app.use("/freelancer", freelancerAuth);
-app.use("/application", authMiddleware, applyRoute);
+app.use("/application", applyRoute);
 app.use("/city", cityRoute);
 app.use("/profession", professionRoute);
-app.use("/sort", authMiddleware, sortRoute);
+app.use("/sort",sortRoute);
 app.use("/trial", trial);
 app.use("/contact",contactRoute)
 
