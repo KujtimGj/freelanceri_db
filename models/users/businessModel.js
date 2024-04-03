@@ -3,6 +3,22 @@ const Schema = mongoose.Schema;
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
+const ratingSchema = new Schema({
+  rating: {
+    type: Number,
+    required: true,
+  },
+  comment: {
+    type: String,
+    reqiured: true,
+  },
+  freelancerId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Freelancer",
+    required:true
+  }
+});
+
 const businessSchema = new Schema({
   firstName: {
     type: String,
@@ -43,6 +59,18 @@ const businessSchema = new Schema({
   website: {
     type: String,
   },
+  rating: [ratingSchema],
+  overallRating:{
+    type:Number
+  }
+});
+
+businessSchema.pre("save", async function (next) {
+  const ratings = this.rating.map((rating) => rating.rating);
+  const totalRating = ratings.reduce((acc, curr) => acc + curr, 0);
+  const averageRating = totalRating / ratings.length;
+  this.overallRating = averageRating;
+  next();
 });
 
 businessSchema.statics.signupBusiness = async function (
@@ -55,7 +83,9 @@ businessSchema.statics.signupBusiness = async function (
   companyType,
   role,
   phone,
-  website
+  website,
+  rating,
+  overallRating
 ) {
   //validation
   if (
@@ -99,6 +129,8 @@ businessSchema.statics.signupBusiness = async function (
     role,
     phone,
     website,
+    rating,
+    overallRating
   });
 
   return business;

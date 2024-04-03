@@ -12,6 +12,16 @@ const educationSchema = new mongoose.Schema({
   institution: String,
   title: String,
 });
+const rating = new Schema({
+  rating: {
+    type: Number,
+    required: true,
+  },
+  comment: {
+    type: String,
+    reqiured: true,
+  },
+});
 
 const socialSchema = new mongoose.Schema({
   linkedIn: {
@@ -22,6 +32,20 @@ const socialSchema = new mongoose.Schema({
   },
   facebook: {
     type: String,
+  },
+});
+
+const client = new Schema({
+  businessId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business",
+  },
+});
+
+const bookmarks = new Schema({
+  bookmark: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Posts",
   },
 });
 
@@ -55,9 +79,12 @@ const freelancerSchema = new Schema({
   skills: {
     type: Array,
   },
+  bookmarks: [bookmarks],
   socials: [socialSchema],
   education: [educationSchema],
   experiences: [experienceSchema],
+  rating: [rating],
+  clients: [client],
 });
 
 freelancerSchema.statics.signupFreelancer = async function (
@@ -103,7 +130,7 @@ freelancerSchema.statics.signupFreelancer = async function (
     socials,
     skills,
     education,
-    experiences
+    experiences,
   });
 
   return freelancer;

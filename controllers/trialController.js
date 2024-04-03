@@ -1,11 +1,20 @@
-const Trial=require('../models/trialModel');
-const fs = require('fs');
-const path = require('path');
-const sendCompletionEmail = require('../utils/sendEmail')
-require('dotenv').config();
-const {reCaptchaSecret} = process.env;
+const Trial = require("../models/trialModel");
+const fs = require("fs");
+const path = require("path");
+const sendCompletionEmail = require("../utils/sendEmail");
+require("dotenv").config();
+const { reCaptchaSecret } = process.env;
 const axios = require("axios");
 
+const getEmail = async (req, res) => {
+  try {
+    const trial = await Trial.find({}, { email: 1, _id: 0 });
+    res.status(200).json(trial);
+  } catch (error) {
+    // Define the error variable here
+    res.status(400).json({ error: error.message });
+  }
+};
 
 const createTrial = async (req, res) => {
   try {
@@ -21,7 +30,7 @@ const createTrial = async (req, res) => {
       experience,
       website,
       socials,
-      recaptchaToken
+      recaptchaToken,
     } = req.body;
 
     const recaptchaResponse = await axios.post(
@@ -42,7 +51,7 @@ const createTrial = async (req, res) => {
 
     const existingUser = await Trial.findOne({ email });
     if (existingUser) {
-        console.log("User with this email already exists");
+      console.log("User with this email already exists");
       return res
         .status(409)
         .json({ error: "User with this email already exists" });
@@ -59,7 +68,7 @@ const createTrial = async (req, res) => {
       education,
       experience,
       website,
-      socials
+      socials,
     });
 
     await sendCompletionEmail(email);
@@ -71,45 +80,44 @@ const createTrial = async (req, res) => {
   }
 };
 
-const getAllTrials=async(req,res)=>{
-    try {
-        const trials = await Trial.find();
-        res.status(200).json(trials)
-    } catch (error) {
-        res.status(400).json({error:error.message})
-    }
-}
+const getAllTrials = async (req, res) => {
+  try {
+    const trials = await Trial.find();
+    res.status(200).json(trials);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
-const getSingleTrial =async(req,res)=>{
-    try {
-        const {id} = req.params;
-        const trial = await Trial.findById(id);
-        res.status(200).json(trial)
-    } catch (error) {
-        res.status(400).json({error:error.message})
-    }
-}
+const getSingleTrial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const trial = await Trial.findById(id);
+    res.status(200).json(trial);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
+const updateTrial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const trial = await Trial.findByIdAndUpdate(id);
+    res.status(200).json(trial);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
-const updateTrial = async(req,res)=>{
-    try {
-        const {id} =req.params;
-        const trial = await Trial.findByIdAndUpdate(id)
-        res.status(200).json(trial)
-    } catch (error) {
-        res.status(400).json({error:error.message})
-    }
-}
-
-const deleteTrial = async(req,res)=>{
-    try {
-        const {id} =req.params;
-        const trial = await Trial.findByIdAndDelete(id);
-        res.status(200).json(trial)
-    } catch (error) {
-        res.status(400).json({error:error.message})
-    }
-}
+const deleteTrial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const trial = await Trial.findByIdAndDelete(id);
+    res.status(200).json(trial);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // const deleteScam = async (req, res) => {
 //   try {
@@ -126,7 +134,11 @@ const deleteTrial = async(req,res)=>{
 //   }
 // };
 
-
-
-
-module.exports={getAllTrials,getSingleTrial,updateTrial,deleteTrial,createTrial}
+module.exports = {
+  getEmail,
+  getAllTrials,
+  getSingleTrial,
+  updateTrial,
+  deleteTrial,
+  createTrial,
+};

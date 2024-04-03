@@ -3,12 +3,10 @@ const Freelancer = require("../models/users/freelancerModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-//create webtoken
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
 };
 
-// Google authentication for Business
 const loginBusinessWithGoogle = passport.authenticate("google", {
   scope: ["profile", "email"],
 });
@@ -22,7 +20,6 @@ const loginBusinessWithGoogleCallback = (req, res) => {
   }
 };
 
-// Google authentication for Freelancer
 const loginFreelancerWithGoogle = passport.authenticate("google", {
   scope: ["profile", "email"],
 });
@@ -59,6 +56,8 @@ const signupBusiness = async (req, res) => {
     role,
     phone,
     website,
+    rating,
+    overallRating,
   } = req.body;
 
   try {
@@ -72,7 +71,9 @@ const signupBusiness = async (req, res) => {
       companyType,
       role,
       phone,
-      website
+      website,
+      rating,
+      overallRating
     );
     const token = createToken(business._id);
     res.status(200).json({ business, token });
@@ -83,7 +84,7 @@ const signupBusiness = async (req, res) => {
 };
 const getBusinesses = async (req, res) => {
   try {
-    const businesses = await Business.find();
+    const businesses = await Business.find().populate("rating.freelancerId");
     res.status(200).json(businesses);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -93,7 +94,9 @@ const getBusinesses = async (req, res) => {
 const getSingleBusiness = async (req, res) => {
   try {
     const { id } = req.params;
-    const business = await Business.findById(id);
+    const business = await Business.findById(id).populate(
+      "rating.freelancerId"
+    );
     res.status(200).json(business);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -103,8 +106,15 @@ const getSingleBusiness = async (req, res) => {
 const updateBusiness = async (req, res) => {
   try {
     const { id } = req.params;
-    const business = await Business.findByIdAndUpdate(id);
-    res.status(200).json(business);
+    const { overallRating, ...updatedBusinessData } = req.body;
+
+    const updatedBusiness = await Business.findByIdAndUpdate(
+      id,
+      updatedBusinessData,
+      { new: true }
+    );
+
+    res.status(200).json(updatedBusiness);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -144,6 +154,9 @@ const signupFreelancer = async (req, res) => {
     skills,
     experiences,
     education,
+    rating,
+    bookmarks,
+    clients,
   } = req.body;
 
   try {
@@ -157,7 +170,10 @@ const signupFreelancer = async (req, res) => {
       socials,
       skills,
       experiences,
-      education
+      education,
+      rating,
+      bookmarks,
+      clients
     );
     const token = createToken(freelancer._id);
     res.status(200).json({ freelancer, token });

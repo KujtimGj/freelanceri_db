@@ -49,7 +49,7 @@ const postSchema = new Schema(
     },
     state: {
       type: String,
-      enum: ["Rejected", "Pending", "Approved"],
+      enum: ["Rejected", "Pending", "Approved","Expired"],
       default: "Pending",
     },
     expiresAt: {
