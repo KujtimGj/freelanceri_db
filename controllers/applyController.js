@@ -8,23 +8,35 @@ const applyForPost = async (req, res) => {
   try {
     const { postId, freelancerId, freelancerPrice, coverLetter, businessId } =
       req.body;
-    let cv = null;
-    if (req.file) {
-      cv = req.file.path;
+
+    // let cv = null;
+    // if (req.file) {
+    //   cv = req.file.path;
+    // }
+
+    const aplCheck = await Aplikimi.findOne({
+      postId: postId,
+      freelancerId: freelancerId,
+    }).exec();
+
+    if (!aplCheck) {
+      const aplikimi = await Aplikimi.create({
+        postId,
+        freelancerId,
+        businessId,
+        freelancerPrice,
+        coverLetter,
+        cv,
+      });
+      res.status(200).json({ aplikimi });
+    } else {
+      res.status(400).json({ error: "Application already exists" });
     }
-    const aplikimi = await Aplikimi.create({
-      postId,
-      freelancerId,
-      businessId,
-      freelancerPrice,
-      coverLetter,
-      cv,
-    });
-    res.status(200).json({ aplikimi });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const deleteApplication = async (req, res) => {
   try {
@@ -42,7 +54,8 @@ const getApplication = async (req, res) => {
 
     const application = await Aplikimi.findById(id)
       .populate("postId")
-      .populate("freelancerId");
+      .populate("freelancerId")
+      .populate("businessId");
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });

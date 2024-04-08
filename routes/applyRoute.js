@@ -10,7 +10,7 @@ const {
 } = require("../controllers/applyController");
 const upload = require('../middlewares/fileUpload')
 
-router.post('/',upload.single('cv'),applyForPost);
+router.post('/',applyForPost);
 router.get("/",getAllApplication);
 router.get('/:id',getApplication);
 router.get("/myApplications/:freelancerId", getMyApplications);
