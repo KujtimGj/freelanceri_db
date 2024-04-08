@@ -6,8 +6,14 @@ const Business = require("../models/users/businessModel");
 
 const applyForPost = async (req, res) => {
   try {
-    const { postId, freelancerId, freelancerPrice, coverLetter, businessId,cv } =
-      req.body;
+    const {
+      postId,
+      freelancerId,
+      freelancerPrice,
+      coverLetter,
+      businessId,
+      cv,
+    } = req.body;
 
     // let cv = null;
     // if (req.file) {
@@ -36,7 +42,6 @@ const applyForPost = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const deleteApplication = async (req, res) => {
   try {
@@ -69,13 +74,16 @@ const getApplication = async (req, res) => {
 
 const getMyApplications = async (req, res) => {
   try {
-    const {freelancerId}=req.params;
+    const { freelancerId } = req.params;
     const myApplication = await Aplikimi.find({
       freelancerId: freelancerId,
     })
-    .populate("freelancerId")
-    .populate("businessId")
-    .populate("postId");
+      .populate("freelancerId")
+      .populate("businessId")
+      .populate({
+        path: "postId",
+        populate: [{ path: "city" }, { path: "profession" }],
+      });
     res.status(200).json(myApplication);
   } catch (error) {
     res.status(400).json({ error: error.message });
