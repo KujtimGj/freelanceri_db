@@ -2,6 +2,7 @@ const Business = require("../models/users/businessModel");
 const Freelancer = require("../models/users/freelancerModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const Post = require("../models/postModel")
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -219,6 +220,46 @@ const deleteFreelancer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+const getUserBookmarks = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const posts = await Post.find({ bookmarks: userId });
+
+    const userBookmarks = posts.map((post) => ({
+      postId: post._id,
+      title: post.title,
+    }));
+
+    res.status(200).json(userBookmarks);
+  } catch (error) {
+    console.error("Error getting user bookmarks:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+// In your controller
+const bookmarkPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    if (post.bookmarks.includes(userId)) {
+      return res.status(400).json({ error: 'Post already bookmarked by the user' });
+    }
+    post.bookmarks.push(userId);
+    await post.save();
+    res.status(200).json({ message: 'Post bookmarked successfully' });
+  } catch (error) {
+    console.error('Error bookmarking post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 
 module.exports = {
   loginBusiness,
@@ -234,5 +275,7 @@ module.exports = {
   getSingleFreelancer,
   updateFreelancer,
   deleteFreelancer,
+  getUserBookmarks,
+  bookmarkPost,
   loginFreelancerWithGoogleCallback,
 };

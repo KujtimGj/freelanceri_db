@@ -12,6 +12,7 @@ const {
   getApprovedPosts,
   getPendingPosts,
 } = require("../controllers/postController");
+const { getUserBookmarks, bookmarkPost } = require('../controllers/userController');
 
 
 
@@ -33,15 +34,21 @@ router.get("/myposts/:id", findMyPosts);
 //?GET a single post
 router.get('/:id',getPost)
 
+//? GET Bookmarks
+router.get("/:postId/bookmarks",getUserBookmarks);
 //? GET SIMILAR post
 router.get("/similarPost/:postId",getSimilarPosts);
 
 //?POST
-router.post("/",upload.single('cv'), createPost);
+router.post("/", createPost);
+
+//?POST bookmark
+router.post("/:id/bookmark",bookmarkPost);
 
 //?DELETE
 router.delete('/:id',deletePost)
 
 //?UPDATE
 router.patch('/:id',updatePost)
+
 module.exports=router
