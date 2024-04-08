@@ -161,11 +161,27 @@ const getAllApplication = async (req, res) => {
   }
 };
 
+const getBusinessApplications = async (req, res) => {
+  try {
+    const { businessId } = req.params;
+    const aplikim = await Aplikimi.find({ businessId: businessId })
+      .populate({
+        path: "postId",
+        populate: [{ path: "city" }, { path: "profession" }],
+      })
+      .populate("businessId")
+      .populate("freelancerId");
+    res.status(200).json(aplikim);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   applyForPost,
   getApplication,
   getMyApplications,
-  getAllApplication,
+  getAllApplication, 
   getApplicationByPost,
+  getBusinessApplications,
   deleteApplication,
 };
