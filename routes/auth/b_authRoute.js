@@ -16,8 +16,8 @@ const {
 
 
 //BUSINESS
-router.get("/", authMiddleware, getBusinesses);
-router.get("/:id", authMiddleware,getSingleBusiness);
+router.get("/", getBusinesses);
+router.get("/:id", getSingleBusiness);
 router.post('/login',loginBusiness)
 router.post('/signup',signupBusiness)
 router.put("/:id", authMiddleware, updateBusiness);
