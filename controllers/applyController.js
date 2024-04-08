@@ -6,7 +6,7 @@ const Business = require("../models/users/businessModel");
 
 const applyForPost = async (req, res) => {
   try {
-    const { postId, freelancerId, freelancerPrice, coverLetter, businessId } =
+    const { postId, freelancerId, freelancerPrice, coverLetter, businessId,cv } =
       req.body;
 
     // let cv = null;
