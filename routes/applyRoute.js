@@ -8,14 +8,13 @@ const {
   deleteApplication,
   getApplicationByPost,
 } = require("../controllers/applyController");
-const upload = require('../middlewares/fileUpload')
+const upload = require("../middlewares/fileUpload");
 
-router.post('/',applyForPost);
-router.get("/",getAllApplication);
-router.get('/:id',getApplication);
+router.post("/", applyForPost);
+router.get("/", getAllApplication);
+router.get("/:id", getApplication);
 router.get("/myApplications/:freelancerId", getMyApplications);
-router.get('/byPost/:postId',getApplicationByPost);
-router.delete("/:id",deleteApplication);
+router.get("/byPost/:postId", getApplicationByPost);
+router.delete("/:id", deleteApplication);
 
-
-module.exports=router
+module.exports = router;

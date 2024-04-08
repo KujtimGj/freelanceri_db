@@ -69,9 +69,13 @@ const getApplication = async (req, res) => {
 
 const getMyApplications = async (req, res) => {
   try {
+    const {freelancerId}=req.params;
     const myApplication = await Aplikimi.find({
-      freelancerId: req.params.freelancerId,
-    });
+      freelancerId: freelancerId,
+    })
+    .populate("freelancerId")
+    .populate("businessId")
+    .populate("postId");
     res.status(200).json(myApplication);
   } catch (error) {
     res.status(400).json({ error: error.message });
