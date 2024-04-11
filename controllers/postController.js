@@ -59,7 +59,7 @@ const getPostForBusiness = async (req, res) => {
       return res.status(404).json({ error: "No such post" });
     }
 
-    const applications = await Application.find({ postId: id });
+    const applications = await Application.find({ postId: id }).populate("freelancerId").populate("postId");
 
     res.status(200).json({ populatedPost, applications });
   } catch (error) {
