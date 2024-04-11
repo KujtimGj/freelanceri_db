@@ -14,11 +14,12 @@ const sortRoute = require("./routes/sortingRoute");
 const freelancerAuth = require("./routes/auth/f_authRoute");
 const professionRoute = require("./routes/professionRoute");
 const trial = require("./routes/trialRoute");
-const contactRoute = require("./routes/contactRoute")
+const contactRoute = require("./routes/contactRoute");
 const rating = require("./routes/ratingRoute");
+const bookmark = require("./routes/bookmarkRoute");
+
 // Middleware
 app.use(express.json());
-
 
 app.use(cors());
 
@@ -55,10 +56,11 @@ app.use("/freelancer", freelancerAuth);
 app.use("/application", applyRoute);
 app.use("/city", cityRoute);
 app.use("/profession", professionRoute);
-app.use("/sort",sortRoute);
+app.use("/sort", sortRoute);
 app.use("/trial", trial);
-app.use("/contact",contactRoute);
-app.use("/rating",rating)
+app.use("/contact", contactRoute);
+app.use("/rating", rating);
+app.use("/bookmark", bookmark);
 
 mongoose
   .connect(process.env.MONGO_URI, {

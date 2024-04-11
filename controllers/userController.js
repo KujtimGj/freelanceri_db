@@ -155,7 +155,6 @@ const signupFreelancer = async (req, res) => {
     skills,
     experiences,
     education,
-    rating,
     bookmarks,
     clients,
   } = req.body;
@@ -172,7 +171,6 @@ const signupFreelancer = async (req, res) => {
       skills,
       experiences,
       education,
-      rating,
       bookmarks,
       clients
     );

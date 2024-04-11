@@ -59,12 +59,6 @@ const postSchema = new Schema(
     selectedWorkers: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Freelancer" },
     ],
-    bookmarks:[
-      {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
-      }
-    ]
   },
   { timestamps: true }
 );
