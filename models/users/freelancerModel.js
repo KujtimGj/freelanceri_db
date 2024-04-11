@@ -12,16 +12,7 @@ const educationSchema = new mongoose.Schema({
   institution: String,
   title: String,
 });
-const rating = new Schema({
-  rating: {
-    type: Number,
-    required: true,
-  },
-  comment: {
-    type: String,
-    reqiured: true,
-  },
-});
+
 
 const socialSchema = new mongoose.Schema({
   linkedIn: {
@@ -83,7 +74,10 @@ const freelancerSchema = new Schema({
   socials: [socialSchema],
   education: [educationSchema],
   experiences: [experienceSchema],
-  rating: [rating],
+  rating:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Rating",
+  }],
   clients: [client],
 });
 

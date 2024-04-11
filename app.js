@@ -15,6 +15,7 @@ const freelancerAuth = require("./routes/auth/f_authRoute");
 const professionRoute = require("./routes/professionRoute");
 const trial = require("./routes/trialRoute");
 const contactRoute = require("./routes/contactRoute")
+const rating = require("./routes/ratingRoute");
 // Middleware
 app.use(express.json());
 
@@ -56,7 +57,8 @@ app.use("/city", cityRoute);
 app.use("/profession", professionRoute);
 app.use("/sort",sortRoute);
 app.use("/trial", trial);
-app.use("/contact",contactRoute)
+app.use("/contact",contactRoute);
+app.use("/rating",rating)
 
 mongoose
   .connect(process.env.MONGO_URI, {
