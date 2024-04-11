@@ -1,6 +1,7 @@
 const Post = require("../models/postModel");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const Application = require("../models/applicationModel");
 //GET ALL
 const getAllPosts = async (req, res) => {
   try {
@@ -30,12 +31,37 @@ const getPost = async (req, res) => {
       .populate("city")
       .populate("profession")
       .exec();
-
     if (!populatedPost) {
       return res.status(404).json({ error: "No such post" });
     }
 
     res.status(200).json(populatedPost);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//GET SINGLE
+const getPostForBusiness = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such post" });
+  }
+
+  try {
+    const populatedPost = await Post.findById(id)
+      .populate("userId")
+      .populate("city")
+      .populate("profession")
+      .exec();
+    if (!populatedPost) {
+      return res.status(404).json({ error: "No such post" });
+    }
+
+    const applications = await Application.find({ postId: id });
+
+    res.status(200).json({ populatedPost, applications });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -231,6 +257,7 @@ module.exports = {
   getAllPosts,
   getApprovedPosts,
   getPendingPosts,
+  getPostForBusiness,
   getPost,
   deletePost,
   updatePost,

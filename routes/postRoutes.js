@@ -11,6 +11,7 @@ const {
   getSimilarPosts,
   getApprovedPosts,
   getPendingPosts,
+  getPostForBusiness,
 } = require("../controllers/postController");
 const { getUserBookmarks, bookmarkPost } = require('../controllers/userController');
 
@@ -30,6 +31,7 @@ router.get("/pending",getPendingPosts)
 
 //? GET MY POSTS
 router.get("/myposts/:id", findMyPosts);
+router.get("/business/:id",getPostForBusiness);
 
 //?GET a single post
 router.get('/:id',getPost)
