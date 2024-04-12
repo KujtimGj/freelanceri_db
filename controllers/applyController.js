@@ -10,6 +10,7 @@ const applyForPost = async (req, res) => {
       postId,
       freelancerId,
       freelancerPrice,
+      duration,
       coverLetter,
       businessId,
       cv,
@@ -31,6 +32,7 @@ const applyForPost = async (req, res) => {
         freelancerId,
         businessId,
         freelancerPrice,
+        duration,
         coverLetter,
         cv,
       });
