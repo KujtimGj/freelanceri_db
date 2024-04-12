@@ -153,11 +153,12 @@ const signupFreelancer = async (req, res) => {
     profession,
     socials,
     skills,
-    experiences,
-    education,
+    experiences, // Corrected order
+    education, // Corrected order
     bookmarks,
     clients,
   } = req.body;
+  console.log("Received payload:", req.body);
   try {
     const freelancer = await Freelancer.signupFreelancer(
       firstName,
@@ -168,8 +169,8 @@ const signupFreelancer = async (req, res) => {
       profession,
       socials,
       skills,
-      experiences,
-      education,
+      education, // Corrected order
+      experiences, // Corrected order
       bookmarks,
       clients
     );
@@ -182,6 +183,7 @@ const signupFreelancer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const getFreelancers = async (req, res) => {
   try {
     const freelancers = await Freelancer.find();

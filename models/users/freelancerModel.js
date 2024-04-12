@@ -4,17 +4,17 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const experienceSchema = new mongoose.Schema({
-  titull: { type: String, required: true }, // Assuming "titull" corresponds to "title"
-  cmp: { type: String, required: true }, // Assuming "cmp" corresponds to "company"
-  startDate: { type: Date, required: true }, // Using Date type for start date
-  endDate: { type: Date, required: true }, // Using Date type for end date
+  titull: { type: String, required: true }, 
+  cmp: { type: String, required: true }, 
+  startDate: { type: Date, required: true }, 
+  endDate: { type: Date, required: true }, 
 });
 
 const educationSchema = new mongoose.Schema({
-  titull: { type: String, required: true }, // Assuming "titull" corresponds to "title"
-  uni: { type: String, required: true }, // Assuming "uni" corresponds to "institution"
-  startDate: { type: Date, required: true }, // Using Date type for start date
-  endDate: { type: Date, required: true }, // Using Date type for end date
+  titull: { type: String, required: true },
+  uni: { type: String, required: true }, 
+  startDate: { type: Date, required: true }, 
+  endDate: { type: Date, required: true }, 
 });
 
 const freelancerSchema = new mongoose.Schema({
@@ -24,14 +24,14 @@ const freelancerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   city: { type: String, required: true },
   profession: [{ type: String, required: true }],
-  skills: [String], // Assuming skills is an array of strings
+  skills: [String], 
   socials: {
     linkedIn: String,
     instagram: String,
     facebook: String,
   },
-  experiences: [experienceSchema], // Using experienceSchema for experiences array
-  education: [educationSchema], // Using educationSchema for education array
+  experiences: [experienceSchema], 
+  education: [educationSchema], 
 });
 
 freelancerSchema.statics.signupFreelancer = async function (
