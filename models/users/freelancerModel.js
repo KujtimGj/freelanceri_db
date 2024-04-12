@@ -4,78 +4,34 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const experienceSchema = new mongoose.Schema({
-  title: String,
-  company: String,
+  titull: { type: String, required: true }, // Assuming "titull" corresponds to "title"
+  cmp: { type: String, required: true }, // Assuming "cmp" corresponds to "company"
+  startDate: { type: Date, required: true }, // Using Date type for start date
+  endDate: { type: Date, required: true }, // Using Date type for end date
 });
 
 const educationSchema = new mongoose.Schema({
-  institution: String,
-  title: String,
+  titull: { type: String, required: true }, // Assuming "titull" corresponds to "title"
+  uni: { type: String, required: true }, // Assuming "uni" corresponds to "institution"
+  startDate: { type: Date, required: true }, // Using Date type for start date
+  endDate: { type: Date, required: true }, // Using Date type for end date
 });
 
-const socialSchema = new mongoose.Schema({
-  linkedIn: {
-    type: String,
+const freelancerSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  city: { type: String, required: true },
+  profession: [{ type: String, required: true }],
+  skills: [String], // Assuming skills is an array of strings
+  socials: {
+    linkedIn: String,
+    instagram: String,
+    facebook: String,
   },
-  instagram: {
-    type: String,
-  },
-  facebook: {
-    type: String,
-  },
-});
-
-const client = new Schema({
-  businessId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Business",
-  },
-});
-
-const freelancerSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  profession: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  skills: {
-    type: Array,
-  },
-  socials: [socialSchema],
-  education: [educationSchema],
-  experiences: [experienceSchema],
-  rating: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Rating",
-    },
-  ],
-  clients: [client],
-  bio: {
-    type: String,
-    maxlength: [100, "Maximum 100 words allowed"],
-  },
+  experiences: [experienceSchema], // Using experienceSchema for experiences array
+  education: [educationSchema], // Using educationSchema for education array
 });
 
 freelancerSchema.statics.signupFreelancer = async function (
@@ -90,14 +46,12 @@ freelancerSchema.statics.signupFreelancer = async function (
   education,
   experiences
 ) {
-  //validation
   if (!firstName || !lastName || !email || !password || !city || !profession) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
     throw Error("Email is not valid");
   }
-
   if (!validator.isStrongPassword(password)) {
     throw Error("Password is not strong enough");
   }

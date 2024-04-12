@@ -2,7 +2,7 @@ const Business = require("../models/users/businessModel");
 const Freelancer = require("../models/users/freelancerModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const Post = require("../models/postModel")
+const Post = require("../models/postModel");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -158,7 +158,6 @@ const signupFreelancer = async (req, res) => {
     bookmarks,
     clients,
   } = req.body;
-
   try {
     const freelancer = await Freelancer.signupFreelancer(
       firstName,
@@ -174,9 +173,12 @@ const signupFreelancer = async (req, res) => {
       bookmarks,
       clients
     );
+    console.log("Received payload:", req.body);
+
     const token = createToken(freelancer._id);
     res.status(200).json({ freelancer, token });
   } catch (error) {
+    console.log("kar");
     res.status(400).json({ error: error.message });
   }
 };
@@ -243,21 +245,21 @@ const bookmarkPost = async (req, res) => {
 
     const post = await Post.findById(id);
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ error: "Post not found" });
     }
     if (post.bookmarks.includes(userId)) {
-      return res.status(400).json({ error: 'Post already bookmarked by the user' });
+      return res
+        .status(400)
+        .json({ error: "Post already bookmarked by the user" });
     }
     post.bookmarks.push(userId);
     await post.save();
-    res.status(200).json({ message: 'Post bookmarked successfully' });
+    res.status(200).json({ message: "Post bookmarked successfully" });
   } catch (error) {
-    console.error('Error bookmarking post:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error bookmarking post:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
 
 module.exports = {
   loginBusiness,
