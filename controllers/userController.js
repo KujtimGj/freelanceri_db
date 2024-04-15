@@ -203,6 +203,15 @@ const getSingleFreelancer = async (req, res) => {
   }
 };
 
+const getDevelopers = async(req,res)=>{
+  try {
+    const developers = await Freelancer.find();
+    res.status(200).json(developers)
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+
 const updateFreelancer = async (req, res) => {
   try {
     const { id } = req.params;

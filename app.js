@@ -17,6 +17,7 @@ const trial = require("./routes/trialRoute");
 const contactRoute = require("./routes/contactRoute");
 const rating = require("./routes/ratingRoute");
 const bookmark = require("./routes/bookmarkRoute");
+const contract = require("./routes/contractRoute");
 
 // Middleware
 app.use(express.json());
@@ -61,6 +62,7 @@ app.use("/trial", trial);
 app.use("/contact", contactRoute);
 app.use("/rating", rating);
 app.use("/bookmark", bookmark);
+app.use("/contract", contract);
 
 mongoose
   .connect(process.env.MONGO_URI, {
