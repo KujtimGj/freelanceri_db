@@ -7,7 +7,7 @@ router.get("/",getContracts);
 router.get("/:id",getContract);
 router.post("/",createContract);
 router.delete("/:id",deleteContract);
-router.put("/:id",updateContract);
+router.patch("/:id",updateContract);
 
 
 module.exports=router;

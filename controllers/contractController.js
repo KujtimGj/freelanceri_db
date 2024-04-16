@@ -37,7 +37,7 @@ const createContract = async (req, res) => {
       projectDescription,
       projectOffer,
       projectDate,
-      milestones,
+      state
     } = req.body;
     const contract = await Contract.create({
       freelancer,
@@ -49,7 +49,7 @@ const createContract = async (req, res) => {
       projectDescription,
       projectOffer,
       projectDate,
-      milestones,
+      state
     });
     res.status(200).json(contract);
   } catch (error) {
@@ -60,8 +60,12 @@ const createContract = async (req, res) => {
 const updateContract = async (req, res) => {
   try {
     const { id } = req.params;
-    const contract = await Contract.findByIdAndUpdate(id);
-    res.status(200).json(contract);
+    // Assuming you have the update data in req.body
+    const updatedContract = await Contract.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    // { new: true } option returns the modified document rather than the original one
+    res.status(200).json(updatedContract);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

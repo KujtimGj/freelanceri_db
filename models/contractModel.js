@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const milestones = new Schema({
-  description: {
-    type: String,
-    required: true,
-  },
-  deadline: {
-    type: Date,
-    reqiured: true,
-  },
-  sum: {
-    type: Number,
-    required: true,
-  },
-});
+// const milestones = new Schema({
+//   description: {
+//     type: String,
+//     required: true,
+//   },
+//   deadline: {
+//     type: Date,
+//     reqiured: true,
+//   },
+//   sum: {
+//     type: Number,
+//     required: true,
+//   },
+// });
 
 const contractSchema = new Schema({
   freelancer: {
@@ -62,7 +62,11 @@ const contractSchema = new Schema({
       return this.projectType === "Project Based";
     },
   },
-  milestones: [],
+  state:{
+    type:String,
+    enum:["Active","Finished"],
+    required:true
+  }
 });
 
 const Contract = mongoose.model("Contract", contractSchema);
