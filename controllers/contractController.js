@@ -27,7 +27,10 @@ const getContracts = async (req, res) => {
 
 const getFinishedContracts = async (req, res) => {
   try {
-    const contracts = await Contract.find({ state: "Finished" });
+    const contracts = await Contract.find({ state: "Finished" })
+      .populate("post")
+      .populate("freelancer")
+      .populate("business");
     res.status(200).json(contracts);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -35,7 +38,10 @@ const getFinishedContracts = async (req, res) => {
 };
 const getActiveContracts = async (req, res) => {
   try {
-        const contracts = await Contract.find({ state: { $in: ["Active"] } });
+    const contracts = await Contract.find({ state: { $in: ["Active"] } })
+      .populate("post")
+      .populate("freelancer")
+      .populate("business");
 
     res.status(200).json(contracts);
   } catch (error) {
