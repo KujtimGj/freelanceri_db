@@ -25,6 +25,24 @@ const getContracts = async (req, res) => {
   }
 };
 
+const getFinishedContracts = async (req, res) => {
+  try {
+    const contracts = await Contract.find({ state: "Finished" });
+    res.status(200).json(contracts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const getActiveContracts = async (req, res) => {
+  try {
+        const contracts = await Contract.find({ state: { $in: ["Active"] } });
+
+    res.status(200).json(contracts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const createContract = async (req, res) => {
   try {
     const {
@@ -37,7 +55,7 @@ const createContract = async (req, res) => {
       projectDescription,
       projectOffer,
       projectDate,
-      state
+      state,
     } = req.body;
     const contract = await Contract.create({
       freelancer,
@@ -49,7 +67,7 @@ const createContract = async (req, res) => {
       projectDescription,
       projectOffer,
       projectDate,
-      state
+      state,
     });
     res.status(200).json(contract);
   } catch (error) {
@@ -87,4 +105,6 @@ module.exports = {
   createContract,
   deleteContract,
   updateContract,
+  getFinishedContracts,
+  getActiveContracts,
 };
