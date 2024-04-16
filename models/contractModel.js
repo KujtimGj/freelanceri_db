@@ -27,10 +27,10 @@ const contractSchema = new Schema({
     ref: "Business",
     required: true,
   },
-  post:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Posts",
-    required:true 
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Posts",
+    required: true,
   },
   projectType: {
     type: String,
@@ -46,9 +46,9 @@ const contractSchema = new Schema({
     type: String,
     required: true,
   },
-  projectDescription:{
-    type:String,
-    required:true
+  projectDescription: {
+    type: String,
+    required: true,
   },
   projectOffer: {
     type: Number,
@@ -65,6 +65,5 @@ const contractSchema = new Schema({
   milestones: [],
 });
 
-
-const Contract = mongoose.model("Contract",contractSchema);
-module.exports=Contract;
+const Contract = mongoose.model("Contract", contractSchema);
+module.exports = Contract;

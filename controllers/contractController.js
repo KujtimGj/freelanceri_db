@@ -15,7 +15,10 @@ const getContract = async (req, res) => {
 
 const getContracts = async (req, res) => {
   try {
-    const contract = await Contract.find();
+    const contract = await Contract.find()
+      .populate("post")
+      .populate("freelancer")
+      .populate("business");
     res.status(200).json(contract);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -54,6 +57,16 @@ const createContract = async (req, res) => {
   }
 };
 
+const updateContract = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const contract = await Contract.findByIdAndUpdate(id);
+    res.status(200).json(contract);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const deleteContract = async (req, res) => {
   try {
     const { id } = req.params;
@@ -64,4 +77,10 @@ const deleteContract = async (req, res) => {
   }
 };
 
-module.exports = { getContract, getContracts, createContract, deleteContract };
+module.exports = {
+  getContract,
+  getContracts,
+  createContract,
+  deleteContract,
+  updateContract,
+};
