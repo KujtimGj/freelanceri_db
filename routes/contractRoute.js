@@ -8,6 +8,7 @@ const {
   updateContract,
   getActiveContracts,
   getFinishedContracts,
+  getFreelancerContracts,
 } = require("../controllers/contractController");
 
 // GET all contracts
@@ -21,6 +22,8 @@ router.get("/finished", getFinishedContracts);
 
 // GET a specific contract by ID
 router.get("/:id", getContract);
+
+router.get("/freelancer/:id",getFreelancerContracts);
 
 // Create a new contract
 router.post("/", createContract);

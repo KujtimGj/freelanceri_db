@@ -25,6 +25,16 @@ const getContracts = async (req, res) => {
   }
 };
 
+const getFreelancerContracts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const contracts = await Contract.find({ freelancer: id });
+    res.status(200).json(contracts);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getFinishedContracts = async (req, res) => {
   try {
     const contracts = await Contract.find({ state: "Finished" })
@@ -113,4 +123,5 @@ module.exports = {
   updateContract,
   getFinishedContracts,
   getActiveContracts,
+  getFreelancerContracts,
 };
