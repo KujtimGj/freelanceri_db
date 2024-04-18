@@ -26,7 +26,9 @@ const getBookmark = async (req, res) => {
 const getMyBookmarks = async (req, res) => {
   try {
     const { freelancerId } = req.params;
-    const bookmarks = await Bookmark.find({ freelancerId }).populate("freelancerId").populate("postId");
+    const bookmarks = await Bookmark.find({ freelancerId })
+      .populate("freelancerId")
+      .populate("postId");
     res.status(200).json(bookmarks);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -36,6 +38,13 @@ const getMyBookmarks = async (req, res) => {
 const createBookmark = async (req, res) => {
   try {
     const { postId, freelancerId } = req.body;
+    const findBookmark = await Bookmark.find({ postId, freelancerId });
+
+    if (findBookmark) {
+      return res.status(409).json({
+        error: "Bookmark already exists for this post and freelancer",
+      });
+    }
     const bookmark = await Bookmark.create({ postId, freelancerId });
     res.status(200).json(bookmark);
   } catch (error) {
