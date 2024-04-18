@@ -11,7 +11,7 @@ const {
 router.get("/", getBookmarks);
 router.get("/:id", getBookmark);
 
-router.get("/:freelancerId", getMyBookmarks);
+router.get("/freelancer/:freelancerId", getMyBookmarks);
 
 router.post("/", createBookmark);
 router.delete("/:id", deleteBookmark);

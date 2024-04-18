@@ -34,6 +34,11 @@ const applications = new Schema(
       type: String,
       required: true,
     },
+    state: {
+      type: String,
+      enum: ["Accepted", "Rejected", "Under Review"],
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -14,6 +14,7 @@ const applyForPost = async (req, res) => {
       coverLetter,
       businessId,
       cv,
+      state
     } = req.body;
 
     // let cv = null;
@@ -35,6 +36,7 @@ const applyForPost = async (req, res) => {
         duration,
         coverLetter,
         cv,
+        state
       });
       res.status(200).json({ aplikimi });
     } else {
@@ -91,6 +93,32 @@ const getMyApplications = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+const getPendingApplications = async(req,res)=>{
+  try {
+    const apps = await Aplikimi.find({state:"Under Review"})
+    res.status(200).json(apps)
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+const getAcceptedApplications =async(req,res)=>{
+  try {
+    const app = await Aplikimi.find({state:"Accepted"})
+    res.status(200).json(app);
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+
+const getRejectedApplications = async(req,res)=>{
+  try {
+    const app = await Aplikimi.find({state:"Rejected"});
+    res.status(200).json(app)
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
 
 const getApplicationByPost = async (req, res) => {
   try {
@@ -178,12 +206,28 @@ const getBusinessApplications = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+const updateApplication = async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const app = await Aplikimi.findByIdAndUpdate(id,req.body);
+    res.status(200).json(app)
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+
+
 module.exports = {
   applyForPost,
   getApplication,
   getMyApplications,
-  getAllApplication, 
+  getAllApplication,
   getApplicationByPost,
+  getPendingApplications,
+  getAcceptedApplications,
+  getRejectedApplications,
   getBusinessApplications,
   deleteApplication,
+  updateApplication
 };
