@@ -9,6 +9,8 @@ const {
   getActiveContracts,
   getFinishedContracts,
   getFreelancerContracts,
+  getFreelancerActiveContracts,
+  getFreelancerFinishedContracts
 } = require("../controllers/contractController");
 
 // GET all contracts
@@ -24,6 +26,10 @@ router.get("/finished", getFinishedContracts);
 router.get("/:id", getContract);
 
 router.get("/freelancer/:id",getFreelancerContracts);
+
+router.get("/freelancer/active/:id",getFreelancerActiveContracts);
+
+router.get("/freelancer/finished/:id", getFreelancerFinishedContracts);
 
 // Create a new contract
 router.post("/", createContract);

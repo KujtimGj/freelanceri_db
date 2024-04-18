@@ -35,6 +35,26 @@ const getFreelancerContracts = async (req, res) => {
   }
 };
 
+const getFreelancerActiveContracts =async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const contracts=await Contract.find({freelancer:id,state:"Active"});
+    res.status(200).json(contracts);
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+
+const getFreelancerFinishedContracts = async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const contracts = await Contract.find({freelancer:id,state:"Finished"})
+    res.status(200).json(contracts)
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+
 const getFinishedContracts = async (req, res) => {
   try {
     const contracts = await Contract.find({ state: "Finished" })
@@ -124,4 +144,6 @@ module.exports = {
   getFinishedContracts,
   getActiveContracts,
   getFreelancerContracts,
+  getFreelancerActiveContracts,
+  getFreelancerFinishedContracts
 };
