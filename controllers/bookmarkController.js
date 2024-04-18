@@ -38,7 +38,7 @@ const getMyBookmarks = async (req, res) => {
 const createBookmark = async (req, res) => {
   try {
     const { postId, freelancerId } = req.body;
-    const findBookmark = await Bookmark.find({ postId, freelancerId });
+    const findBookmark = await Bookmark.findOne({ postId, freelancerId });
 
     if (findBookmark) {
       return res.status(409).json({
