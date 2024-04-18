@@ -26,7 +26,7 @@ const getBookmark = async (req, res) => {
 const getMyBookmarks = async (req, res) => {
   try {
     const { freelancerId } = req.params;
-    const bookmarks = await Bookmark.find({ freelancerId });
+    const bookmarks = await Bookmark.find({ freelancerId }).populate("freelancerId").populate("postId");
     res.status(200).json(bookmarks);
   } catch (error) {
     res.status(400).json({ error: error.message });
