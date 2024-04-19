@@ -27,9 +27,9 @@ const getRatings = async (req, res) => {
 const createRating = async (req, res) => {
   try {
     const { freelancerId, businessId, rating, comment } = req.body;
-    const checkRatin = await Rating.findOne({freelancerId,businessId});
-    if(checkRatin){
-      return res.status(400).json({error:"Rating already exists"})
+    const checkRatin = await Rating.findOne({ freelancerId, businessId });
+    if (checkRatin) {
+      return res.status(400).json({ error: "Rating already exists" });
     }
     const ratings = await Rating.create({
       freelancerId,
@@ -69,7 +69,14 @@ const getFreelancerRating = async (req, res) => {
     const ratings = await Rating.find({ freelancerId })
       .populate("freelancerId")
       .populate("businessId");
-    res.status(200).json(ratings);
+    if (ratings.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No ratings found for this user" });
+    }
+    const totalSum = ratings.reduce((sum, item) => sum + item.rating, 0);
+    const averageRating = totalSum / ratings.length;
+    res.status(200).json({ratings,averageRating});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -89,21 +96,22 @@ const getBusinessRating = async (req, res) => {
 };
 
 const checkIfRated = async (req, res) => {
-    const { freelancerId, businessId } = req.body;
+  const { freelancerId, businessId } = req.body;
 
-    try {
-        const check = await Rating.find({ freelancerId, businessId });
+  try {
+    const check = await Rating.find({ freelancerId, businessId });
 
-        if (check.length > 0) {
-            res.status(200).json({ rated: true });
-        } else {
-            res.status(200).json({ rated: false });
-        }
-    } catch (error) {
-        console.error('Error checking rating:', error);
-        res.status(500).json({ error: 'Internal server error' });
+    if (check.length > 0) {
+      res.status(200).json({ rated: true });
+    } else {
+      res.status(200).json({ rated: false });
     }
+  } catch (error) {
+    console.error("Error checking rating:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
+
 
 module.exports = {
   getRating,
@@ -113,5 +121,6 @@ module.exports = {
   deleteRating,
   getFreelancerRating,
   getBusinessRating,
-  checkIfRated
+  checkIfRated,
+  calculateFreelancerRating
 };
