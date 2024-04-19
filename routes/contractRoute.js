@@ -10,7 +10,7 @@ const {
   getFinishedContracts,
   getFreelancerContracts,
   getFreelancerActiveContracts,
-  getFreelancerFinishedContracts
+  getFreelancerFinishedContracts,
 } = require("../controllers/contractController");
 
 // GET all contracts
@@ -25,9 +25,9 @@ router.get("/finished", getFinishedContracts);
 // GET a specific contract by ID
 router.get("/:id", getContract);
 
-router.get("/freelancer/:id",getFreelancerContracts);
+router.get("/freelancer/:id", getFreelancerContracts);
 
-router.get("/freelancer/active/:id",getFreelancerActiveContracts);
+router.get("/freelancer/active/:id", getFreelancerActiveContracts);
 
 router.get("/freelancer/finished/:id", getFreelancerFinishedContracts);
 

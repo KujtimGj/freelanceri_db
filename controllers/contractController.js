@@ -35,25 +35,34 @@ const getFreelancerContracts = async (req, res) => {
   }
 };
 
-const getFreelancerActiveContracts =async(req,res)=>{
+const getFreelancerActiveContracts = async (req, res) => {
   try {
-    const {id}=req.params;
-    const contracts=await Contract.find({freelancer:id,state:"Active"});
+    const { id } = req.params;
+    const contracts = await Contract.find({ freelancer: id, state: "Active" })
+      .populate("post")
+      .populate("freelancer")
+      .populate("business");
     res.status(200).json(contracts);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
-const getFreelancerFinishedContracts = async(req,res)=>{
+const getFreelancerFinishedContracts = async (req, res) => {
   try {
-    const {id}=req.params;
-    const contracts = await Contract.find({freelancer:id,state:"Finished"})
-    res.status(200).json(contracts)
+    const { id } = req.params;
+    const contracts = await Contract.find({
+      freelancer: id,
+      state: "Finished",
+    })
+      .populate("post")
+      .populate("freelancer")
+      .populate("business");
+    res.status(200).json(contracts);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
 const getFinishedContracts = async (req, res) => {
   try {
@@ -145,5 +154,5 @@ module.exports = {
   getActiveContracts,
   getFreelancerContracts,
   getFreelancerActiveContracts,
-  getFreelancerFinishedContracts
+  getFreelancerFinishedContracts,
 };
