@@ -76,7 +76,24 @@ const getFreelancerRating = async (req, res) => {
     }
     const totalSum = ratings.reduce((sum, item) => sum + item.rating, 0);
     const averageRating = totalSum / ratings.length;
-    res.status(200).json({ratings,averageRating});
+
+    const fiveStar = await Rating.find({ rating: 5 });
+    const five = fiveStar.length;
+
+    const fourStar = await Rating.find({ rating: 4 });
+    const four = fourStar.length;
+
+    const threeStars = await Rating.find({ rating: 3 });
+    const three = threeStars.length;
+
+    const twoStars = await Rating.find({ rating: 2 });
+    const two = twoStars.length;
+
+    const oneStar = await Rating.find({ rating: 1 });
+    const one = oneStar.length;
+    res
+      .status(200)
+      .json({ ratings, averageRating, five, four, three, two, one });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -111,7 +128,6 @@ const checkIfRated = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 module.exports = {
   getRating,
