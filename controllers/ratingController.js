@@ -84,6 +84,23 @@ const getBusinessRating = async (req, res) => {
   }
 };
 
+const checkIfRated = async (req, res) => {
+    const { freelancerId, businessId } = req.body;
+
+    try {
+        const check = await Rating.find({ freelancerId, businessId });
+
+        if (check.length > 0) {
+            res.status(200).json({ rated: true });
+        } else {
+            res.status(200).json({ rated: false });
+        }
+    } catch (error) {
+        console.error('Error checking rating:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 module.exports = {
   getRating,
   getRatings,
@@ -92,4 +109,5 @@ module.exports = {
   deleteRating,
   getFreelancerRating,
   getBusinessRating,
+  checkIfRated
 };
