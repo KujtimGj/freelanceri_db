@@ -4,59 +4,6 @@ const Post = require("../models/postModel");
 const Freelancer = require("../models/users/freelancerModel");
 const Business = require("../models/users/businessModel");
 
-const applyForPost = async (req, res) => {
-  try {
-    const {
-      postId,
-      freelancerId,
-      freelancerPrice,
-      duration,
-      coverLetter,
-      businessId,
-      cv,
-      state
-    } = req.body;
-
-    // let cv = null;
-    // if (req.file) {
-    //   cv = req.file.path;
-    // }
-
-    const aplCheck = await Aplikimi.findOne({
-      postId: postId,
-      freelancerId: freelancerId,
-    }).exec();
-
-    if (!aplCheck) {
-      const aplikimi = await Aplikimi.create({
-        postId,
-        freelancerId,
-        businessId,
-        freelancerPrice,
-        duration,
-        coverLetter,
-        cv,
-        state
-      });
-      res.status(200).json({ aplikimi });
-    } else {
-      res.status(400).json({ error: "Application already exists" });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const deleteApplication = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const application = await Aplikimi.findByIdAndRemove(id);
-    res.status(200).json(application);
-  } catch {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 const getApplication = async (req, res) => {
   try {
     const { id } = req.params;
@@ -94,31 +41,31 @@ const getMyApplications = async (req, res) => {
   }
 };
 
-const getPendingApplications = async(req,res)=>{
+const getPendingApplications = async (req, res) => {
   try {
-    const apps = await Aplikimi.find({state:"Under Review"})
-    res.status(200).json(apps)
+    const apps = await Aplikimi.find({ state: "Under Review" });
+    res.status(200).json(apps);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
-}
-const getAcceptedApplications =async(req,res)=>{
+};
+const getAcceptedApplications = async (req, res) => {
   try {
-    const app = await Aplikimi.find({state:"Accepted"})
+    const app = await Aplikimi.find({ state: "Accepted" });
     res.status(200).json(app);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
-const getRejectedApplications = async(req,res)=>{
+const getRejectedApplications = async (req, res) => {
   try {
-    const app = await Aplikimi.find({state:"Rejected"});
-    res.status(200).json(app)
+    const app = await Aplikimi.find({ state: "Rejected" });
+    res.status(200).json(app);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
 const getApplicationByPost = async (req, res) => {
   try {
@@ -207,16 +154,71 @@ const getBusinessApplications = async (req, res) => {
   }
 };
 
-const updateApplication = async(req,res)=>{
+//?POST
+const applyForPost = async (req, res) => {
   try {
-    const {id}=req.params;
-    const app = await Aplikimi.findByIdAndUpdate(id,req.body);
-    res.status(200).json(app)
-  } catch (error) {
-    res.status(400).json({error:error.message})
-  }
-}
+    const {
+      postId,
+      freelancerId,
+      freelancerPrice,
+      duration,
+      coverLetter,
+      businessId,
+      cv,
+      state,
+    } = req.body;
 
+    // let cv = null;
+    // if (req.file) {
+    //   cv = req.file.path;
+    // }
+
+    const aplCheck = await Aplikimi.findOne({
+      postId: postId,
+      freelancerId: freelancerId,
+    }).exec();
+
+    if (!aplCheck) {
+      const aplikimi = await Aplikimi.create({
+        postId,
+        freelancerId,
+        businessId,
+        freelancerPrice,
+        duration,
+        coverLetter,
+        cv,
+        state,
+      });
+      res.status(200).json({ aplikimi });
+    } else {
+      res.status(400).json({ error: "Application already exists" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+//?UPDATE
+const updateApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const app = await Aplikimi.findByIdAndUpdate(id, req.body);
+    res.status(200).json(app);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+//?DELETE
+const deleteApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const application = await Aplikimi.findByIdAndRemove(id);
+    res.status(200).json(application);
+  } catch {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
   applyForPost,
@@ -229,5 +231,5 @@ module.exports = {
   getRejectedApplications,
   getBusinessApplications,
   deleteApplication,
-  updateApplication
+  updateApplication,
 };

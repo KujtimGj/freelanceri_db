@@ -2,6 +2,8 @@ const Post = require("../models/postModel");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const Application = require("../models/applicationModel");
+
+
 //GET ALL
 const getAllPosts = async (req, res) => {
   try {
@@ -148,7 +150,6 @@ const deletePost = async (req, res) => {
   res.status(200).json(post);
 };
 
-//UPDATE
 const updatePost = async (req, res) => {
   const { id } = req.params;
 
@@ -156,7 +157,7 @@ const updatePost = async (req, res) => {
     return res.status(400).json({ error: "No such post" });
   }
 
-  const post = await Post.findOneAndUpdate({ _id: id }, { ...req.body });
+  const post = await Post.findOneAndUpdate(id);
 
   if (!post) {
     return res.status(400).json({ error: "No such post" });
@@ -209,52 +210,50 @@ const getSimilarPosts = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+// // In your controller
+// const bookmarkPost = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { userId } = req.body;
 
-// In your controller
-const bookmarkPost = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { userId } = req.body;
+//     const post = await Post.findById(id);
 
-    const post = await Post.findById(id);
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
 
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
+//     if (post.bookmarks.includes(userId)) {
+//       return res
+//         .status(400)
+//         .json({ error: "Post already bookmarked by the user" });
+//     }
 
-    if (post.bookmarks.includes(userId)) {
-      return res
-        .status(400)
-        .json({ error: "Post already bookmarked by the user" });
-    }
+//     post.bookmarks.push(userId);
+//     await post.save();
 
-    post.bookmarks.push(userId);
-    await post.save();
+//     res.status(200).json({ message: "Post bookmarked successfully" });
+//   } catch (error) {
+//     console.error("Error bookmarking post:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+// const getPostBookmarks = async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    res.status(200).json({ message: "Post bookmarked successfully" });
-  } catch (error) {
-    console.error("Error bookmarking post:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+//     const post = await Post.findById(id).populate("bookmarks");
 
-const getPostBookmarks = async (req, res) => {
-  try {
-    const { id } = req.params;
+//     if (!post) {
+//       return res.status(404).json({ error: "Post not found" });
+//     }
 
-    const post = await Post.findById(id).populate("bookmarks");
-
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-
-    const bookmarks = post.bookmarks;
-    res.status(200).json(bookmarks);
-  } catch (error) {
-    console.error("Error getting post bookmarks:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+//     const bookmarks = post.bookmarks;
+//     res.status(200).json(bookmarks);
+//   } catch (error) {
+//     console.error("Error getting post bookmarks:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 module.exports = {
   createPost,
   getAllPosts,
