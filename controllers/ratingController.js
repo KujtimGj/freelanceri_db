@@ -27,6 +27,10 @@ const getRatings = async (req, res) => {
 const createRating = async (req, res) => {
   try {
     const { freelancerId, businessId, rating, comment } = req.body;
+    const checkRatin = await Rating.findOne({freelancerId,businessId});
+    if(checkRatin){
+      return res.status(400).json({error:"Rating already exists"})
+    }
     const ratings = await Rating.create({
       freelancerId,
       businessId,
