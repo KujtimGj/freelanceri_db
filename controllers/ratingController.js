@@ -122,5 +122,4 @@ module.exports = {
   getFreelancerRating,
   getBusinessRating,
   checkIfRated,
-  calculateFreelancerRating
 };
