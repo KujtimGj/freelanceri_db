@@ -47,7 +47,9 @@ const getPendingApplications = async (req, res) => {
     const apps = await Aplikimi.find({
       "business._id": businessId,
       state: "Under Review",
-    }).populate("freelancerId").populate("postId");
+    })
+      .populate("freelancerId")
+      .populate("postId");
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -78,6 +80,21 @@ const getRejectedApplications = async (req, res) => {
       .populate("postId")
       .populate("freelancerId");
     res.status(200).json(app);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getContractedApplication = async (req, res) => {
+  try {
+    const { businessId } = req.params;
+    const apps = await Aplikimi.find({
+      "business._id": businessId,
+      state: "Contracted",
+    })
+      .populate("freelancerId")
+      .populate("postId");
+    res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -245,6 +262,7 @@ module.exports = {
   getPendingApplications,
   getAcceptedApplications,
   getRejectedApplications,
+  getContractedApplication,
   getBusinessApplications,
   deleteApplication,
   updateApplication,
