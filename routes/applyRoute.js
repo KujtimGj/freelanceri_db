@@ -17,9 +17,9 @@ const upload = require("../middlewares/fileUpload");
 
 router.post("/", applyForPost);
 //?GETS
-router.get("/accepted", getAcceptedApplications);
-router.get("/rejected", getRejectedApplications);
-router.get("/under-review", getPendingApplications);
+router.get("/accepted/:id", getAcceptedApplications);
+router.get("/rejected/:id", getRejectedApplications);
+router.get("/under-review/:id", getPendingApplications);
 router.get("/", getAllApplication);
 router.get("/:id", getApplication);
 router.get("/myApplications/:freelancerId", getMyApplications);

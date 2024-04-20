@@ -43,7 +43,11 @@ const getMyApplications = async (req, res) => {
 
 const getPendingApplications = async (req, res) => {
   try {
-    const apps = await Aplikimi.find({ state: "Under Review" });
+    const { businessId } = req.params;
+    const apps = await Aplikimi.find({
+      "business._id": businessId,
+      state: "Under Review",
+    });
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -51,8 +55,12 @@ const getPendingApplications = async (req, res) => {
 };
 const getAcceptedApplications = async (req, res) => {
   try {
-    const app = await Aplikimi.find({ state: "Accepted" });
-    res.status(200).json(app);
+    const { businessId } = req.params;
+    const apps = await Aplikimi.find({
+      "business._id": businessId,
+      state: "Accepted",
+    });
+    res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
