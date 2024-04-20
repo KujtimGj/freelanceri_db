@@ -45,7 +45,7 @@ const getPendingApplications = async (req, res) => {
   try {
     const { businessId } = req.params;
     const apps = await Aplikimi.find({
-      "business._id": businessId,
+      businessId: businessId,
       state: "Under Review",
     })
       .populate("freelancerId")
@@ -58,8 +58,8 @@ const getPendingApplications = async (req, res) => {
 const getAcceptedApplications = async (req, res) => {
   try {
     const { businessId } = req.params;
-    const apps = await Aplikimi.find({
-      "business._id": businessId,
+    const apps = await Aplikimi.findById({
+      businessId: businessId,
       state: "Accepted",
     })
       .populate("freelancerId")
@@ -73,8 +73,8 @@ const getAcceptedApplications = async (req, res) => {
 const getRejectedApplications = async (req, res) => {
   try {
     const { businessId } = req.params;
-    const app = await Aplikimi.find({
-      "business._id": businessId,
+    const app = await Aplikimi.findById({
+      businessId: businessId,
       state: "Rejected",
     })
       .populate("postId")
@@ -88,18 +88,19 @@ const getRejectedApplications = async (req, res) => {
 const getContractedApplication = async (req, res) => {
   try {
     const { businessId } = req.params;
+
     const apps = await Aplikimi.find({
-      "business._id": businessId,
+      businessId: businessId,
       state: "Contracted",
     })
       .populate("freelancerId")
       .populate("postId");
+
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 const getApplicationByPost = async (req, res) => {
   try {
     const app = await Aplikimi.find({ postId: req.params.postId });
