@@ -203,15 +203,6 @@ const getSingleFreelancer = async (req, res) => {
   }
 };
 
-const getDevelopers = async(req,res)=>{
-  try {
-    const developers = await Freelancer.find();
-    res.status(200).json(developers)
-  } catch (error) {
-    res.status(400).json({error:error.message})
-  }
-}
-
 const updateFreelancer = async (req, res) => {
   try {
     const { id } = req.params;
@@ -248,29 +239,6 @@ const getUserBookmarks = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// In your controller
-const bookmarkPost = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { userId } = req.body;
-
-    const post = await Post.findById(id);
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-    if (post.bookmarks.includes(userId)) {
-      return res
-        .status(400)
-        .json({ error: "Post already bookmarked by the user" });
-    }
-    post.bookmarks.push(userId);
-    await post.save();
-    res.status(200).json({ message: "Post bookmarked successfully" });
-  } catch (error) {
-    console.error("Error bookmarking post:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
 
 module.exports = {
   loginBusiness,
@@ -287,6 +255,5 @@ module.exports = {
   updateFreelancer,
   deleteFreelancer,
   getUserBookmarks,
-  bookmarkPost,
   loginFreelancerWithGoogleCallback,
 };

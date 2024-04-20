@@ -45,7 +45,6 @@ router.get("/similarPost/:postId",getSimilarPosts);
 router.post("/", createPost);
 
 //?POST bookmark
-router.post("/:id/bookmark",bookmarkPost);
 
 //?DELETE
 router.delete('/:id',deletePost)
