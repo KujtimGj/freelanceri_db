@@ -103,9 +103,9 @@ const createContract = async (req, res) => {
       state,
     } = req.body;
 
-    const contractCheck = await Contract.find({ business, freelancer,post });
-    if (contractCheck) {
-      return res.status(400).json({error:"Contract already exists"});
+    const contractCheck = await Contract.find({ business, freelancer, post });
+    if (contractCheck.length > 0) {
+      return res.status(400).json({ error: "Contract already exists" });
     }
     const contract = await Contract.create({
       freelancer,
