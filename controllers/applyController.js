@@ -218,7 +218,7 @@ const applyForPost = async (req, res) => {
 const updateApplication = async (req, res) => {
   try {
     const { id } = req.params;
-    const app = await Aplikimi.findByIdAndUpdate(id, req.body);
+    const app = await Aplikimi.findByIdAndUpdate(id);
     res.status(200).json(app);
   } catch (error) {
     res.status(400).json({ error: error.message });
