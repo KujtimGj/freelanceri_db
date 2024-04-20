@@ -47,7 +47,7 @@ const getPendingApplications = async (req, res) => {
     const apps = await Aplikimi.find({
       "business._id": businessId,
       state: "Under Review",
-    });
+    }).populate("freelancerId").populate("postId");
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -59,7 +59,9 @@ const getAcceptedApplications = async (req, res) => {
     const apps = await Aplikimi.find({
       "business._id": businessId,
       state: "Accepted",
-    });
+    })
+      .populate("freelancerId")
+      .populate("postId");
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
