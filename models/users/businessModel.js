@@ -65,13 +65,6 @@ const businessSchema = new Schema({
   }
 });
 
-businessSchema.pre("save", async function (next) {
-  const ratings = this.rating.map((rating) => rating.rating);
-  const totalRating = ratings.reduce((acc, curr) => acc + curr, 0);
-  const averageRating = totalRating / ratings.length;
-  this.overallRating = averageRating;
-  next();
-});
 
 businessSchema.statics.signupBusiness = async function (
   firstName,
@@ -85,7 +78,6 @@ businessSchema.statics.signupBusiness = async function (
   phone,
   website,
   rating,
-  overallRating
 ) {
   //validation
   if (
@@ -130,7 +122,6 @@ businessSchema.statics.signupBusiness = async function (
     phone,
     website,
     rating,
-    overallRating
   });
 
   return business;

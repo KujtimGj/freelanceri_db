@@ -58,7 +58,6 @@ const signupBusiness = async (req, res) => {
     phone,
     website,
     rating,
-    overallRating,
   } = req.body;
 
   try {
@@ -73,8 +72,7 @@ const signupBusiness = async (req, res) => {
       role,
       phone,
       website,
-      rating,
-      overallRating
+      rating
     );
     const token = createToken(business._id);
     res.status(200).json({ business, token });
@@ -95,9 +93,9 @@ const getBusinesses = async (req, res) => {
 const getSingleBusiness = async (req, res) => {
   try {
     const { id } = req.params;
-    const business = await Business.findById(id).populate(
-      "rating.freelancerId"
-    );
+    const business = await Business.findById(id)
+      .select("-password")
+      .populate("rating.freelancerId");
     res.status(200).json(business);
   } catch (error) {
     res.status(400).json({ error: error.message });

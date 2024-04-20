@@ -60,7 +60,9 @@ const getAcceptedApplications = async (req, res) => {
 
 const getRejectedApplications = async (req, res) => {
   try {
-    const app = await Aplikimi.find({ state: "Rejected" });
+    const app = await Aplikimi.find({ state: "Rejected" })
+      .populate("postId")
+      .populate("freelancerId");
     res.status(200).json(app);
   } catch (error) {
     res.status(400).json({ error: error.message });
