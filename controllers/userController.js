@@ -3,6 +3,8 @@ const Freelancer = require("../models/users/freelancerModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const Post = require("../models/postModel");
+const Contract = require("../models/contractModel");
+const Application = require("../models/applicationModel");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -129,6 +131,18 @@ const deleteBusiness = async (req, res) => {
   }
 };
 
+const summarizeBusiness = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const business = await Business.findById(id);
+    const contracts = await Contract.find({ business: id });
+    const applications = await Application.find({ businessId: id });
+    res.status(200).json({ business, contracts, applications });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //Freelancer
 const loginFreelancer = async (req, res) => {
   const { email, password } = req.body;
@@ -245,6 +259,7 @@ module.exports = {
   getSingleBusiness,
   updateBusiness,
   deleteBusiness,
+  summarizeBusiness,
   loginBusinessWithGoogleCallback,
   loginFreelancer,
   signupFreelancer,

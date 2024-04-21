@@ -12,6 +12,7 @@ const {
   updateBusiness,
   deleteBusiness,
   loginBusinessWithGoogleCallback,
+  summarizeBusiness
 } = require("../../controllers/userController");
 
 //BUSINESS
@@ -21,6 +22,7 @@ router.post("/login", loginBusiness);
 router.post("/signup", signupBusiness);
 router.put("/:id", authMiddleware, updateBusiness);
 router.delete("/:id", authMiddleware, deleteBusiness);
+router.get("/summary/:id",summarizeBusiness);
 
 router.get(
   "/auth/google/business",
