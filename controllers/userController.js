@@ -5,6 +5,7 @@ const passport = require("passport");
 const Post = require("../models/postModel");
 const Contract = require("../models/contractModel");
 const Application = require("../models/applicationModel");
+const Posts = require("../models/postModel");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -137,7 +138,8 @@ const summarizeBusiness = async (req, res) => {
     const business = await Business.findById(id);
     const contracts = await Contract.find({ business: id });
     const applications = await Application.find({ businessId: id });
-    res.status(200).json({ business, contracts, applications });
+    const postime = await Posts.find({userId:id})
+    res.status(200).json({ business, contracts, applications,postime});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
