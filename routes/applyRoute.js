@@ -21,11 +21,11 @@ router.post("/", applyForPost);
 router.get("/accepted/:businessId", getAcceptedApplications);
 router.get("/rejected/:businessId", getRejectedApplications);
 router.get("/under-review/:businessId", getPendingApplications);
+router.get("/contracted/:businessId",getContractedApplication);
 router.get("/", getAllApplication);
 router.get("/:id", getApplication);
 router.get("/myApplications/:freelancerId", getMyApplications);
 router.get("/byPost/:postId", getApplicationByPost);
-router.get("/contracted/:businessId",getContractedApplication);
 router.get("/business/:businessId", getBusinessApplications);
 router.patch("/:id", updateApplication);
 //?DELETE

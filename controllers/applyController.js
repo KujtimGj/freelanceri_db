@@ -55,10 +55,11 @@ const getPendingApplications = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const getAcceptedApplications = async (req, res) => {
   try {
     const { businessId } = req.params;
-    const apps = await Aplikimi.findById({
+    const apps = await Aplikimi.find({
       businessId: businessId,
       state: "Accepted",
     })
@@ -73,7 +74,7 @@ const getAcceptedApplications = async (req, res) => {
 const getRejectedApplications = async (req, res) => {
   try {
     const { businessId } = req.params;
-    const app = await Aplikimi.findById({
+    const app = await Aplikimi.find({
       businessId: businessId,
       state: "Rejected",
     })
@@ -101,6 +102,7 @@ const getContractedApplication = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const getApplicationByPost = async (req, res) => {
   try {
     const app = await Aplikimi.find({ postId: req.params.postId });
