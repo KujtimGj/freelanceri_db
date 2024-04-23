@@ -227,7 +227,7 @@ const getFreelancers = async (req, res) => {
 const getSingleFreelancer = async (req, res) => {
   try {
     const { id } = req.params;
-    const freelancer = await Freelancer.findById(id);
+    const freelancer = await Freelancer.findById(id).populate("profession");
     res.status(200).json(freelancer);
   } catch (error) {
     res.status(400).json({ error: error.message });
