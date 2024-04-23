@@ -17,24 +17,25 @@ const educationSchema = new mongoose.Schema({
   endDate: { type: Date, required: true },
 });
 
-  const freelancerSchema = new mongoose.Schema({
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    city: { type: String, required: true },
-    profession: [
-      { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Profession" },
-    ],
-    skills: [String],
-    socials: {
-      linkedIn: String,
-      instagram: String,
-      facebook: String,
-    },
-    experiences: [experienceSchema],
-    education: [educationSchema],
-  });
+const freelancerSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  city: { type: String, required: true },
+  profession: [
+    { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Profession" },
+  ],
+  skills: [String],
+  socials: {
+    linkedIn: String,
+    github: String,
+    behance: String,
+  },
+  experiences: [experienceSchema],
+  education: [educationSchema],
+  website: { type: String },
+});
 
 freelancerSchema.statics.signupFreelancer = async function (
   firstName,
@@ -46,7 +47,8 @@ freelancerSchema.statics.signupFreelancer = async function (
   socials,
   skills,
   education,
-  experiences
+  experiences,
+  website
 ) {
   if (!firstName || !lastName || !email || !password || !city || !profession) {
     throw Error("All fields must be filled");
@@ -78,6 +80,7 @@ freelancerSchema.statics.signupFreelancer = async function (
     skills,
     education,
     experiences,
+    website
   });
 
   return freelancer;

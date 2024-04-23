@@ -12,11 +12,11 @@ const ratingSchema = new Schema({
     type: String,
     reqiured: true,
   },
-  freelancerId:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Freelancer",
-    required:true
-  }
+  freelancerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Freelancer",
+    required: true,
+  },
 });
 
 const businessSchema = new Schema({
@@ -49,9 +49,6 @@ const businessSchema = new Schema({
     type: String,
     required: true,
   },
-  role: {
-    type: Number,
-  },
   phone: {
     type: Number,
     required: true,
@@ -60,11 +57,10 @@ const businessSchema = new Schema({
     type: String,
   },
   rating: [ratingSchema],
-  overallRating:{
-    type:Number
-  }
+  overallRating: {
+    type: Number,
+  },
 });
-
 
 businessSchema.statics.signupBusiness = async function (
   firstName,
@@ -74,10 +70,9 @@ businessSchema.statics.signupBusiness = async function (
   city,
   companyName,
   companyType,
-  role,
   phone,
   website,
-  rating,
+  rating
 ) {
   //validation
   if (
@@ -88,7 +83,6 @@ businessSchema.statics.signupBusiness = async function (
     !city ||
     !companyName ||
     !companyType ||
-    !role ||
     !phone
   ) {
     throw Error("All fields must be filled");
@@ -118,7 +112,6 @@ businessSchema.statics.signupBusiness = async function (
     city,
     companyName,
     companyType,
-    role,
     phone,
     website,
     rating,

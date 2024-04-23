@@ -57,7 +57,6 @@ const signupBusiness = async (req, res) => {
     city,
     companyName,
     companyType,
-    role,
     phone,
     website,
     rating,
@@ -72,7 +71,6 @@ const signupBusiness = async (req, res) => {
       city,
       companyName,
       companyType,
-      role,
       phone,
       website,
       rating
@@ -189,6 +187,7 @@ const signupFreelancer = async (req, res) => {
     education, // Corrected order
     bookmarks,
     clients,
+    website,
   } = req.body;
   console.log("Received payload:", req.body);
   try {
@@ -204,14 +203,14 @@ const signupFreelancer = async (req, res) => {
       education, // Corrected order
       experiences, // Corrected order
       bookmarks,
-      clients
+      clients,
+      website
     );
     console.log("Received payload:", req.body);
 
     const token = createToken(freelancer._id);
     res.status(200).json({ freelancer, token });
   } catch (error) {
-    console.log("kar");
     res.status(400).json({ error: error.message });
   }
 };
