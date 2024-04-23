@@ -4,35 +4,37 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const experienceSchema = new mongoose.Schema({
-  titull: { type: String, required: true }, 
-  cmp: { type: String, required: true }, 
-  startDate: { type: Date, required: true }, 
-  endDate: { type: Date, required: true }, 
+  titull: { type: String, required: true },
+  cmp: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
 });
 
 const educationSchema = new mongoose.Schema({
   titull: { type: String, required: true },
-  uni: { type: String, required: true }, 
-  startDate: { type: Date, required: true }, 
-  endDate: { type: Date, required: true }, 
+  uni: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
 });
 
-const freelancerSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  city: { type: String, required: true },
-  profession: [{ type: String, required: true }],
-  skills: [String], 
-  socials: {
-    linkedIn: String,
-    instagram: String,
-    facebook: String,
-  },
-  experiences: [experienceSchema], 
-  education: [educationSchema], 
-});
+  const freelancerSchema = new mongoose.Schema({
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    city: { type: String, required: true },
+    profession: [
+      { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Profession" },
+    ],
+    skills: [String],
+    socials: {
+      linkedIn: String,
+      instagram: String,
+      facebook: String,
+    },
+    experiences: [experienceSchema],
+    education: [educationSchema],
+  });
 
 freelancerSchema.statics.signupFreelancer = async function (
   firstName,

@@ -31,4 +31,14 @@ const createCategoryJob = async(req,res)=>{
     }
 }
 
-module.exports = {getAllCategoryJobs,getSingleCategoryJob,createCategoryJob}
+const updateCategoryJob = async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const profession = await Profession.findByIdAndUpdate(id);
+        res.status(200).json(profession);
+    } catch (error) {
+        res.status(400).json({error:error.message})
+    }
+}
+
+module.exports = {getAllCategoryJobs,getSingleCategoryJob,createCategoryJob,updateCategoryJob}

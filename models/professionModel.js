@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -8,4 +8,4 @@ const professions = new Schema({
 });
 
 const Profession = mongoose.model("Profession", professions);
-module.exports=Profession
+module.exports = Profession;

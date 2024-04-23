@@ -138,8 +138,26 @@ const summarizeBusiness = async (req, res) => {
     const business = await Business.findById(id);
     const contracts = await Contract.find({ business: id });
     const applications = await Application.find({ businessId: id });
-    const postime = await Posts.find({userId:id})
-    res.status(200).json({ business, contracts, applications,postime});
+    const postime = await Posts.find({ userId: id });
+    res.status(200).json({ business, contracts, applications, postime });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const findProfiles = async (req, res) => {
+  try {
+    const { professionIds } = req.body; // Assuming you're passing professionIds as an array in the request body
+    const allFreelancers = [];
+
+    for (const professionId of professionIds) {
+      const freelancers = await Freelancer.find({
+        profession: professionId,
+      }).populate("profession");
+      allFreelancers.push({ professionId, freelancers });
+    }
+
+    res.status(200).json(allFreelancers);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -206,7 +224,6 @@ const getFreelancers = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 const getSingleFreelancer = async (req, res) => {
   try {
     const { id } = req.params;
@@ -262,13 +279,14 @@ module.exports = {
   updateBusiness,
   deleteBusiness,
   summarizeBusiness,
+  findProfiles,
   loginBusinessWithGoogleCallback,
   loginFreelancer,
   signupFreelancer,
-  getFreelancers,
   getSingleFreelancer,
   updateFreelancer,
   deleteFreelancer,
   getUserBookmarks,
   loginFreelancerWithGoogleCallback,
+  getFreelancers,
 };

@@ -4,11 +4,12 @@ const {
   getAllCategoryJobs,
   getSingleCategoryJob,
   createCategoryJob,
+  updateCategoryJob,
 } = require("../controllers/professionController");
 
-router.get("/",getAllCategoryJobs)
+router.get("/", getAllCategoryJobs);
 router.get("/:categoryID", getSingleCategoryJob);
-router.post("/",createCategoryJob);
+router.post("/", createCategoryJob);
+router.patch("/:id", updateCategoryJob);
 
-
-module.exports=router
+module.exports = router;

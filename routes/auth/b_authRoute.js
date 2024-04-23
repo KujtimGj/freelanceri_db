@@ -12,17 +12,19 @@ const {
   updateBusiness,
   deleteBusiness,
   loginBusinessWithGoogleCallback,
-  summarizeBusiness
+  summarizeBusiness,
+  findProfiles,
 } = require("../../controllers/userController");
 
 //BUSINESS
 router.get("/", getBusinesses);
 router.get("/:id", getSingleBusiness);
+router.post("/profiles", findProfiles);
 router.post("/login", loginBusiness);
 router.post("/signup", signupBusiness);
 router.put("/:id", authMiddleware, updateBusiness);
 router.delete("/:id", authMiddleware, deleteBusiness);
-router.get("/summary/:id",summarizeBusiness);
+router.get("/summary/:id", summarizeBusiness);
 
 router.get(
   "/auth/google/business",
