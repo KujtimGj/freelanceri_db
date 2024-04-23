@@ -14,7 +14,7 @@ const {
 } = require("../../controllers/userController");
 
 router.get("/", getFreelancers);
-router.get("/:id", authMiddleware, getSingleFreelancer);
+router.get("/:id", getSingleFreelancer);
 router.post("/login", loginFreelancer);
 router.post("/signup", signupFreelancer);
 router.put("/:id", authMiddleware, updateFreelancer);
