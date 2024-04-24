@@ -206,6 +206,7 @@ const getSimilarPosts = async (req, res) => {
     const similarPosts = await Post.find({
       "profession.categoryID": originalPost.profession.categoryID,
       _id: { $ne: postId },
+      state:"Approved"
     })
       .populate("userId")
       .populate("city")
