@@ -27,16 +27,24 @@ const getPost = async (req, res) => {
   }
 
   try {
-    const populatedPost = await Post.findById(id)
+    const populatedPosts = await Post.find({})
       .populate("userId")
       .populate("city")
       .populate("profession")
       .exec();
-    if (!populatedPost) {
-      return res.status(404).json({ error: "No such post" });
-    }
 
-    res.status(200).json(populatedPost);
+    // Sorting the posts with "approved" state first
+    const sortedPosts = populatedPosts.sort((a, b) => {
+      if (a.state === "approved" && b.state !== "approved") {
+        return -1; // "approved" state comes first
+      } else if (a.state !== "approved" && b.state === "approved") {
+        return 1; // "approved" state comes later
+      } else {
+        return 0; // no preference for other states
+      }
+    });
+
+    res.status(200).json(sortedPosts);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -206,7 +214,7 @@ const getSimilarPosts = async (req, res) => {
     const similarPosts = await Post.find({
       "profession.categoryID": originalPost.profession.categoryID,
       _id: { $ne: postId },
-      state:"Approved"
+      state: "Approved",
     })
       .populate("userId")
       .populate("city")
