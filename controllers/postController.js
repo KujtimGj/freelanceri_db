@@ -76,6 +76,8 @@ const getApprovedPosts = async (req, res) => {
   try {
     const post = await Post.find({ state: "Approved" }).populate("userId").populate("city").populate("profession");
     res.status(200).json(post);
+
+    // sadsadas
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
