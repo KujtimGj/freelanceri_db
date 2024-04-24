@@ -74,7 +74,10 @@ const getPostForBusiness = async (req, res) => {
 //? GET APPROVED POSTS
 const getApprovedPosts = async (req, res) => {
   try {
-    const post = await Post.find({ state: "Approved" }).populate("userId").populate("city").populate("profession");
+    const post = await Post.find({ state: "Approved" })
+      .populate("userId")
+      .populate("city")
+      .populate("profession");
     res.status(200).json(post);
 
     // sadsadas
@@ -170,7 +173,6 @@ const updatePost = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 const findMyPosts = async (req, res) => {
   try {

@@ -13,6 +13,7 @@ const {
   getPendingApplications,
   updateApplication,
   getContractedApplication,
+  existingApplicationCheck,
 } = require("../controllers/applyController");
 const upload = require("../middlewares/fileUpload");
 
@@ -22,6 +23,7 @@ router.get("/accepted/:businessId", getAcceptedApplications);
 router.get("/rejected/:businessId", getRejectedApplications);
 router.get("/under-review/:businessId", getPendingApplications);
 router.get("/contracted/:businessId",getContractedApplication);
+router.get("/check/:freelancerId/:postId",existingApplicationCheck);
 router.get("/", getAllApplication);
 router.get("/:id", getApplication);
 router.get("/myApplications/:freelancerId", getMyApplications);

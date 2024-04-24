@@ -23,6 +23,15 @@ const getBookmark = async (req, res) => {
   }
 };
 
+const getActiveBookmarks =async (req,res)=>{
+  try {
+    const bookmarks = Bookmark.find({"postId.state":"Approved"});
+    res.status(200).json(bookmarks);
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+}
+
 const getMyBookmarks = async (req, res) => {
   try {
     const { freelancerId } = req.params;
@@ -68,4 +77,5 @@ module.exports = {
   getMyBookmarks,
   createBookmark,
   deleteBookmark,
+  getActiveBookmarks
 };

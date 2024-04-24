@@ -4,6 +4,19 @@ const Post = require("../models/postModel");
 const Freelancer = require("../models/users/freelancerModel");
 const Business = require("../models/users/businessModel");
 
+const existingApplicationCheck = async (req, res) => {
+  try {
+    const { freelancerId, postId } = req.params;
+    const existingApp = await Aplikimi.findOne({ freelancerId, postId });
+
+    const hasExistingApplication = !!existingApp;
+
+    res.status(200).json({ exists: hasExistingApplication });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getApplication = async (req, res) => {
   try {
     const { id } = req.params;
@@ -269,4 +282,5 @@ module.exports = {
   getBusinessApplications,
   deleteApplication,
   updateApplication,
+  existingApplicationCheck,
 };
