@@ -251,7 +251,8 @@ const applyForPost = async (req, res) => {
 const updateApplication = async (req, res) => {
   try {
     const { id } = req.params;
-    const app = await Aplikimi.findByIdAndUpdate(id);
+    const { state } = req.body; // Ensure state is extracted from the request body
+    const app = await Aplikimi.findByIdAndUpdate(id, { state }, { new: true }); // Ensure to pass { new: true } to get the updated document
     res.status(200).json(app);
   } catch (error) {
     res.status(400).json({ error: error.message });
