@@ -74,7 +74,7 @@ const getPostForBusiness = async (req, res) => {
 //? GET APPROVED POSTS
 const getApprovedPosts = async (req, res) => {
   try {
-    const post = await Post.find({ state: "Approved" });
+    const post = await Post.find({ state: "Approved" }).populate("userId").populate("city").populate("profession");
     res.status(200).json(post);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -153,17 +153,22 @@ const updatePost = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "No such post" });
+    return res.status(400).json({ error: "Invalid post ID" });
   }
 
-  const post = await Post.findOneAndUpdate(id);
+  try {
+    const post = await Post.findByIdAndUpdate(id, req.body, { new: true });
 
-  if (!post) {
-    return res.status(400).json({ error: "No such post" });
+    if (!post) {
+      return res.status(404).json({ error: "No such post found" });
+    }
+
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
   }
-
-  res.status(200).json(post);
 };
+
 
 const findMyPosts = async (req, res) => {
   try {
