@@ -24,6 +24,8 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use(cors({ origin: "*" }));
+
 // Passport serialization and deserialization
 passport.serializeUser(function (user, done) {
   done(null, user);
