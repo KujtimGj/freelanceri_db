@@ -6,27 +6,6 @@ const Application = require("../models/applicationModel");
 //GET ALL
 const getAllPosts = async (req, res) => {
   try {
-    const populatedPosts = await Post.find()
-      .sort({ createdAt: -1 })
-      .populate("userId")
-      .populate("profession")
-      .populate("city")
-      .exec();
-    res.status(200).json(populatedPosts);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-//GET SINGLE
-const getPost = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "No such post" });
-  }
-
-  try {
     const populatedPosts = await Post.find({})
       .populate("userId")
       .populate("city")
@@ -50,6 +29,8 @@ const getPost = async (req, res) => {
   }
 };
 
+//GET SINGLE
+const getPost = async (req, res) => {};
 //GET SINGLE
 const getPostForBusiness = async (req, res) => {
   const { id } = req.params;
