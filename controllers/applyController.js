@@ -278,7 +278,8 @@ const getFreelancerActiveApl = async (req, res) => {
       state: "Under Review",
     })
       .populate("businessId")
-      .populate("postId");
+      .populate("postId")
+      .populate("freelancerId");
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -293,11 +294,12 @@ const getFreelancerRejectedApl = async (req, res) => {
       state: "Rejected",
     })
       .populate("businessId")
-      .populate("postId");
+      .populate("postId")
+      .populate("freelancerId");
 
     res.status(200).json(apps);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -316,5 +318,5 @@ module.exports = {
   updateApplication,
   existingApplicationCheck,
   getFreelancerActiveApl,
-  getFreelancerRejectedApl
+  getFreelancerRejectedApl,
 };
