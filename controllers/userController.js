@@ -217,7 +217,7 @@ const signupFreelancer = async (req, res) => {
 
 const getFreelancers = async (req, res) => {
   try {
-    const freelancers = await Freelancer.find();
+    const freelancers = await Freelancer.find().populate("profession").populate("city");
     res.status(200).json(freelancers);
   } catch (error) {
     res.status(400).json({ error: error.message });
