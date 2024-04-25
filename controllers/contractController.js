@@ -68,7 +68,7 @@ const getFinishedContracts = async (req, res) => {
   try {
     const contracts = await Contract.find({ state: "Finished" })
       .populate("post")
-      .populate("freelancer")
+      .populate({ path: "freelancer", populate: [{ path: "profession" }] })
       .populate("business");
     res.status(200).json(contracts);
   } catch (error) {
@@ -79,7 +79,7 @@ const getActiveContracts = async (req, res) => {
   try {
     const contracts = await Contract.find({ state: { $in: ["Active"] } })
       .populate("post")
-      .populate("freelancer")
+      .populate({ path: "freelancer", populate: [{ path: "profession" }] })
       .populate("business");
 
     res.status(200).json(contracts);
