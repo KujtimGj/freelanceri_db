@@ -32,14 +32,14 @@ const getAllPosts = async (req, res) => {
 //GET SINGLE
 const getPost = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const post = await Post.findById(id)
       .populate("userId")
       .populate("profession")
       .populate("city");
-    res.status(200).json(post)
+    res.status(200).json(post);
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
 };
 //GET SINGLE

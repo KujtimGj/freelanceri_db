@@ -36,7 +36,7 @@ const applications = new Schema(
     },
     state: {
       type: String,
-      enum: ["Accepted", "Rejected", "Under Review","Deleted","Contracted"],
+      enum: ["Accepted", "Rejected", "Under Review", "Deleted", "Contracted"],
     },
   },
   { timestamps: true }

@@ -270,6 +270,37 @@ const deleteApplication = async (req, res) => {
   }
 };
 
+const getFreelancerActiveApl = async (req, res) => {
+  try {
+    const { freelancerId } = req.params;
+    const apps = await Aplikimi.find({
+      freelancerId: freelancerId,
+      state: "Under Review",
+    })
+      .populate("businessId")
+      .populate("postId");
+    res.status(200).json(apps);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getFreelancerRejectedApl = async (req, res) => {
+  try {
+    const { freelancerId } = req.params;
+    const apps = await Aplikimi.find({
+      freelancerId: freelancerId,
+      state: "Rejected",
+    })
+      .populate("businessId")
+      .populate("postId");
+
+    res.status(200).json(apps);
+  } catch (error) {
+    res.status(400).json({error:error.message})
+  }
+};
+
 module.exports = {
   applyForPost,
   getApplication,
@@ -284,4 +315,6 @@ module.exports = {
   deleteApplication,
   updateApplication,
   existingApplicationCheck,
+  getFreelancerActiveApl,
+  getFreelancerRejectedApl
 };
