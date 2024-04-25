@@ -278,7 +278,10 @@ const getFreelancerActiveApl = async (req, res) => {
       state: "Under Review",
     })
       .populate("businessId")
-      .populate("postId")
+      .populate({
+        path: "postId",
+        populate: [{ path: "city" }, { path: "profession" }],
+      })
       .populate("freelancerId");
     res.status(200).json(apps);
   } catch (error) {
@@ -294,7 +297,10 @@ const getFreelancerRejectedApl = async (req, res) => {
       state: "Rejected",
     })
       .populate("businessId")
-      .populate("postId")
+      .populate({
+        path: "postId",
+        populate: [{ path: "city" }, { path: "profession" }],
+      })
       .populate("freelancerId");
 
     res.status(200).json(apps);
