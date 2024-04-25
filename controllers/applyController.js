@@ -61,8 +61,8 @@ const getPendingApplications = async (req, res) => {
       businessId: businessId,
       state: "Under Review",
     })
-      .populate("freelancerId")
-      .populate("postId");
+      .populate("postId")
+      .populate({ path: "freelancerId", populate: [{ path: "profession" }] });
     res.status(200).json(apps);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -76,7 +76,7 @@ const getAcceptedApplications = async (req, res) => {
       businessId: businessId,
       state: "Accepted",
     })
-      .populate("freelancerId")
+      .populate({ path: "freelancerId", populate: [{ path: "profession" }] })
       .populate("postId");
     res.status(200).json(apps);
   } catch (error) {
@@ -92,7 +92,7 @@ const getRejectedApplications = async (req, res) => {
       state: "Rejected",
     })
       .populate("postId")
-      .populate("freelancerId");
+      .populate({ path: "freelancerId", populate: [{ path: "profession" }] });
     res.status(200).json(app);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -107,7 +107,7 @@ const getContractedApplication = async (req, res) => {
       businessId: businessId,
       state: "Contracted",
     })
-      .populate("freelancerId")
+      .populate({ path: "freelancerId", populate: [{ path: "profession" }] })
       .populate("postId");
 
     res.status(200).json(apps);
@@ -196,7 +196,7 @@ const getBusinessApplications = async (req, res) => {
         populate: [{ path: "city" }, { path: "profession" }],
       })
       .populate("businessId")
-      .populate("freelancerId");
+      .populate({ path: "freelancerId", populate: [{ path: "profession" }] });
     res.status(200).json(aplikim);
   } catch (error) {
     res.status(400).json({ error: error.message });
