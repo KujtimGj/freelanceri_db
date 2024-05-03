@@ -21,14 +21,6 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    neededWorkers: {
-      type: Number,
-      required: true,
-    },
-    budget: {
-      type: Number,
-      required: true,
-    },
     city: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "City",
@@ -51,10 +43,6 @@ const postSchema = new Schema(
       type: String,
       enum: ["Rejected", "Pending", "Approved", "Expired"],
       default: "Pending",
-    },
-    expiresAt: {
-      type: String,
-      required: true,
     },
     selectedWorkers: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Freelancer" },

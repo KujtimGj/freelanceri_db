@@ -183,8 +183,8 @@ const signupFreelancer = async (req, res) => {
     profession,
     socials,
     skills,
-    experiences, // Corrected order
-    education, // Corrected order
+    experiences,
+    education,
     bookmarks,
     clients,
     website,
