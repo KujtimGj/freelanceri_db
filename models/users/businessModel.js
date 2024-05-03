@@ -57,9 +57,6 @@ const businessSchema = new Schema({
     type: String,
   },
   rating: [ratingSchema],
-  overallRating: {
-    type: Number,
-  },
 });
 
 businessSchema.statics.signupBusiness = async function (
@@ -72,7 +69,6 @@ businessSchema.statics.signupBusiness = async function (
   companyType,
   phone,
   website,
-  rating
 ) {
   //validation
   if (
@@ -114,7 +110,6 @@ businessSchema.statics.signupBusiness = async function (
     companyType,
     phone,
     website,
-    rating,
   });
 
   return business;

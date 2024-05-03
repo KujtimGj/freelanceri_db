@@ -74,13 +74,15 @@ const getPostForBusiness = async (req, res) => {
 //? GET APPROVED POSTS
 const getApprovedPosts = async (req, res) => {
   try {
-    const post = await Post.find({ state: "Approved" })
+    let query = {};
+    if (req.query.search) {
+      query.title = { $regex: req.query.search, $options: "i" }; // Case-insensitive regex search
+    }
+    const posts = await Post.find({ state: "Approved", ...query })
       .populate("userId")
       .populate("city")
       .populate("profession");
-    res.status(200).json(post);
-
-    // sadsadas
+    res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
