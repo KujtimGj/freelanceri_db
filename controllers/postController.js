@@ -77,7 +77,6 @@ const getApprovedPosts = async (req, res) => {
     let query = {};
     if (req.query.search) {
       query.title = { $regex: req.query.search, $options: "i" }; // Case-insensitive regex search
-      query.profession.category = { $regex: req.qurey.search, $options: "i" };
     }
     // If category query is present, add category condition
     if (req.query.category) {
