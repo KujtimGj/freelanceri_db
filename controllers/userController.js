@@ -236,12 +236,23 @@ const getSingleFreelancer = async (req, res) => {
 const updateFreelancer = async (req, res) => {
   try {
     const { id } = req.params;
-    const freelancer = await Freelancer.findByIdAndUpdate(id);
-    res.status(200).json(freelancer);
+    const { firstName, lastName, email, password, profession, skills, experiences, education } = req.body; // Assuming these are the fields you want to update
+    const updatedFreelancer = await Freelancer.findByIdAndUpdate(id, {
+      firstName,
+      lastName,
+      email,
+      password,
+      profession,
+      skills,
+      experiences,
+      education
+    }, { new: true }); // Setting { new: true } returns the updated document
+    res.status(200).json(updatedFreelancer);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const deleteFreelancer = async (req, res) => {
   try {
