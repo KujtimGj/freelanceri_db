@@ -23,7 +23,7 @@ const getApplication = async (req, res) => {
 
     const application = await Aplikimi.findById(id)
       .populate("postId")
-      .populate("freelancerId")
+      .populate({ path: "freelancerId", populate: [{ path: "profession" }] })
       .populate("businessId");
 
     if (!application) {
