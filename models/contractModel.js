@@ -46,10 +46,6 @@ const contractSchema = new Schema({
     type: String,
     required: true,
   },
-  projectDescription: {
-    type: String,
-    required: true,
-  },
   projectOffer: {
     type: Number,
     required: function () {
@@ -57,7 +53,7 @@ const contractSchema = new Schema({
     },
   },
   projectDate: {
-    type: Date,
+    type: String,
     required: function () {
       return this.projectType === "Project Based";
     },
