@@ -17,7 +17,7 @@ router.get("/", getFreelancers);
 router.get("/:id", getSingleFreelancer);
 router.post("/login", loginFreelancer);
 router.post("/signup", signupFreelancer);
-router.put("/:id", authMiddleware, updateFreelancer);
+router.put("/:id", updateFreelancer);
 router.delete("/:id", authMiddleware, deleteFreelancer);
 
 // Google authentication routes for Freelancers
