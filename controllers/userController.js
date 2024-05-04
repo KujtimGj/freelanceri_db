@@ -245,7 +245,8 @@ const updateFreelancer = async (req, res) => {
       profession,
       skills,
       experiences,
-      education
+      education,
+      req.body.socials,
     }, { new: true }); // Setting { new: true } returns the updated document
     res.status(200).json(updatedFreelancer);
   } catch (error) {
