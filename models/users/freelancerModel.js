@@ -50,7 +50,7 @@ freelancerSchema.statics.signupFreelancer = async function (
   experiences,
   website
 ) {
-  if (!firstName || !lastName || !email || !password || !city || !profession) {
+  if (!firstName || !lastName || !email || !password ) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -80,7 +80,7 @@ freelancerSchema.statics.signupFreelancer = async function (
     skills,
     education,
     experiences,
-    website
+    website,
   });
 
   return freelancer;
