@@ -198,14 +198,15 @@ const signupFreelancer = async (req, res) => {
       password,
       city,
       profession,
-      socials,
+      req.body.socials, // Pass socials directly from req.body
       skills,
-      education, // Corrected order
-      experiences, // Corrected order
+      experiences,
+      education,
       bookmarks,
       clients,
       website
     );
+
     console.log("Received payload:", req.body);
 
     const token = createToken(freelancer._id);
@@ -217,7 +218,9 @@ const signupFreelancer = async (req, res) => {
 
 const getFreelancers = async (req, res) => {
   try {
-    const freelancers = await Freelancer.find().populate("profession").populate("city");
+    const freelancers = await Freelancer.find()
+      .populate("profession")
+      .populate("city");
     res.status(200).json(freelancers);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -236,8 +239,7 @@ const getSingleFreelancer = async (req, res) => {
 const updateFreelancer = async (req, res) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, email, password, profession, skills, experiences, education } = req.body; // Assuming these are the fields you want to update
-    const updatedFreelancer = await Freelancer.findByIdAndUpdate(id, {
+    const {
       firstName,
       lastName,
       email,
@@ -246,14 +248,28 @@ const updateFreelancer = async (req, res) => {
       skills,
       experiences,
       education,
-      req.body.socials,
-    }, { new: true }); // Setting { new: true } returns the updated document
+      socials
+    } = req.body; // Assuming these are the fields you want to update
+    const updatedFreelancer = await Freelancer.findByIdAndUpdate(
+      id,
+      {
+        firstName,
+        lastName,
+        email,
+        password,
+        profession,
+        skills,
+        experiences,
+        education,
+        socials,
+      },
+      { new: true }
+    ); // Setting { new: true } returns the updated document
     res.status(200).json(updatedFreelancer);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const deleteFreelancer = async (req, res) => {
   try {
