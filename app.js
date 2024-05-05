@@ -64,22 +64,25 @@ app.use("/rating", rating);
 app.use("/bookmark", bookmark);
 app.use("/contract", contract);
 
-// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
+  .then(async () => {
     console.log("Connected to MongoDB");
 
     // Create index on profession.category field
-    return mongoose.connection.db.collection("posts").createIndex(
+    await mongoose.connection.db.collection("posts").createIndex(
       { "profession.category": 1 }, // Index on profession.category field
       { background: true } // Optional: Index creation in the background
     );
-  })
-  .then(() => {
+
+    await mongoose.connection.db.collection("freelancers").createIndex(
+      { "profession.category": 1 }, // Index on profession.category field
+      { background: true } // Optional: Index creation in the background
+    );
+
     // Start the Express server
     app.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);

@@ -6,6 +6,7 @@ const Post = require("../models/postModel");
 const Contract = require("../models/contractModel");
 const Application = require("../models/applicationModel");
 const Posts = require("../models/postModel");
+const Profession = require("../models/professionModel")
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -223,6 +224,14 @@ const getFreelancers = async (req, res) => {
     if (req.query.search) {
       const searchRegex = new RegExp(req.query.search, "i");
       query.$or = [{ firstName: searchRegex }, { lastName: searchRegex }];
+    }
+
+    if (req.query.category) {
+      const professions = await Profession.find({
+        category: req.query.category,
+      });
+      const professionIds = professions.map((profession) => profession._id);
+      query.profession = { $in: professionIds };
     }
 
     const freelancers = await Freelancer.find(query)
