@@ -21,9 +21,7 @@ const contract = require("./routes/contractRoute");
 
 // Middleware
 app.use(express.json());
-
 app.use(cors());
-
 app.use(cors({ origin: "*" }));
 
 // Passport serialization and deserialization
@@ -66,24 +64,27 @@ app.use("/rating", rating);
 app.use("/bookmark", bookmark);
 app.use("/contract", contract);
 
-// asdasd
-
+// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log(process.env.PORT);
-      console.log("Connected to db");
-    });
+    console.log("Connected to MongoDB");
+
+    // Create index on profession.category field
+    return mongoose.connection.db.collection("posts").createIndex(
+      { "profession.category": 1 }, // Index on profession.category field
+      { background: true } // Optional: Index creation in the background
+    );
   })
   .then(() => {
-    return mongoose.connection.db
-      .collection("posts")
-      .createIndex({ expiresAt: -1 }, { expireAfterSeconds: 0 });
+    // Start the Express server
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
   })
   .catch((error) => {
-    console.log(error);
+    console.error("Error connecting to MongoDB:", error);
   });

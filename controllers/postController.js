@@ -74,19 +74,37 @@ const getPostForBusiness = async (req, res) => {
 //? GET APPROVED POSTS
 const getApprovedPosts = async (req, res) => {
   try {
-    let query = {};
+    let query = { state: "Approved" };
+
     if (req.query.search) {
-      query.title = { $regex: req.query.search, $options: "i" }; // Case-insensitive regex search
+      query.title = { $regex: req.query.search, $options: "i" };
     }
-    // If category query is present, add category condition
+
+    // If category query is present, populate the profession field and match category
     if (req.query.category) {
-      query["profession.category"] = req.query.category; // Match category
+      const posts = await Post.find(query)
+        .populate({
+          path: "profession",
+          match: { category: req.query.category }, // Match category
+        })
+        .populate("userId")
+        .populate("city")
+        .exec();
+
+      // Filter out posts where profession is null (no match for category)
+      const filteredPosts = posts.filter((post) => post.profession);
+
+      res.status(200).json(filteredPosts);
+    } else {
+      // If no category query, simply populate other fields and return all approved posts
+      const posts = await Post.find(query)
+        .populate("userId")
+        .populate("city")
+        .populate("profession")
+        .exec();
+
+      res.status(200).json(posts);
     }
-    const posts = await Post.find({ state: "Approved", ...query })
-      .populate("userId")
-      .populate("city")
-      .populate("profession");
-    res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
