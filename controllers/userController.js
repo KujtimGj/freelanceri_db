@@ -218,14 +218,23 @@ const signupFreelancer = async (req, res) => {
 
 const getFreelancers = async (req, res) => {
   try {
-    const freelancers = await Freelancer.find()
+    let query = {};
+
+    if (req.query.search) {
+      const searchRegex = new RegExp(req.query.search, "i");
+      query.$or = [{ firstName: searchRegex }, { lastName: searchRegex }];
+    }
+
+    const freelancers = await Freelancer.find(query)
       .populate("profession")
       .populate("city");
+
     res.status(200).json(freelancers);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 const getSingleFreelancer = async (req, res) => {
   try {
     const { id } = req.params;
@@ -248,7 +257,7 @@ const updateFreelancer = async (req, res) => {
       skills,
       experiences,
       education,
-      socials
+      socials,
     } = req.body; // Assuming these are the fields you want to update
     const updatedFreelancer = await Freelancer.findByIdAndUpdate(
       id,
