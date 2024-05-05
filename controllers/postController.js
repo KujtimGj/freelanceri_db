@@ -80,23 +80,20 @@ const getApprovedPosts = async (req, res) => {
       query.title = { $regex: req.query.search, $options: "i" };
     }
 
-    // If category query is present, populate the profession field and match category
     if (req.query.category) {
       const posts = await Post.find(query)
         .populate({
           path: "profession",
-          match: { category: req.query.category }, // Match category
+          match: { category: req.query.category },
         })
         .populate("userId")
         .populate("city")
         .exec();
 
-      // Filter out posts where profession is null (no match for category)
       const filteredPosts = posts.filter((post) => post.profession);
 
       res.status(200).json(filteredPosts);
     } else {
-      // If no category query, simply populate other fields and return all approved posts
       const posts = await Post.find(query)
         .populate("userId")
         .populate("city")

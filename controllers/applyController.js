@@ -275,7 +275,7 @@ const getFreelancerActiveApl = async (req, res) => {
     const { freelancerId } = req.params;
     const apps = await Aplikimi.find({
       freelancerId: freelancerId,
-      state: "Under Review",
+      state: "Under Review"&&"Active",
     })
       .populate("businessId")
       .populate({
