@@ -33,7 +33,7 @@ const freelancerSchema = new mongoose.Schema({
     behance: String,
   },
   experiences: [experienceSchema],
-  education: [educationSchema],
+  educations: [educationSchema],
   website: { type: String },
 });
 
@@ -46,7 +46,7 @@ freelancerSchema.statics.signupFreelancer = async function (
   profession,
   socials,
   skills,
-  education,
+  educations,
   experiences,
   website
 ) {
@@ -78,7 +78,7 @@ freelancerSchema.statics.signupFreelancer = async function (
     profession,
     socials,
     skills,
-    education,
+    educations,
     experiences,
     website,
   });

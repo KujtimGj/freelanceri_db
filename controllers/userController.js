@@ -6,7 +6,7 @@ const Post = require("../models/postModel");
 const Contract = require("../models/contractModel");
 const Application = require("../models/applicationModel");
 const Posts = require("../models/postModel");
-const Profession = require("../models/professionModel")
+const Profession = require("../models/professionModel");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -185,7 +185,7 @@ const signupFreelancer = async (req, res) => {
     socials,
     skills,
     experiences,
-    education,
+    educations,
     bookmarks,
     clients,
     website,
@@ -202,7 +202,7 @@ const signupFreelancer = async (req, res) => {
       req.body.socials, // Pass socials directly from req.body
       skills,
       experiences,
-      education,
+      educations,
       bookmarks,
       clients,
       website
@@ -265,7 +265,7 @@ const updateFreelancer = async (req, res) => {
       profession,
       skills,
       experiences,
-      education,
+      educations,
       socials,
     } = req.body; // Assuming these are the fields you want to update
     const updatedFreelancer = await Freelancer.findByIdAndUpdate(
@@ -278,7 +278,7 @@ const updateFreelancer = async (req, res) => {
         profession,
         skills,
         experiences,
-        education,
+        educations,
         socials,
       },
       { new: true }
@@ -298,6 +298,45 @@ const deleteFreelancer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+const deleteExperience = async (req, res) => {
+  try {
+    const { freelancerId, experienceId } = req.params;
+
+    // Find the freelancer by ID
+    const freelancer = await Freelancer.findById(freelancerId);
+
+    // Check if the freelancer exists
+    if (!freelancer) {
+      return res.status(404).json({ error: "Freelancer not found" });
+    }
+
+    // Find the index of the experience to delete
+    const experienceIndex = freelancer.experiences.findIndex(
+      (exp) => exp._id.toString() === experienceId
+    );
+
+    // Check if the experience exists
+    if (experienceIndex === -1) {
+      return res.status(404).json({ error: "Experience not found" });
+    }
+
+    // Remove the experience from the array
+    freelancer.experiences.splice(experienceIndex, 1);
+
+    // Save the updated freelancer (optional)
+    await freelancer.save();
+
+    // Delete the experience document from the database
+    await Experience.findByIdAndDelete(experienceId);
+
+    res
+      .status(200)
+      .json({ message: "Experience deleted successfully", freelancer });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getUserBookmarks = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -332,6 +371,7 @@ module.exports = {
   updateFreelancer,
   deleteFreelancer,
   getUserBookmarks,
+  deleteExperience,
   loginFreelancerWithGoogleCallback,
   getFreelancers,
 };

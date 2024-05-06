@@ -9,6 +9,7 @@ const {
   getSingleFreelancer,
   updateFreelancer,
   deleteFreelancer,
+  deleteExperience,
   loginFreelancerWithGoogleCallback,
   getFreelancers,
 } = require("../../controllers/userController");
@@ -19,6 +20,7 @@ router.post("/login", loginFreelancer);
 router.post("/signup", signupFreelancer);
 router.put("/:id", updateFreelancer);
 router.delete("/:id", authMiddleware, deleteFreelancer);
+router.delete("/:freelancerId/experiences/:experienceId", deleteExperience);
 
 // Google authentication routes for Freelancers
 router.get(
