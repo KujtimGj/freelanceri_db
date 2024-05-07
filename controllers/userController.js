@@ -94,6 +94,14 @@ const signupBusiness = async (req, res) => {
     if (!recaptchaResponse.data.success) {
       return res.status(403).json({ error: "reCAPTCHA verification failed" });
     }
+
+    const existingUser = await Business.findOne({ email });
+    if (existingUser) {
+      console.log("User with this email already exists");
+      return res
+        .status(409)
+        .json({ error: "User with this email already exists" });
+    }
     console.log("Received payload:", req.body);
 
     const token = createToken(business._id);
@@ -243,6 +251,14 @@ const signupFreelancer = async (req, res) => {
 
     if (!recaptchaResponse.data.success) {
       return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
+
+    const existingUser = await Freelancer.findOne({ email });
+    if (existingUser) {
+      console.log("User with this email already exists");
+      return res
+        .status(409)
+        .json({ error: "User with this email already exists" });
     }
     console.log("Received payload:", req.body);
 
