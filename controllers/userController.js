@@ -267,7 +267,10 @@ const updateFreelancer = async (req, res) => {
       experiences,
       educations,
       socials,
-    } = req.body; // Assuming these are the fields you want to update
+    } = req.body;
+
+    const { github, behance, linkedIn } = socials;
+
     const updatedFreelancer = await Freelancer.findByIdAndUpdate(
       id,
       {
@@ -279,7 +282,11 @@ const updateFreelancer = async (req, res) => {
         skills,
         experiences,
         educations,
-        socials,
+        socials: {
+          github,
+          behance,
+          linkedIn,
+        },
       },
       { new: true }
     ); // Setting { new: true } returns the updated document
