@@ -8,6 +8,7 @@ const Application = require("../models/applicationModel");
 const Posts = require("../models/postModel");
 const Profession = require("../models/professionModel");
 const axios = require("axios");
+const { reCaptchaSecret } = process.env;
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
