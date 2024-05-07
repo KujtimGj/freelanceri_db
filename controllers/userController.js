@@ -62,6 +62,7 @@ const signupBusiness = async (req, res) => {
     phone,
     website,
     rating,
+    recaptchaToken,
   } = req.body;
 
   try {
@@ -77,6 +78,23 @@ const signupBusiness = async (req, res) => {
       website,
       rating
     );
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret,
+          response: recaptchaToken,
+        },
+      }
+    );
+    console.log(recaptchaToken);
+
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
+    console.log("Received payload:", req.body);
+
     const token = createToken(business._id);
     res.status(200).json({ business, token });
   } catch (error) {
