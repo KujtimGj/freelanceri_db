@@ -76,7 +76,8 @@ const signupBusiness = async (req, res) => {
       companyType,
       phone,
       website,
-      rating
+      rating,
+      recaptchaToken
     );
     const recaptchaResponse = await axios.post(
       "https://www.google.com/recaptcha/api/siteverify",
