@@ -7,6 +7,7 @@ const Contract = require("../models/contractModel");
 const Application = require("../models/applicationModel");
 const Posts = require("../models/postModel");
 const Profession = require("../models/professionModel");
+const axios = require("axios");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -189,6 +190,7 @@ const signupFreelancer = async (req, res) => {
     bookmarks,
     clients,
     website,
+    recaptchaToken,
   } = req.body;
   console.log("Received payload:", req.body);
   try {
@@ -208,6 +210,21 @@ const signupFreelancer = async (req, res) => {
       website
     );
 
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret,
+          response: recaptchaToken,
+        },
+      }
+    );
+    console.log(recaptchaToken);
+
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
     console.log("Received payload:", req.body);
 
     const token = createToken(freelancer._id);
