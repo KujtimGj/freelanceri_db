@@ -67,6 +67,22 @@ const signupBusiness = async (req, res) => {
   } = req.body;
 
   try {
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret,
+          response: recaptchaToken,
+        },
+      }
+    );
+
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
+
+    // Proceed with user registration
     const business = await Business.signupBusiness(
       firstName,
       lastName,
@@ -80,30 +96,13 @@ const signupBusiness = async (req, res) => {
       rating,
       recaptchaToken
     );
-    const recaptchaResponse = await axios.post(
-      "https://www.google.com/recaptcha/api/siteverify",
-      null,
-      {
-        params: {
-          secret: reCaptchaSecret,
-          response: recaptchaToken,
-        },
-      }
-    );
-    console.log(recaptchaToken);
-
-    if (!recaptchaResponse.data.success) {
-      return res.status(403).json({ error: "reCAPTCHA verification failed" });
-    }
 
     const existingUser = await Business.findOne({ email });
     if (existingUser) {
-      console.log("User with this email already exists");
       return res
         .status(409)
         .json({ error: "User with this email already exists" });
     }
-    console.log("Received payload:", req.body);
 
     const token = createToken(business._id);
     res.status(200).json({ business, token });
@@ -112,6 +111,7 @@ const signupBusiness = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 const getBusinesses = async (req, res) => {
   try {
     const businesses = await Business.find().populate("rating.freelancerId");
