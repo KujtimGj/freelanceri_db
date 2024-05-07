@@ -18,7 +18,7 @@ router.get("/", getFreelancers);
 router.get("/:id", getSingleFreelancer);
 router.post("/login", loginFreelancer);
 router.post("/signup", signupFreelancer);
-router.put("/:id", updateFreelancer);
+router.patch("/:id", updateFreelancer);
 router.delete("/:id", authMiddleware, deleteFreelancer);
 router.delete("/:freelancerId/experiences/:experienceId", deleteExperience);
 
