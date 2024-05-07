@@ -18,37 +18,13 @@ const contactRoute = require("./routes/contactRoute");
 const rating = require("./routes/ratingRoute");
 const bookmark = require("./routes/bookmarkRoute");
 const contract = require("./routes/contractRoute");
-
+const education = require("./routes/educationRoute");
+const experience =require("./routes/experienceRoute")
 // Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cors({ origin: "*" }));
 
-// Passport serialization and deserialization
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
-});
-
-// Profile route
-app.get(
-  "/profile",
-  // Middleware to ensure user is authenticated
-  ensureAuthenticated,
-  function (req, res) {
-    res.render("profile", { user: req.user });
-  }
-);
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  console.log("Unauthorized user from google");
-}
 
 // Routes
 app.use("/posts", postRoutes);
@@ -63,7 +39,8 @@ app.use("/contact", contactRoute);
 app.use("/rating", rating);
 app.use("/bookmark", bookmark);
 app.use("/contract", contract);
-
+app.use("/education", education);
+app.use("/experience",experience)
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
