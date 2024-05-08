@@ -19,12 +19,13 @@ const rating = require("./routes/ratingRoute");
 const bookmark = require("./routes/bookmarkRoute");
 const contract = require("./routes/contractRoute");
 const education = require("./routes/educationRoute");
-const experience =require("./routes/experienceRoute")
+const experience = require("./routes/experienceRoute");
+const freelancerprofession = require("./routes/fpRoute");
+
 // Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cors({ origin: "*" }));
-
 
 // Routes
 app.use("/posts", postRoutes);
@@ -40,7 +41,8 @@ app.use("/rating", rating);
 app.use("/bookmark", bookmark);
 app.use("/contract", contract);
 app.use("/education", education);
-app.use("/experience",experience)
+app.use("/experience", experience);
+app.use("/freelancer-professions", freelancerprofession);
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
