@@ -37,7 +37,19 @@ const getFFP = async (req, res) => {
 
 const createFP = async (req, res) => {
   try {
+    const existingFP = await FreelancerProfession.findOne({
+      freelancer: req.body.freelancer,
+      profId: req.body.profId,
+    });
+
+    if (existingFP) {
+      return res
+        .status(400)
+        .json({ error: "Freelancer already has this profession." });
+    }
+
     const cfp = await FreelancerProfession.create(req.body);
+
     res.status(200).json(cfp);
   } catch (error) {
     res.status(400).json({ error: error.message });
