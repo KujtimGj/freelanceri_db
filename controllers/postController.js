@@ -151,6 +151,7 @@ const createPost = async (req, res) => {
       city,
       requirements,
       profession,
+      state,
       experienceLevel,
       expiresAt: expireAtDate,
     });
