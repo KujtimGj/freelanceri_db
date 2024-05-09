@@ -2,8 +2,8 @@ const FreelancerProfession = require("../models/freelancerProfession");
 
 const getFP = async (req, res) => {
   try {
-    const { id } = req.params;
-    const fp = await FreelancerProfession.find(id)
+    const { freelancer } = req.params;
+    const fp = await FreelancerProfession.find(freelancer)
       .populate("freelancer")
       .populate("profId");
     res.status(200).json(fp);
