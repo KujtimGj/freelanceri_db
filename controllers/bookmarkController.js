@@ -37,7 +37,7 @@ const getMyBookmarks = async (req, res) => {
     const { freelancerId } = req.params;
     const bookmarks = await Bookmark.find({ freelancerId })
       .populate("freelancerId")
-      .populate("postId");
+      .populate({path:"postId",populate:[{path:"profession"}]});      ;
     res.status(200).json(bookmarks);
   } catch (error) {
     res.status(400).json({ error: error.message });
