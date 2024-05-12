@@ -8,7 +8,6 @@ const getAllPosts = async (req, res) => {
   try {
     const populatedPosts = await Post.find({})
       .populate("userId")
-      .populate("city")
       .populate("profession")
       .exec();
 
@@ -36,7 +35,6 @@ const getPost = async (req, res) => {
     const post = await Post.findById(id)
       .populate("userId")
       .populate("profession")
-      .populate("city");
     res.status(200).json(post);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -53,7 +51,6 @@ const getPostForBusiness = async (req, res) => {
   try {
     const populatedPost = await Post.findById(id)
       .populate("userId")
-      .populate("city")
       .populate("profession")
       .exec();
     if (!populatedPost) {
@@ -87,7 +84,6 @@ const getApprovedPosts = async (req, res) => {
           match: { category: req.query.category },
         })
         .populate("userId")
-        .populate("city")
         .exec();
 
       const filteredPosts = posts.filter((post) => post.profession);
@@ -96,7 +92,6 @@ const getApprovedPosts = async (req, res) => {
     } else {
       const posts = await Post.find(query)
         .populate("userId")
-        .populate("city")
         .populate("profession")
         .exec();
 
@@ -202,7 +197,6 @@ const findMyPosts = async (req, res) => {
 
     const myPosts = await Post.find({ userId: id })
       .populate("userId")
-      .populate("city")
       .populate("profession");
 
     console.log("Query:", JSON.stringify(myPosts));
@@ -230,7 +224,6 @@ const getSimilarPosts = async (req, res) => {
       state: "Approved",
     })
       .populate("userId")
-      .populate("city")
       .populate("profession")
       .limit(5);
 
