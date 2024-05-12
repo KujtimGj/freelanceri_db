@@ -209,18 +209,14 @@ const applyForPost = async (req, res) => {
     const {
       postId,
       freelancerId,
-      freelancerPrice,
-      duration,
       coverLetter,
       businessId,
-      state,
+      state
     } = req.body;
-
     // let cv = null;
     // if (req.file) {
     //   cv = req.file.path;
     // }
-
     const aplCheck = await Aplikimi.findOne({
       postId: postId,
       freelancerId: freelancerId,
@@ -231,10 +227,7 @@ const applyForPost = async (req, res) => {
         postId,
         freelancerId,
         businessId,
-        freelancerPrice,
-        duration,
         coverLetter,
-        cv,
         state,
       });
       res.status(200).json({ aplikimi });
