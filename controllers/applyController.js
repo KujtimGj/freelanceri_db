@@ -213,7 +213,6 @@ const applyForPost = async (req, res) => {
       duration,
       coverLetter,
       businessId,
-      cv,
       state,
     } = req.body;
 

@@ -125,21 +125,21 @@ const createPost = async (req, res) => {
       description,
       duration,
       neededWorkers,
-      budget,
-      city,
+      // budget,
+      // city,
       requirements,
       profession,
       experienceLevel,
-      expiresAt,
+      state
+      // expiresAt,
     } = req.body;
 
     let cv = null;
 
-    // Check if a file is attached to the request
     if (req.file) {
       cv = req.file.path;
     }
-    const expireAtDate = moment(expiresAt, "DD/MM/YYYY").toDate();
+    // const expireAtDate = moment(expiresAt, "DD/MM/YYYY").toDate();
 
     const post = await Post.create({
       userId,
@@ -147,13 +147,12 @@ const createPost = async (req, res) => {
       description,
       duration,
       neededWorkers,
-      budget,
-      city,
+      // budget,
+      // city,
       requirements,
       profession,
       state,
       experienceLevel,
-      expiresAt: expireAtDate,
     });
     console.log(post);
     res.status(200).json(post);

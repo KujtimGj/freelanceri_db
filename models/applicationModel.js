@@ -18,19 +18,7 @@ const applications = new Schema(
       required: true,
       ref: "Business",
     },
-    duration: {
-      type: String,
-      required: true,
-    },
-    freelancerPrice: {
-      type: Number,
-      required: true,
-    },
     coverLetter: {
-      type: String,
-      required: true,
-    },
-    cv: {
       type: String,
       required: true,
     },
