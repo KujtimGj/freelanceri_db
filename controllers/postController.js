@@ -34,7 +34,7 @@ const getPost = async (req, res) => {
     const { id } = req.params;
     const post = await Post.findById(id)
       .populate("userId")
-      .populate("profession")
+      .populate("profession");
     res.status(200).json(post);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -120,21 +120,28 @@ const createPost = async (req, res) => {
       description,
       duration,
       neededWorkers,
-      // budget,
-      // city,
       requirements,
       profession,
       experienceLevel,
-      state
-      // expiresAt,
+      state,
+      recaptchaToken,
     } = req.body;
 
-    let cv = null;
+    // Verify reCAPTCHA token
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret,
+          response: recaptchaToken,
+        },
+      }
+    );
 
-    if (req.file) {
-      cv = req.file.path;
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
     }
-    // const expireAtDate = moment(expiresAt, "DD/MM/YYYY").toDate();
 
     const post = await Post.create({
       userId,
@@ -142,13 +149,12 @@ const createPost = async (req, res) => {
       description,
       duration,
       neededWorkers,
-      // budget,
-      // city,
       requirements,
       profession,
       state,
       experienceLevel,
     });
+
     console.log(post);
     res.status(200).json(post);
   } catch (error) {
