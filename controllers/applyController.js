@@ -46,7 +46,7 @@ const getMyApplications = async (req, res) => {
       .populate("businessId")
       .populate({
         path: "postId",
-        populate: [{ path: "city" }, { path: "profession" }],
+        populate: [{ path: "profession" }],
       });
     res.status(200).json(myApplication);
   } catch (error) {
@@ -193,7 +193,7 @@ const getBusinessApplications = async (req, res) => {
     const aplikim = await Aplikimi.find({ businessId: businessId })
       .populate({
         path: "postId",
-        populate: [{ path: "city" }, { path: "profession" }],
+        populate: [{ path: "profession" }],
       })
       .populate("businessId")
       .populate({ path: "freelancerId", populate: [{ path: "profession" }] });
@@ -206,13 +206,7 @@ const getBusinessApplications = async (req, res) => {
 //?POST
 const applyForPost = async (req, res) => {
   try {
-    const {
-      postId,
-      freelancerId,
-      coverLetter,
-      businessId,
-      state
-    } = req.body;
+    const { postId, freelancerId, coverLetter, businessId, state } = req.body;
     // let cv = null;
     // if (req.file) {
     //   cv = req.file.path;
@@ -267,12 +261,12 @@ const getFreelancerActiveApl = async (req, res) => {
     const { freelancerId } = req.params;
     const apps = await Aplikimi.find({
       freelancerId: freelancerId,
-      state: "Under Review"&&"Active",
+      state: "Under Review" || "Active",
     })
       .populate("businessId")
       .populate({
         path: "postId",
-        populate: [{ path: "city" }, { path: "profession" }],
+        populate: [{ path: "profession" }],
       })
       .populate("freelancerId");
     res.status(200).json(apps);
@@ -291,7 +285,7 @@ const getFreelancerRejectedApl = async (req, res) => {
       .populate("businessId")
       .populate({
         path: "postId",
-        populate: [{ path: "city" }, { path: "profession" }],
+        populate: [{ path: "profession" }],
       })
       .populate("freelancerId");
 

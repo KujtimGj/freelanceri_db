@@ -288,8 +288,7 @@ const getFreelancers = async (req, res) => {
     }
 
     const freelancers = await Freelancer.find(query)
-      .populate("profession")
-      .populate("city");
+      .populate("profession");
 
     res.status(200).json(freelancers);
   } catch (error) {
