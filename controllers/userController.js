@@ -97,13 +97,7 @@ const signupBusiness = async (req, res) => {
       recaptchaToken
     );
 
-    const existingUser = await Business.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(409)
-        .json({ error: "User with this email already exists" });
-    }
-
+    // Generate authentication token
     const token = createToken(business._id);
     res.status(200).json({ business, token });
   } catch (error) {
@@ -256,15 +250,6 @@ const signupFreelancer = async (req, res) => {
       clients,
       website
     );
-
-    // Check if user with the same email already exists
-    const existingUser = await Freelancer.findOne({ email });
-    if (existingUser) {
-      console.log("User with this email already exists");
-      return res
-        .status(409)
-        .json({ error: "User with this email already exists" });
-    }
 
     // Generate authentication token
     const token = createToken(freelancer._id);
