@@ -155,6 +155,7 @@ const createPost = async (req, res) => {
       profession,
       state,
       experienceLevel,
+      recaptchaToken
     });
 
     console.log(post);

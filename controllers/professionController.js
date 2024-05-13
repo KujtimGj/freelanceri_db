@@ -34,7 +34,7 @@ const createCategoryJob = async(req,res)=>{
 const updateCategoryJob = async(req,res)=>{
     try {
         const { id } = req.params;
-        const profession = await Profession.findByIdAndUpdate(id);
+        const profession = await Profession.findByIdAndUpdate(id,req.body,{new:true});
         res.status(200).json(profession);
     } catch (error) {
         res.status(400).json({error:error.message})

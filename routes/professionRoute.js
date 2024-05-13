@@ -10,6 +10,6 @@ const {
 router.get("/", getAllCategoryJobs);
 router.get("/:categoryID", getSingleCategoryJob);
 router.post("/", createCategoryJob);
-router.patch("/:id", updateCategoryJob);
+router.put("/:id", updateCategoryJob);
 
 module.exports = router;
