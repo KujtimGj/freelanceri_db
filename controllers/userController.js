@@ -220,8 +220,27 @@ const signupFreelancer = async (req, res) => {
     website,
     recaptchaToken,
   } = req.body;
+
   console.log("Received payload:", req.body);
   try {
+    // Verify reCAPTCHA token
+    const recaptchaResponse = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: reCaptchaSecret, // Your reCAPTCHA secret key
+          response: recaptchaToken,
+        },
+      }
+    );
+
+    // Check if reCAPTCHA verification failed
+    if (!recaptchaResponse.data.success) {
+      return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    }
+
+    // Proceed with user registration
     const freelancer = await Freelancer.signupFreelancer(
       firstName,
       lastName,
@@ -229,7 +248,7 @@ const signupFreelancer = async (req, res) => {
       password,
       city,
       profession,
-      req.body.socials, // Pass socials directly from req.body
+      socials,
       skills,
       experiences,
       educations,
@@ -238,22 +257,7 @@ const signupFreelancer = async (req, res) => {
       website
     );
 
-    const recaptchaResponse = await axios.post(
-      "https://www.google.com/recaptcha/api/siteverify",
-      null,
-      {
-        params: {
-          secret: reCaptchaSecret,
-          response: recaptchaToken,
-        },
-      }
-    );
-    console.log(recaptchaToken);
-
-    if (!recaptchaResponse.data.success) {
-      return res.status(403).json({ error: "reCAPTCHA verification failed" });
-    }
-
+    // Check if user with the same email already exists
     const existingUser = await Freelancer.findOne({ email });
     if (existingUser) {
       console.log("User with this email already exists");
@@ -261,11 +265,15 @@ const signupFreelancer = async (req, res) => {
         .status(409)
         .json({ error: "User with this email already exists" });
     }
-    console.log("Received payload:", req.body);
 
+    // Generate authentication token
     const token = createToken(freelancer._id);
+
+    // Return successful response with token and freelancer data
     res.status(200).json({ freelancer, token });
   } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -287,8 +295,7 @@ const getFreelancers = async (req, res) => {
       query.profession = { $in: professionIds };
     }
 
-    const freelancers = await Freelancer.find(query)
-      .populate("profession");
+    const freelancers = await Freelancer.find(query).populate("profession");
 
     res.status(200).json(freelancers);
   } catch (error) {
