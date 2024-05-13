@@ -2,6 +2,7 @@ const Post = require("../models/postModel");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const Application = require("../models/applicationModel");
+const axios = require("axios");
 
 //GET ALL
 const getAllPosts = async (req, res) => {
