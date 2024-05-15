@@ -21,13 +21,14 @@ const contract = require("./routes/contractRoute");
 const education = require("./routes/educationRoute");
 const experience = require("./routes/experienceRoute");
 const freelancerprofession = require("./routes/fpRoute");
-
+const superAdmin = require("./routes/auth/s_authRoute")
 // Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cors({ origin: "*" }));
 
 // Routes
+app.use("/sa",superAdmin)
 app.use("/posts", postRoutes);
 app.use("/business", businessAuth);
 app.use("/freelancer", freelancerAuth);

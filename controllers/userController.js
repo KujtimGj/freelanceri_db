@@ -212,7 +212,7 @@ const signupFreelancer = async (req, res) => {
     bookmarks,
     clients,
     website,
-    recaptchaToken,
+    // recaptchaToken,
   } = req.body;
 
   console.log("Received payload:", req.body);
