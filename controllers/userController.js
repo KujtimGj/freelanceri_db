@@ -8,6 +8,9 @@ const Application = require("../models/applicationModel");
 const Posts = require("../models/postModel");
 const Profession = require("../models/professionModel");
 const axios = require("axios");
+const Education = require("../models/educationSchema");
+const Experience = require("../models/experienceModel");
+const fProfession = require("../models/freelancerProfession");
 const { reCaptchaSecret } = process.env;
 
 const createToken = (_id) => {
@@ -406,6 +409,19 @@ const getUserBookmarks = async (req, res) => {
   }
 };
 
+const summarizeFreelancer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const freelancer = await Freelancer.findById(id);
+    const education = await Education.find({ freelancer: id });
+    const experiences = await Experience.find({ freelancer: id });
+    const professions = await fProfession.find({ freelancer: id }).populate("profId");
+    res.status(200).json({ freelancer, education, experiences, professions });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   loginBusiness,
   signupBusiness,
@@ -423,6 +439,6 @@ module.exports = {
   deleteFreelancer,
   getUserBookmarks,
   deleteExperience,
-  loginFreelancerWithGoogleCallback,
+  summarizeFreelancer,
   getFreelancers,
 };

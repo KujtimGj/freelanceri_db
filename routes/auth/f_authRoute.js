@@ -10,25 +10,26 @@ const {
   updateFreelancer,
   deleteFreelancer,
   deleteExperience,
-  loginFreelancerWithGoogleCallback,
+  summarizeFreelancer,
   getFreelancers,
 } = require("../../controllers/userController");
 
 router.get("/", getFreelancers);
 router.get("/:id", getSingleFreelancer);
+router.get("/summarize/:id", summarizeFreelancer);
 router.post("/login", loginFreelancer);
 router.post("/signup", signupFreelancer);
 router.patch("/:id", updateFreelancer);
 router.delete("/:id", authMiddleware, deleteFreelancer);
 router.delete("/:freelancerId/experiences/:experienceId", deleteExperience);
 
-// Google authentication routes for Freelancers
-router.get(
-  "/auth/google/freelancer",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/auth/google/freelancer/callback",
-  loginFreelancerWithGoogleCallback
-);
+// // Google authentication routes for Freelancers
+// router.get(
+//   "/auth/google/freelancer",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
+// router.get(
+//   "/auth/google/freelancer/callback",
+//   loginFreelancerWithGoogleCallback
+// );
 module.exports = router;
