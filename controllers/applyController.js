@@ -3,6 +3,8 @@ const Aplikimi = require("../models/applicationModel");
 const Post = require("../models/postModel");
 const Freelancer = require("../models/users/freelancerModel");
 const Business = require("../models/users/businessModel");
+const sendConfirmationEmail = require("../utils/sendEmail");
+const Posts = require("../models/postModel");
 
 const existingApplicationCheck = async (req, res) => {
   try {
@@ -207,10 +209,7 @@ const getBusinessApplications = async (req, res) => {
 const applyForPost = async (req, res) => {
   try {
     const { postId, freelancerId, coverLetter, businessId, state } = req.body;
-    // let cv = null;
-    // if (req.file) {
-    //   cv = req.file.path;
-    // }
+
     const aplCheck = await Aplikimi.findOne({
       postId: postId,
       freelancerId: freelancerId,
@@ -224,7 +223,22 @@ const applyForPost = async (req, res) => {
         coverLetter,
         state,
       });
-      res.status(200).json({ aplikimi });
+      const post = await Posts.findById(postId).exec();
+      const freelancer = await Freelancer.findById(freelancerId).exec();
+      if (!freelancer) {
+        throw new Error("Freelancer not found");
+      }
+
+      if (!post) {
+        throw new Error("Post not found");
+      }
+
+      const { email } = freelancer;
+      const { title } = post;
+
+      await sendConfirmationEmail({ recipientEmail: email, postTitle: title }); 
+
+      res.status(200).json(aplikimi);
     } else {
       res.status(400).json({ error: "Application already exists" });
     }
@@ -232,7 +246,6 @@ const applyForPost = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 //?UPDATE
 const updateApplication = async (req, res) => {
   try {
