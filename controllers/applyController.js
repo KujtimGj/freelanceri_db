@@ -5,6 +5,7 @@ const Freelancer = require("../models/users/freelancerModel");
 const Business = require("../models/users/businessModel");
 const sendConfirmationEmail = require("../utils/sendEmail");
 const Posts = require("../models/postModel");
+const sendEmailBusiness = require("../utils/sendEmailBusiness");
 
 const existingApplicationCheck = async (req, res) => {
   try {
@@ -225,19 +226,25 @@ const applyForPost = async (req, res) => {
       });
       const post = await Posts.findById(postId).exec();
       const freelancer = await Freelancer.findById(freelancerId).exec();
+      const business = await Business.findById(businessId).exec();
       if (!freelancer) {
-        throw new Error("Freelancer not found");
+        throw new Error("Freelancer not found.");
       }
-
       if (!post) {
-        throw new Error("Post not found");
+        throw new Error("Post not found.");
+      }
+      if (!business) {
+        throw new Error("Business not found.");
       }
 
       const { email } = freelancer;
       const { title } = post;
-
-      await sendConfirmationEmail({ recipientEmail: email, postTitle: title }); 
-
+      const businessEmail = business.email;
+      await sendConfirmationEmail({ recipientEmail: email, postTitle: title });
+      await sendEmailBusiness({
+        businessEmail: businessEmail,
+        postTitle: title,
+      });
       res.status(200).json(aplikimi);
     } else {
       res.status(400).json({ error: "Application already exists" });

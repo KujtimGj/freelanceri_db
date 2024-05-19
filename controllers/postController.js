@@ -86,6 +86,7 @@ const getApprovedPosts = async (req, res) => {
           match: { category: req.query.category },
         })
         .populate("userId")
+        .sort({ createdAt: -1 })
         .exec();
 
       const filteredPosts = posts.filter((post) => post.profession);
@@ -95,6 +96,7 @@ const getApprovedPosts = async (req, res) => {
       const posts = await Post.find(query)
         .populate("userId")
         .populate("profession")
+        .sort({ createdAt: -1 })
         .exec();
 
       res.status(200).json(posts);
@@ -155,7 +157,7 @@ const createPost = async (req, res) => {
       profession,
       state,
       experienceLevel,
-      recaptchaToken
+      recaptchaToken,
     });
 
     console.log(post);
