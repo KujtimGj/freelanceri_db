@@ -5,6 +5,7 @@ const sendCompletionEmail = require("../utils/sendEmail");
 require("dotenv").config();
 const { reCaptchaSecret } = process.env;
 const axios = require("axios");
+const sendTrialEmail = require("../utils/trialEmail");
 
 const getEmail = async (req, res) => {
   try {
@@ -119,6 +120,22 @@ const deleteTrial = async (req, res) => {
   }
 };
 
+const sendEmail = async (req, res) => {
+  try {
+    const trialUsers = await Trial.find().exec(); // Fetch all trial users
+
+    // Iterate over each trial user and send email
+    for (const user of trialUsers) {
+      const { fullName, email } = user;
+      await sendTrialEmail({ recipientEmail: email, trialName: fullName });
+    }
+
+    res.status(200).json({ message: "Emails sent successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // const deleteScam = async (req, res) => {
 //   try {
 //     const scam = await Trial.deleteMany({
@@ -141,4 +158,5 @@ module.exports = {
   updateTrial,
   deleteTrial,
   createTrial,
+  sendEmail,
 };

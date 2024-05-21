@@ -215,7 +215,7 @@ const signupFreelancer = async (req, res) => {
     bookmarks,
     clients,
     website,
-    // recaptchaToken,
+    recaptchaToken,
   } = req.body;
 
   console.log("Received payload:", req.body);
@@ -275,6 +275,7 @@ const getFreelancers = async (req, res) => {
       query.$or = [{ firstName: searchRegex }, { lastName: searchRegex }];
     }
 
+    
     if (req.query.category) {
       const professions = await Profession.find({
         category: req.query.category,
