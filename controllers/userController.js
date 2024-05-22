@@ -215,27 +215,27 @@ const signupFreelancer = async (req, res) => {
     bookmarks,
     clients,
     website,
-    recaptchaToken,
+    // recaptchaToken,
   } = req.body;
 
   console.log("Received payload:", req.body);
   try {
     // Verify reCAPTCHA token
-    const recaptchaResponse = await axios.post(
-      "https://www.google.com/recaptcha/api/siteverify",
-      null,
-      {
-        params: {
-          secret: reCaptchaSecret, // Your reCAPTCHA secret key
-          response: recaptchaToken,
-        },
-      }
-    );
+    // const recaptchaResponse = await axios.post(
+    //   "https://www.google.com/recaptcha/api/siteverify",
+    //   null,
+    //   {
+    //     params: {
+    //       secret: reCaptchaSecret, // Your reCAPTCHA secret key
+    //       response: recaptchaToken,
+    //     },
+    //   }
+    // );
 
-    // Check if reCAPTCHA verification failed
-    if (!recaptchaResponse.data.success) {
-      return res.status(403).json({ error: "reCAPTCHA verification failed" });
-    }
+    // // Check if reCAPTCHA verification failed
+    // if (!recaptchaResponse.data.success) {
+    //   return res.status(403).json({ error: "reCAPTCHA verification failed" });
+    // }
 
     // Proceed with user registration
     const freelancer = await Freelancer.signupFreelancer(
