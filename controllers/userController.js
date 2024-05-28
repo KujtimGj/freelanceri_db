@@ -254,13 +254,10 @@ const signupFreelancer = async (req, res) => {
       website
     );
 
-    // Generate authentication token
     const token = createToken(freelancer._id);
 
-    // Return successful response with token and freelancer data
     res.status(200).json({ freelancer, token });
   } catch (error) {
-    // Handle errors
     console.error("Error:", error);
     res.status(400).json({ error: error.message });
   }

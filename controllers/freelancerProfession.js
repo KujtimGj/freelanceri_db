@@ -1,4 +1,6 @@
 const FreelancerProfession = require("../models/freelancerProfession");
+const Profession=require("../models/professionModel");
+const Freelancer = require("../models/users/freelancerModel");
 
 const getFP = async (req, res) => {
   try {
@@ -77,5 +79,18 @@ const deleteFP = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+const getFreelancersByProfession = async (req,res)=>{
+  try {
+    const {categoryID}=req.params;
+    const profession=Profession.find({categoryID:categoryID});
+    if(!profession){
+      return res.status(404).json({error:"Message not found"});
+    }
+    const freelancers=await Freelancer.find({profId:categoryId})
+  } catch (error) {
+    
+  }
+}
 
 module.exports = { getFP, getFPs, getFFP, createFP, updateFP, deleteFP };

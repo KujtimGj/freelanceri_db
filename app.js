@@ -21,14 +21,16 @@ const contract = require("./routes/contractRoute");
 const education = require("./routes/educationRoute");
 const experience = require("./routes/experienceRoute");
 const freelancerprofession = require("./routes/fpRoute");
-const superAdmin = require("./routes/auth/s_authRoute")
+const superAdmin = require("./routes/auth/s_authRoute");
+const homeEmail = require("./routes/homeEmail");
 // Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cors({ origin: "*" }));
 
 // Routes
-app.use("/sa",superAdmin)
+app.use("/home-email", homeEmail);
+app.use("/sa", superAdmin);
 app.use("/posts", postRoutes);
 app.use("/business", businessAuth);
 app.use("/freelancer", freelancerAuth);
@@ -52,18 +54,16 @@ mongoose
   .then(async () => {
     console.log("Connected to MongoDB");
 
-    // Create index on profession.category field
     await mongoose.connection.db.collection("posts").createIndex(
-      { "profession.category": 1 }, // Index on profession.category field
-      { background: true } // Optional: Index creation in the background
+      { "profession.category": 1 }, 
+      { background: true }
     );
 
     await mongoose.connection.db.collection("freelancers").createIndex(
-      { "profession.category": 1 }, // Index on profession.category field
-      { background: true } // Optional: Index creation in the background
+      { "profession.category": 1 },
+      { background: true }
     );
 
-    // Start the Express server
     app.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });
