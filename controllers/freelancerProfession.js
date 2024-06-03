@@ -1,5 +1,5 @@
 const FreelancerProfession = require("../models/freelancerProfession");
-const Profession=require("../models/professionModel");
+const Profession = require("../models/professionModel");
 const Freelancer = require("../models/users/freelancerModel");
 
 const getFP = async (req, res) => {
@@ -88,16 +88,37 @@ const getFreelancersByProfession = async (req, res) => {
   try {
     const { professionId } = req.params;
 
-    const freelancerProfessions = await FreelancerProfession.find({
-      profId: professionId,
-    }).populate("freelancer");
+    console.log("Received professionId:", professionId);
 
-    const freelancers = freelancerProfessions.map((fp) => fp.freelancer);
+    const freelancerProfessions = await FreelancerProfession.find().populate(
+      "freelancer"
+    );
+
+    console.log("All freelancerProfessions:", freelancerProfessions);
+
+    const filteredFreelancers = freelancerProfessions.filter((fp) =>
+      fp.profId.some((prof) => prof._id.toString() === professionId)
+    );
+
+    console.log("Filtered freelancers:", filteredFreelancers);
+
+    const freelancers = filteredFreelancers.map((fp) => fp.freelancer);
+
+    console.log("Resulting freelancers:", freelancers);
 
     res.status(200).json(freelancers);
   } catch (error) {
+    console.error("Error:", error);
     res.status(400).json({ error: error.message });
   }
 };
 
-module.exports = { getFP, getFPs, getFFP, createFP, updateFP, deleteFP,getFreelancersByProfession };
+module.exports = {
+  getFP,
+  getFPs,
+  getFFP,
+  createFP,
+  updateFP,
+  deleteFP,
+  getFreelancersByProfession,
+};
