@@ -23,6 +23,7 @@ const experience = require("./routes/experienceRoute");
 const freelancerprofession = require("./routes/fpRoute");
 const superAdmin = require("./routes/auth/s_authRoute");
 const homeEmail = require("./routes/homeEmail");
+const blogs = require("./routes/blogRoute");
 // Middleware
 app.use(express.json());
 app.use(cors());
@@ -46,6 +47,7 @@ app.use("/contract", contract);
 app.use("/education", education);
 app.use("/experience", experience);
 app.use("/freelancer-professions", freelancerprofession);
+app.use("/blogs", blogs);
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -54,15 +56,13 @@ mongoose
   .then(async () => {
     console.log("Connected to MongoDB");
 
-    await mongoose.connection.db.collection("posts").createIndex(
-      { "profession.category": 1 }, 
-      { background: true }
-    );
+    await mongoose.connection.db
+      .collection("posts")
+      .createIndex({ "profession.category": 1 }, { background: true });
 
-    await mongoose.connection.db.collection("freelancers").createIndex(
-      { "profession.category": 1 },
-      { background: true }
-    );
+    await mongoose.connection.db
+      .collection("freelancers")
+      .createIndex({ "profession.category": 1 }, { background: true });
 
     app.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
