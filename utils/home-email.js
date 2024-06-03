@@ -9,7 +9,7 @@ var transporter = nodemailer.createTransport({
   },
 });
 
-const sendHomeEmail = async ({recEmail}) => {
+const sendHomeEmail = async (recEmail) => {
   let fromE = "Freelanceri <platforma.freelanceri@gmail.com>";
   var mailOptions = {
     name: "Freelanceri",
@@ -708,5 +708,4 @@ const sendHomeEmail = async ({recEmail}) => {
   }
 };
 
-
-module.exports=sendHomeEmail;
+module.exports = sendHomeEmail;

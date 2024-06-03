@@ -28,9 +28,13 @@ const getFPs = async (req, res) => {
 const getFFP = async (req, res) => {
   try {
     const { id } = req.params;
-    const ffp = await FreelancerProfession.find({ freelancer: id })
-      .populate("freelancer")
-      .populate("profId");
+
+    // Assuming your FreelancerProfession model has proper schema defined for 'freelancer' and 'profId' fields
+    const ffp = await FreelancerProfession.find({ freelancer: id }).populate({
+      path: "profId",
+      model: "Profession", // Assuming the name of your model for professions is 'Profession'
+    });
+
     res.status(200).json(ffp);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -80,17 +84,20 @@ const deleteFP = async (req, res) => {
   }
 };
 
-const getFreelancersByProfession = async (req,res)=>{
+const getFreelancersByProfession = async (req, res) => {
   try {
-    const {categoryID}=req.params;
-    const profession=Profession.find({categoryID:categoryID});
-    if(!profession){
-      return res.status(404).json({error:"Message not found"});
-    }
-    const freelancers=await Freelancer.find({profId:categoryId})
-  } catch (error) {
-    
-  }
-}
+    const { professionId } = req.params;
 
-module.exports = { getFP, getFPs, getFFP, createFP, updateFP, deleteFP };
+    const freelancerProfessions = await FreelancerProfession.find({
+      profId: professionId,
+    }).populate("freelancer");
+
+    const freelancers = freelancerProfessions.map((fp) => fp.freelancer);
+
+    res.status(200).json(freelancers);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { getFP, getFPs, getFFP, createFP, updateFP, deleteFP,getFreelancersByProfession };

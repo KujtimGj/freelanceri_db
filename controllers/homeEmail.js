@@ -14,7 +14,7 @@ const createEmail = async (req, res) => {
   try {
     const { email } = req.body;
     const mail = await EmailHome.create({ email });
-    await sendHomeEmail({email});
+    await sendHomeEmail(email);
 
     res.status(200).json(mail);
   } catch (error) {

@@ -7,6 +7,7 @@ const {
   createFP,
   updateFP,
   deleteFP,
+  getFreelancersByProfession
 } = require("../controllers/freelancerProfession");
 
 router.get("/", getFPs);
@@ -15,4 +16,5 @@ router.get("/freelancer/:id", getFFP);
 router.post("/", createFP);
 router.put("/:id", updateFP);
 router.delete("/:id", deleteFP);
+router.get("/:professionId",getFreelancersByProfession);
 module.exports = router;
