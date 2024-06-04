@@ -9,6 +9,15 @@ const getBlogs = async(req,res)=>{
     }
 }
 
+const getBlog = async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const blog = await Blog.findById(id);
+        res.status(200).json(blog)
+    } catch (error) {
+        res.status(400).json({error:error.message})
+    }
+}
 
 const createBlog = async(req,res)=>{
     try {
@@ -20,4 +29,4 @@ const createBlog = async(req,res)=>{
     }
 }
 
-module.exports={getBlogs,createBlog}
+module.exports={getBlog,getBlogs,createBlog}
