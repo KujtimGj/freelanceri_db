@@ -422,7 +422,26 @@ const summarizeFreelancer = async (req, res) => {
 };
 const sumFs = async (req, res) => {
   try {
-    const freelancers = await Freelancer.find();
+    let query = {};
+
+    // Add search query for first name and last name
+    if (req.query.search) {
+      const searchRegex = new RegExp(req.query.search, "i");
+      query.$or = [{ firstName: searchRegex }, { lastName: searchRegex }];
+    }
+
+    // Add profession category query
+    if (req.query.category) {
+      const professions = await fProfession
+        .find({ "profId.category": req.query.category })
+        .populate("profId");
+      const freelancerIds = professions.map(
+        (profession) => profession.freelancer
+      );
+      query._id = { $in: freelancerIds };
+    }
+
+    const freelancers = await Freelancer.find(query);
     if (!freelancers.length) {
       return res.status(404).json({ error: "No freelancers found" });
     }
