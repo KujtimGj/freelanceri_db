@@ -272,7 +272,6 @@ const getFreelancers = async (req, res) => {
       query.$or = [{ firstName: searchRegex }, { lastName: searchRegex }];
     }
 
-    
     if (req.query.category) {
       const professions = await Profession.find({
         category: req.query.category,
@@ -413,8 +412,35 @@ const summarizeFreelancer = async (req, res) => {
     const freelancer = await Freelancer.findById(id);
     const education = await Education.find({ freelancer: id });
     const experiences = await Experience.find({ freelancer: id });
-    const professions = await fProfession.find({ freelancer: id }).populate("profId");
+    const professions = await fProfession
+      .find({ freelancer: id })
+      .populate("profId");
     res.status(200).json({ freelancer, education, experiences, professions });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const sumFs = async (req, res) => {
+  try {
+    const freelancers = await Freelancer.find();
+    if (!freelancers.length) {
+      return res.status(404).json({ error: "No freelancers found" });
+    }
+
+    const summaries = await Promise.all(
+      freelancers.map(async (freelancer) => {
+        const education = await Education.find({ freelancer: freelancer._id });
+        const experiences = await Experience.find({
+          freelancer: freelancer._id,
+        });
+        const professions = await fProfession
+          .find({ freelancer: freelancer._id })
+          .populate("profId");
+        return { freelancer, education, experiences, professions };
+      })
+    );
+
+    res.status(200).json(summaries);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -439,4 +465,5 @@ module.exports = {
   deleteExperience,
   summarizeFreelancer,
   getFreelancers,
+  sumFs,
 };

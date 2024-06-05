@@ -12,8 +12,9 @@ const {
   deleteExperience,
   summarizeFreelancer,
   getFreelancers,
+  sumFs,
 } = require("../../controllers/userController");
-
+router.get("/summarizeall", sumFs);
 router.get("/", getFreelancers);
 router.get("/:id", getSingleFreelancer);
 router.get("/summarize/:id", summarizeFreelancer);

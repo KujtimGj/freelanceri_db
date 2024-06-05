@@ -29,4 +29,15 @@ const createBlog = async(req,res)=>{
     }
 }
 
-module.exports={getBlog,getBlogs,createBlog}
+
+const updateBlog = async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const blog = await Blog.findByIdAndUpdate(id,req.body,{new:true});
+        res.status(200).json(blog)
+    } catch (error) {
+        res.status(400).json({error:error.message})
+    }
+}
+
+module.exports={getBlog,getBlogs,createBlog,updateBlog}
